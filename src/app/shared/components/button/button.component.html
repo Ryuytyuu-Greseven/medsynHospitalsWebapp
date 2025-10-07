@@ -1,0 +1,8 @@
+<button
+  [class]="buttonClasses"
+  [disabled]="disabled"
+  [type]="type"
+  (click)="onClick.emit($event)"
+>
+  <ng-content></ng-content>
+</button>

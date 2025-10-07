@@ -1,0 +1,111 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-teal-50 to-green-50 p-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Admissions</h1>
+      <p class="text-gray-600">Manage patient admissions and syncing with Medsyn AI</p>
+    </div>
+
+    <!-- Pending Admissions -->
+    <app-card class="mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold text-gray-900">Pending Admissions</h2>
+        <div class="text-sm text-gray-500">
+          {{ pendingPatients.length }} patients waiting
+        </div>
+      </div>
+
+      <div *ngIf="pendingPatients.length === 0" class="text-center py-12">
+        <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">No Pending Admissions</h3>
+        <p class="text-gray-500">All patients have been admitted successfully.</p>
+      </div>
+
+      <div *ngIf="pendingPatients.length > 0" class="space-y-4">
+        <div
+          *ngFor="let patient of pendingPatients"
+          class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200"
+        >
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4">
+                <span class="text-primary font-medium">{{ patient.name.charAt(0) }}</span>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900">{{ patient.name }}</h3>
+                <p class="text-sm text-gray-600">{{ patient.age }} years, {{ patient.gender }}</p>
+                <p class="text-sm text-gray-500">
+                  Conditions: {{ patient.conditions.join(', ') || 'None' }}
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+              <div class="text-right">
+                <div class="text-sm text-gray-500">Patient ID</div>
+                <div class="font-medium text-gray-900">#{{ patient.id }}</div>
+              </div>
+
+              <app-button
+                variant="primary"
+                (onClick)="admitPatient(patient.id)"
+                [disabled]="admittingPatients.has(patient.id)"
+              >
+                {{ admittingPatients.has(patient.id) ? 'Syncing to Medsyn AI...' : 'Admit Now' }}
+              </app-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </app-card>
+
+    <!-- Recent Admissions -->
+    <app-card>
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold text-gray-900">Recent Admissions</h2>
+        <div class="text-sm text-gray-500">
+          Last 10 admissions
+        </div>
+      </div>
+
+      <app-table
+        [columns]="admissionColumns"
+        [striped]="true"
+        [hover]="true"
+      >
+        <tr *ngFor="let admission of recentAdmissions">
+          <td class="px-4 py-3">
+            <div class="flex items-center">
+              <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                <span class="text-green-600 font-medium text-sm">✓</span>
+              </div>
+              <div>
+                <div class="font-medium text-gray-900">{{ getPatientName(admission.patientId) }}</div>
+                <div class="text-sm text-gray-500">Patient #{{ admission.patientId }}</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-4 py-3">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              {{ admission.status | titlecase }}
+            </span>
+          </td>
+          <td class="px-4 py-3 text-sm text-gray-500">
+            {{ admission.date | date:'short' }}
+          </td>
+          <td class="px-4 py-3">
+            <span class="text-sm text-gray-600">
+              {{ admission.notes || 'No notes' }}
+            </span>
+          </td>
+        </tr>
+      </app-table>
+
+      <div *ngIf="recentAdmissions.length === 0" class="text-center py-8">
+        <p class="text-gray-500">No recent admissions found.</p>
+      </div>
+    </app-card>
+  </div>
+</div>

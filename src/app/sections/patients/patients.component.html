@@ -1,0 +1,165 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-teal-50 to-green-50 p-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Patients</h1>
+      <p class="text-gray-600">Manage patient records and admissions</p>
+    </div>
+
+    <!-- Add Patient Form -->
+    <app-card class="mb-8" *ngIf="showAddForm">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold text-gray-900">Add New Patient</h2>
+        <button
+          (click)="toggleAddForm()"
+          class="text-gray-400 hover:text-gray-600"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <form (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="form-label">Full Name</label>
+          <input
+            type="text"
+            class="form-input"
+            [(ngModel)]="newPatient.name"
+            name="name"
+            required
+            placeholder="Enter patient name"
+          >
+        </div>
+
+        <div>
+          <label class="form-label">Age</label>
+          <input
+            type="number"
+            class="form-input"
+            [(ngModel)]="newPatient.age"
+            name="age"
+            required
+            min="0"
+            max="120"
+            placeholder="Enter age"
+          >
+        </div>
+
+        <div>
+          <label class="form-label">Gender</label>
+          <select
+            class="form-input"
+            [(ngModel)]="newPatient.gender"
+            name="gender"
+            required
+          >
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="form-label">Conditions</label>
+          <input
+            type="text"
+            class="form-input"
+            [(ngModel)]="newPatient.conditions"
+            name="conditions"
+            placeholder="e.g., Diabetes, Hypertension"
+          >
+        </div>
+
+        <div class="md:col-span-2 flex justify-end space-x-4">
+          <app-button
+            type="button"
+            variant="ghost"
+            (onClick)="toggleAddForm()"
+          >
+            Cancel
+          </app-button>
+          <app-button
+            type="submit"
+            variant="primary"
+            [disabled]="!isFormValid()"
+          >
+            Add Patient
+          </app-button>
+        </div>
+      </form>
+    </app-card>
+
+    <!-- Add Patient Button -->
+    <div class="mb-6" *ngIf="!showAddForm">
+      <app-button
+        variant="primary"
+        (onClick)="toggleAddForm()"
+      >
+        Add New Patient
+      </app-button>
+    </div>
+
+    <!-- Patients Table -->
+    <app-card>
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold text-gray-900">All Patients</h2>
+        <div class="text-sm text-gray-500">
+          {{ patients.length }} patients total
+        </div>
+      </div>
+
+      <app-table
+        [columns]="patientColumns"
+        [striped]="true"
+        [hover]="true"
+      >
+        <tr *ngFor="let patient of patients">
+          <td class="px-4 py-3">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mr-4">
+                <span class="text-primary font-medium">{{ patient.name.charAt(0) }}</span>
+              </div>
+              <div>
+                <div class="font-medium text-gray-900">{{ patient.name }}</div>
+                <div class="text-sm text-gray-500">{{ patient.age }} years, {{ patient.gender }}</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-4 py-3">
+            <div class="text-sm text-gray-900">
+              {{ patient.conditions.join(', ') || 'No conditions' }}
+            </div>
+          </td>
+          <td class="px-4 py-3">
+            <span
+              [class]="patient.admitted ? 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800' : 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800'"
+            >
+              {{ patient.admitted ? 'Admitted' : 'Not Admitted' }}
+            </span>
+          </td>
+          <td class="px-4 py-3">
+            <div class="flex space-x-2">
+              <a
+                [routerLink]="['/patients', patient.id]"
+                class="text-primary hover:text-primary-dark text-sm font-medium"
+              >
+                View
+              </a>
+              <button
+                *ngIf="!patient.admitted"
+                (click)="admitPatient(patient.id)"
+                [disabled]="admittingPatients.has(patient.id)"
+                class="text-accent hover:text-accent-dark text-sm font-medium disabled:opacity-50"
+              >
+                {{ admittingPatients.has(patient.id) ? 'Syncing...' : 'Admit' }}
+              </button>
+            </div>
+          </td>
+        </tr>
+      </app-table>
+    </app-card>
+  </div>
+</div>

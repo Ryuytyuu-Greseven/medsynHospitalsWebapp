@@ -1,0 +1,163 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-teal-50 to-green-50 p-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">AI Insights</h1>
+      <p class="text-gray-600">Advanced analytics and predictions powered by Medsyn AI</p>
+    </div>
+
+    <!-- AI Processing Status -->
+    <div class="mb-8">
+      <app-card class="bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mr-4">
+              <svg class="w-6 h-6 text-white animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-xl font-semibold text-gray-900">Medsyn AI Processing</h2>
+              <p class="text-gray-600">Real-time data analysis and insights generation</p>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-2xl font-bold text-primary">99.8%</div>
+            <div class="text-sm text-gray-600">System Uptime</div>
+          </div>
+        </div>
+      </app-card>
+    </div>
+
+    <!-- Insights Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      <!-- Patient Insights -->
+      <app-card>
+        <div class="flex items-center mb-6">
+          <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+          </div>
+          <h2 class="text-xl font-semibold text-gray-900">Patient Analytics</h2>
+        </div>
+
+        <div class="space-y-4">
+          <div *ngFor="let insight of aiInsights.patientInsights" class="p-4 bg-gradient-to-r from-blue-50 to-teal-50 rounded-lg border border-blue-200">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <div class="ml-3">
+                <p class="text-sm text-gray-700">{{ insight }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </app-card>
+
+      <!-- System Insights -->
+      <app-card>
+        <div class="flex items-center mb-6">
+          <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </div>
+          <h2 class="text-xl font-semibold text-gray-900">System Performance</h2>
+        </div>
+
+        <div class="space-y-4">
+          <div *ngFor="let insight of aiInsights.systemInsights" class="p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <div class="ml-3">
+                <p class="text-sm text-gray-700">{{ insight }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </app-card>
+    </div>
+
+    <!-- Recommendations -->
+    <app-card class="mb-8">
+      <div class="flex items-center mb-6">
+        <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+          <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+          </svg>
+        </div>
+        <h2 class="text-xl font-semibold text-gray-900">AI Recommendations</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div *ngFor="let recommendation of aiInsights.recommendations" class="flex items-start p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
+          <div class="flex-shrink-0 w-2 h-2 bg-accent rounded-full mt-2 mr-3"></div>
+          <div class="flex-1">
+            <p class="text-sm text-gray-700">{{ recommendation }}</p>
+          </div>
+        </div>
+      </div>
+    </app-card>
+
+    <!-- Time Machine Visualization -->
+    <app-card>
+      <div class="flex items-center mb-6">
+        <div class="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mr-3">
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h2 class="text-xl font-semibold text-gray-900">Time Machine Analytics</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Past Analysis -->
+        <div class="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-lg border border-green-200">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Historical Data</h3>
+          <p class="text-sm text-gray-600 mb-4">Past medical records and treatment outcomes analyzed for patterns and insights.</p>
+          <div class="text-2xl font-bold text-green-600">85%</div>
+          <div class="text-xs text-gray-500">Treatment Success Rate</div>
+        </div>
+
+        <!-- Present Monitoring -->
+        <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border border-blue-200">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Real-time Processing</h3>
+          <p class="text-sm text-gray-600 mb-4">Current patient data being processed and analyzed in real-time.</p>
+          <div class="text-2xl font-bold text-blue-600">99.8%</div>
+          <div class="text-xs text-gray-500">Processing Accuracy</div>
+        </div>
+
+        <!-- Future Predictions -->
+        <div class="text-center p-6 bg-gradient-to-br from-teal-50 to-teal-100 rounded-lg border border-teal-200">
+          <div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Predictive Analytics</h3>
+          <p class="text-sm text-gray-600 mb-4">AI-powered predictions for future health outcomes and treatment recommendations.</p>
+          <div class="text-2xl font-bold text-teal-600">92%</div>
+          <div class="text-xs text-gray-500">Prediction Accuracy</div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

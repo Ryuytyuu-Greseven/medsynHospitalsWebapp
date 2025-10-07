@@ -1,0 +1,255 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design Tokens - Time Machine Theme */
+:root {
+  /* Core Time Machine Colors */
+  --color-primary: 59, 130, 246;        /* Blue - Present */
+  --color-accent: 16, 185, 129;        /* Teal - Future */
+  --color-success: 34, 197, 94;         /* Green - Past */
+  --color-warning: 245, 158, 11;        /* Orange - Alerts */
+  --color-error: 239, 68, 68;          /* Red - Errors */
+
+  /* Time Machine Theme Variants */
+  --color-demo: 59, 130, 246;           /* Demo button - Present AI */
+  --color-waitlist: 16, 185, 129;      /* Waitlist - Future Growth */
+  --color-contact: 34, 197, 94;         /* Contact - Past Data */
+
+  /* Neutrals */
+  --color-navy: 15, 23, 42;            /* Dark navy text */
+  --color-ink: 30, 41, 59;             /* Ink text */
+  --color-muted: 148, 163, 184;        /* Muted text */
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+/* Base Styles */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, rgb(239, 246, 255) 0%, rgb(240, 253, 250) 50%, rgb(240, 253, 244) 100%);
+  min-height: 100vh;
+}
+
+/* Component System */
+@layer components {
+  /* Button System */
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn-demo {
+    @apply btn;
+    background: linear-gradient(135deg, rgb(59, 130, 246), rgb(37, 99, 235));
+    color: white;
+    box-shadow: var(--shadow-sm);
+    @apply focus:ring-orange-400;
+  }
+
+  .btn-waitlist {
+    @apply btn;
+    background: linear-gradient(135deg, rgb(16, 185, 129), rgb(5, 150, 105));
+    color: white;
+    box-shadow: var(--shadow-sm);
+    @apply focus:ring-teal-500;
+  }
+
+  .btn-contact {
+    @apply btn;
+    background: linear-gradient(135deg, rgb(34, 197, 94), rgb(22, 163, 74));
+    color: white;
+    box-shadow: var(--shadow-sm);
+    @apply focus:ring-green-500;
+  }
+
+  .btn-primary {
+    @apply btn;
+    background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(37, 99, 235));
+    color: white;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent border border-gray-300 text-gray-700 hover:bg-gray-50;
+  }
+
+  .btn-outline {
+    @apply btn border-2 border-primary text-primary hover:bg-primary hover:text-white;
+  }
+
+  /* Card System */
+  .card {
+    @apply bg-white/80 backdrop-blur-sm rounded-xl shadow-md border border-white/20 p-6;
+  }
+
+  .card-glass {
+    @apply bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-white/30 p-6;
+  }
+
+  /* Table System */
+  .table {
+    @apply w-full border-collapse;
+  }
+
+  .table th {
+    @apply px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200;
+  }
+
+  .table td {
+    @apply px-4 py-3 text-sm text-gray-600 border-b border-gray-100;
+  }
+
+  .table tbody tr:hover {
+    @apply bg-gray-50/50;
+  }
+
+  /* Timeline System */
+  .timeline {
+    @apply relative pl-8;
+  }
+
+  .timeline::before {
+    content: '';
+    @apply absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-accent to-success;
+  }
+
+  .timeline-item {
+    @apply relative mb-8;
+  }
+
+  .timeline-item::before {
+    content: '';
+    @apply absolute -left-6 top-2 w-3 h-3 rounded-full bg-primary border-2 border-white shadow-sm;
+  }
+
+  .timeline-item.past::before {
+    @apply bg-success;
+  }
+
+  .timeline-item.future::before {
+    @apply bg-accent;
+  }
+
+  /* Navigation */
+  .nav-link {
+    @apply px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200;
+  }
+
+  .nav-link.active {
+    @apply bg-primary/10 text-primary;
+  }
+
+  .nav-link:hover {
+    @apply bg-gray-100 text-gray-900;
+  }
+
+  /* Form Elements */
+  .form-input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+
+  /* Animations */
+  .floating-element {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .glow-effect {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+
+  .gradient-bg {
+    background: linear-gradient(-45deg, #3b82f6, #10b981, #22c55e);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  /* Toast System */
+  .toast {
+    @apply fixed top-20 right-4 z-[2147483647] max-w-sm bg-white rounded-lg shadow-lg border border-gray-200 p-4;
+  }
+
+  .toast-success {
+    @apply border-l-4 border-l-green-500;
+  }
+
+  .toast-error {
+    @apply border-l-4 border-l-red-500;
+  }
+
+  .toast-warning {
+    @apply border-l-4 border-l-yellow-500;
+  }
+
+  .toast-info {
+    @apply border-l-4 border-l-blue-500;
+  }
+
+  /* Modal System */
+  .modal-backdrop {
+    @apply fixed inset-0 bg-black/50 backdrop-blur-sm z-50;
+  }
+
+  .modal-content {
+    @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md rounded-xl shadow-2xl border border-white/30 p-6 max-w-md w-full mx-4;
+  }
+}
+
+/* Utility Classes */
+.text-gradient {
+  background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-accent)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Floating Medical Icons */
+.floating-heart {
+  @apply absolute text-2xl opacity-20 animate-float;
+  animation-delay: 0s;
+}
+
+.floating-brain {
+  @apply absolute text-2xl opacity-20 animate-float;
+  animation-delay: 1s;
+}
+
+.floating-activity {
+  @apply absolute text-2xl opacity-20 animate-float;
+  animation-delay: 2s;
+}
+
+.floating-shield {
+  @apply absolute text-2xl opacity-20 animate-float;
+  animation-delay: 3s;
+}
+
+/* Time Machine Container */
+.time-machine-container {
+  @apply relative w-32 h-32 mx-auto;
+}
+
+.time-machine-container::before {
+  content: '';
+  @apply absolute inset-0 rounded-full border-4 border-primary/30 animate-spin;
+  animation-duration: 10s;
+}
+
+.time-machine-container::after {
+  content: '';
+  @apply absolute inset-4 rounded-full border-2 border-accent/50 animate-spin;
+  animation-duration: 8s;
+  animation-direction: reverse;
+}
