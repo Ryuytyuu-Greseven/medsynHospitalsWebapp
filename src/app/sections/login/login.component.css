@@ -1,0 +1,184 @@
+/* Login Component Styles */
+
+.login-container {
+  @apply min-h-screen bg-gradient-to-br from-blue-50 via-teal-50 to-green-50 flex items-center justify-center p-4 relative overflow-hidden;
+}
+
+.login-content {
+  @apply w-full max-w-md bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-white/30 p-8 relative z-10;
+}
+
+/* Header */
+.login-header {
+  @apply text-center mb-8;
+}
+
+.logo-container {
+  @apply flex items-center justify-center mb-4;
+}
+
+.logo-image {
+  @apply w-12 h-12 mr-3 rounded-full border-2 border-primary/20;
+}
+
+.logo-text {
+  @apply text-3xl font-bold;
+  background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-accent)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.login-subtitle {
+  @apply text-gray-600 text-sm;
+}
+
+/* Form Container */
+.login-form-container,
+.password-reset-container {
+  @apply space-y-6;
+}
+
+.form-title {
+  @apply text-2xl font-bold text-gray-900 text-center;
+}
+
+.form-subtitle {
+  @apply text-gray-600 text-center text-sm;
+}
+
+/* Forms */
+.login-form,
+.reset-form {
+  @apply space-y-4;
+}
+
+.form-group {
+  @apply space-y-2;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-gray-700;
+}
+
+.form-input {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200;
+}
+
+.form-input:disabled {
+  @apply bg-gray-50 cursor-not-allowed;
+}
+
+/* Buttons */
+.login-button,
+.reset-button {
+  @apply w-full text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-accent)));
+}
+
+.login-button:hover,
+.reset-button:hover {
+  background: linear-gradient(135deg, rgb(37, 99, 235), rgb(5, 150, 105));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cancel-button {
+  @apply w-full bg-gray-100 text-gray-700 font-medium py-3 px-4 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* Loading States */
+.loading-content {
+  @apply flex items-center justify-center space-x-2;
+}
+
+.loading-spinner {
+  @apply animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent;
+}
+
+/* Form Footer */
+.form-footer {
+  @apply text-center;
+}
+
+.forgot-password-link {
+  @apply text-primary hover:text-primary/80 text-sm font-medium transition-colors duration-200;
+}
+
+/* Form Actions */
+.form-actions {
+  @apply space-y-3;
+}
+
+/* Demo Info */
+.demo-info {
+  @apply mt-8;
+}
+
+.demo-card {
+  @apply bg-blue-50 border border-blue-200 rounded-lg p-4;
+}
+
+.demo-title {
+  @apply text-sm font-semibold text-blue-800 mb-3;
+}
+
+.demo-credentials {
+  @apply space-y-2;
+}
+
+.demo-item {
+  @apply flex justify-between text-sm;
+}
+
+.demo-label {
+  @apply text-blue-700 font-medium;
+}
+
+.demo-value {
+  @apply text-blue-900 font-mono bg-blue-100 px-2 py-1 rounded;
+}
+
+/* Background Elements */
+.background-elements {
+  @apply absolute inset-0 pointer-events-none;
+}
+
+.floating-element {
+  @apply absolute text-4xl opacity-10 animate-float;
+}
+
+.floating-heart {
+  @apply top-20 left-10;
+  animation-delay: 0s;
+}
+
+.floating-brain {
+  @apply top-40 right-20;
+  animation-delay: 1s;
+}
+
+.floating-activity {
+  @apply bottom-40 left-20;
+  animation-delay: 2s;
+}
+
+.floating-shield {
+  @apply bottom-20 right-10;
+  animation-delay: 3s;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .login-content {
+    @apply p-6;
+  }
+
+  .logo-text {
+    @apply text-2xl;
+  }
+
+  .form-title {
+    @apply text-xl;
+  }
+}

@@ -14,7 +14,7 @@ import { TimelineComponent, TimelineEvent } from '../../shared/components/timeli
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule, CardComponent, TableComponent, ButtonComponent, TimelineComponent],
   templateUrl: './patient-detail.component.html',
-  styles: []
+  styleUrls: ['./patient-detail.component.css']
 })
 export class PatientDetailComponent implements OnInit {
   patient: Patient | null = null;
@@ -303,11 +303,11 @@ export class PatientDetailComponent implements OnInit {
   }
 
   getMedicationStatusClasses(status: string): string {
-    const baseClasses = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium';
+    const baseClasses = 'medication-status';
     const statusClasses = {
-      active: 'bg-green-100 text-green-800',
-      completed: 'bg-blue-100 text-blue-800',
-      discontinued: 'bg-red-100 text-red-800'
+      active: 'medication-status-active',
+      completed: 'medication-status-completed',
+      discontinued: 'medication-status-discontinued'
     };
 
     return `${baseClasses} ${statusClasses[status as keyof typeof statusClasses]}`;

@@ -1,17 +1,17 @@
-<div class="min-h-screen bg-gradient-to-br from-blue-50 via-teal-50 to-green-50 p-6">
-  <div class="max-w-7xl mx-auto">
+<div class="patient-container">
+  <div class="patient-content">
     <!-- Header -->
-    <div class="mb-8">
-      <div class="flex items-center justify-between">
+    <div class="patient-header">
+      <div class="patient-header-content">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ patient?.name || 'Loading...' }}</h1>
-          <p class="text-gray-600">Comprehensive Patient Medical Profile</p>
+          <h1 class="patient-title">{{ patient?.name || 'Loading...' }}</h1>
+          <p class="patient-subtitle">Comprehensive Patient Medical Profile</p>
         </div>
         <a
           routerLink="/patients"
-          class="text-primary hover:text-primary-dark text-sm font-medium flex items-center"
+          class="back-link"
         >
-          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="back-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
           </svg>
           Back to Patients
@@ -22,45 +22,45 @@
     <div *ngIf="patient" class="space-y-8">
       <!-- Patient Header Card -->
       <app-card>
-        <div class="flex items-start justify-between">
-          <div class="flex items-center">
-            <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mr-6">
-              <span class="text-primary font-bold text-2xl">{{ patient.name.charAt(0) }}</span>
+        <div class="patient-header-card">
+          <div class="patient-avatar-container">
+            <div class="patient-avatar">
+              <span class="patient-avatar-text">{{ patient.name.charAt(0) }}</span>
             </div>
-            <div>
-              <h2 class="text-2xl font-bold text-gray-900">{{ patient.name }}</h2>
-              <p class="text-gray-600">{{ patient.age }} years, {{ patient.gender }}</p>
-              <div class="flex items-center mt-2">
+            <div class="patient-info">
+              <h2 class="patient-name">{{ patient.name }}</h2>
+              <p class="patient-details">{{ patient.age }} years, {{ patient.gender }}</p>
+              <div class="patient-status-container">
                 <span
-                  [class]="patient.admitted ? 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800' : 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800'"
+                  [class]="patient.admitted ? 'status-badge status-badge-admitted' : 'status-badge status-badge-not-admitted'"
                 >
                   {{ patient.admitted ? 'Admitted' : 'Not Admitted' }}
                 </span>
-                <span *ngIf="patient.admissionDate" class="ml-3 text-sm text-gray-500">
+                <span *ngIf="patient.admissionDate" class="admission-date">
                   Since {{ patient.admissionDate | date:'short' }}
                 </span>
               </div>
             </div>
           </div>
 
-          <div class="text-right">
-            <div class="text-sm text-gray-500">Patient ID</div>
-            <div class="text-lg font-semibold text-gray-900">#{{ patient.id }}</div>
-            <div *ngIf="patient.assignedDoctor" class="mt-2 text-sm text-gray-600">
+          <div class="patient-id-section">
+            <div class="patient-id-label">Patient ID</div>
+            <div class="patient-id-value">#{{ patient.id }}</div>
+            <div *ngIf="patient.assignedDoctor" class="assigned-staff">
               Dr. {{ getDoctorName(patient.assignedDoctor) }}
             </div>
-            <div *ngIf="patient.assignedNurse" class="text-sm text-gray-600">
+            <div *ngIf="patient.assignedNurse" class="assigned-staff">
               Nurse {{ getNurseName(patient.assignedNurse) }}
             </div>
           </div>
         </div>
 
-        <div *ngIf="patient.conditions.length > 0" class="mt-6 pt-6 border-t border-gray-200">
-          <h4 class="text-sm font-medium text-gray-700 mb-3">Medical Conditions</h4>
-          <div class="flex flex-wrap gap-2">
+        <div *ngIf="patient.conditions.length > 0" class="conditions-section">
+          <h4 class="conditions-title">Medical Conditions</h4>
+          <div class="conditions-list">
             <span
               *ngFor="let condition of patient.conditions"
-              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"
+              class="condition-badge"
             >
               {{ condition }}
             </span>
@@ -70,42 +70,41 @@
 
       <!-- Patient Stats Panel -->
       <app-card *ngIf="patientStats">
-        <h2 class="text-xl font-semibold text-gray-900 mb-6">Vital Statistics</h2>
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
-          <div class="text-center">
-            <div class="text-2xl font-bold text-primary">{{ patientStats.weight }} kg</div>
-            <div class="text-sm text-gray-600">Weight</div>
+        <h2 class="stats-title">Vital Statistics</h2>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-value stat-value-weight">{{ patientStats.weight }} kg</div>
+            <div class="stat-label">Weight</div>
           </div>
-          <div class="text-center">
-            <div class="text-2xl font-bold text-accent">{{ patientStats.height }} cm</div>
-            <div class="text-sm text-gray-600">Height</div>
+          <div class="stat-item">
+            <div class="stat-value stat-value-height">{{ patientStats.height }} cm</div>
+            <div class="stat-label">Height</div>
           </div>
-          <div class="text-center">
-            <div class="text-2xl font-bold text-success">{{ patientStats.bmi }}</div>
-            <div class="text-sm text-gray-600">BMI</div>
+          <div class="stat-item">
+            <div class="stat-value stat-value-bmi">{{ patientStats.bmi }}</div>
+            <div class="stat-label">BMI</div>
           </div>
-          <div class="text-center">
-            <div class="text-2xl font-bold text-warning">{{ patientStats.bloodPressure }}</div>
-            <div class="text-sm text-gray-600">Blood Pressure</div>
+          <div class="stat-item">
+            <div class="stat-value stat-value-pressure">{{ patientStats.bloodPressure }}</div>
+            <div class="stat-label">Blood Pressure</div>
           </div>
-          <div class="text-center">
-            <div class="text-2xl font-bold text-error">{{ patientStats.heartRate }} bpm</div>
-            <div class="text-sm text-gray-600">Heart Rate</div>
+          <div class="stat-item">
+            <div class="stat-value stat-value-heart">{{ patientStats.heartRate }} bpm</div>
+            <div class="stat-label">Heart Rate</div>
           </div>
         </div>
-        <div class="mt-4 text-xs text-gray-500 text-center">
+        <div class="stats-updated">
           Last updated: {{ patientStats.lastUpdated | date:'short' }}
         </div>
       </app-card>
 
       <!-- Tab Navigation -->
-      <div class="border-b border-gray-200">
-        <nav class="-mb-px flex space-x-8">
+      <div class="tab-navigation">
+        <nav class="tab-nav">
           <button
             *ngFor="let tab of tabs"
             (click)="setActiveTab(tab.key)"
-            [class]="activeTab === tab.key ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-            class="whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm"
+            [class]="activeTab === tab.key ? 'tab-button tab-button-active' : 'tab-button tab-button-inactive'"
           >
             {{ tab.label }}
           </button>
@@ -115,34 +114,34 @@
       <!-- Tab Content -->
       <div class="tab-content">
         <!-- Overview Tab -->
-        <div *ngIf="activeTab === 'overview'" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div *ngIf="activeTab === 'overview'" class="overview-grid">
           <app-card>
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
-            <div class="space-y-3">
-              <div *ngFor="let event of recentActivity" class="flex items-center p-3 bg-gray-50 rounded-lg">
-                <div class="w-2 h-2 bg-primary rounded-full mr-3"></div>
-                <div class="flex-1">
-                  <div class="text-sm font-medium text-gray-900">{{ event.title }}</div>
-                  <div class="text-xs text-gray-500">{{ event.date | date:'short' }}</div>
+            <h3 class="activity-title">Recent Activity</h3>
+            <div class="activity-list">
+              <div *ngFor="let event of recentActivity" class="activity-item">
+                <div class="activity-indicator"></div>
+                <div class="activity-content">
+                  <div class="activity-title-text">{{ event.title }}</div>
+                  <div class="activity-date">{{ event.date | date:'short' }}</div>
                 </div>
               </div>
             </div>
           </app-card>
 
           <app-card>
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Stats</h3>
-            <div class="space-y-4">
-              <div class="flex justify-between">
-                <span class="text-sm text-gray-600">Active Medications</span>
-                <span class="text-sm font-medium text-gray-900">{{ activeMedicationsCount }}</span>
+            <h3 class="quick-stats-title">Quick Stats</h3>
+            <div class="quick-stats-list">
+              <div class="quick-stat-item">
+                <span class="quick-stat-label">Active Medications</span>
+                <span class="quick-stat-value">{{ activeMedicationsCount }}</span>
               </div>
-              <div class="flex justify-between">
-                <span class="text-sm text-gray-600">Diet Entries This Month</span>
-                <span class="text-sm font-medium text-gray-900">{{ dietEntriesCount }}</span>
+              <div class="quick-stat-item">
+                <span class="quick-stat-label">Diet Entries This Month</span>
+                <span class="quick-stat-value">{{ dietEntriesCount }}</span>
               </div>
-              <div class="flex justify-between">
-                <span class="text-sm text-gray-600">Health Events</span>
-                <span class="text-sm font-medium text-gray-900">{{ healthEventsCount }}</span>
+              <div class="quick-stat-item">
+                <span class="quick-stat-label">Health Events</span>
+                <span class="quick-stat-value">{{ healthEventsCount }}</span>
               </div>
             </div>
           </app-card>
@@ -150,11 +149,11 @@
 
         <!-- Medications Tab -->
         <div *ngIf="activeTab === 'medications'">
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2">
+          <div class="medications-grid">
+            <div class="medications-main">
               <app-card>
-                <div class="flex items-center justify-between mb-6">
-                  <h3 class="text-lg font-semibold text-gray-900">Current Medications</h3>
+                <div class="medications-header">
+                  <h3 class="medications-title">Current Medications</h3>
                   <app-button variant="primary" size="sm" (onClick)="showAddMedication = !showAddMedication">
                     Add Medication
                   </app-button>
@@ -166,34 +165,34 @@
                   [hover]="true"
                 >
                   <tr *ngFor="let medication of medications">
-                    <td class="px-4 py-3">
-                      <div class="font-medium text-gray-900">{{ medication.name }}</div>
-                      <div class="text-sm text-gray-500">{{ medication.dosage }}</div>
+                    <td class="medication-table-cell">
+                      <div class="medication-name">{{ medication.name }}</div>
+                      <div class="medication-dosage">{{ medication.dosage }}</div>
                     </td>
-                    <td class="px-4 py-3 text-sm text-gray-600">{{ medication.frequency }}</td>
-                    <td class="px-4 py-3">
+                    <td class="medication-frequency">{{ medication.frequency }}</td>
+                    <td class="medication-table-cell">
                       <span
                         [class]="getMedicationStatusClasses(medication.status)"
                       >
                         {{ medication.status | titlecase }}
                       </span>
                     </td>
-                    <td class="px-4 py-3 text-sm text-gray-500">
+                    <td class="medication-date">
                       {{ medication.startDate | date:'short' }}
                     </td>
-                    <td class="px-4 py-3">
-                      <div class="flex space-x-2">
+                    <td class="medication-table-cell">
+                      <div class="medication-actions">
                         <button
                           *ngIf="medication.status === 'active'"
                           (click)="updateMedicationStatus(medication.id, 'completed')"
-                          class="text-green-600 hover:text-green-800 text-sm"
+                          class="medication-action-button medication-complete"
                         >
                           Complete
                         </button>
                         <button
                           *ngIf="medication.status === 'active'"
                           (click)="updateMedicationStatus(medication.id, 'discontinued')"
-                          class="text-red-600 hover:text-red-800 text-sm"
+                          class="medication-action-button medication-discontinue"
                         >
                           Discontinue
                         </button>
@@ -208,7 +207,7 @@
             <div *ngIf="showAddMedication">
               <app-card>
                 <h3 class="text-lg font-semibold text-gray-900 mb-4">Add New Medication</h3>
-                <form (ngSubmit)="addMedication()" class="space-y-4">
+                <form (ngSubmit)="addMedication()" class="add-medication-form">
                   <div>
                     <label class="form-label">Medication Name</label>
                     <input
@@ -274,11 +273,11 @@
 
         <!-- Diet Tab -->
         <div *ngIf="activeTab === 'diet'">
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2">
+          <div class="diet-grid">
+            <div class="diet-main">
               <app-card>
-                <div class="flex items-center justify-between mb-6">
-                  <h3 class="text-lg font-semibold text-gray-900">Diet Log</h3>
+                <div class="diet-header">
+                  <h3 class="diet-title">Diet Log</h3>
                   <app-button variant="primary" size="sm" (onClick)="showAddDiet = !showAddDiet">
                     Log Meal
                   </app-button>
@@ -290,40 +289,40 @@
                   [hover]="true"
                 >
                   <tr *ngFor="let entry of dietEntries">
-                    <td class="px-4 py-3">
-                      <div class="font-medium text-gray-900">{{ entry.mealType | titlecase }}</div>
-                      <div class="text-sm text-gray-500">{{ entry.date | date:'short' }}</div>
+                    <td class="diet-table-cell">
+                      <div class="diet-meal-type">{{ entry.mealType | titlecase }}</div>
+                      <div class="diet-date">{{ entry.date | date:'short' }}</div>
                     </td>
-                    <td class="px-4 py-3 text-sm text-gray-600">{{ entry.notes }}</td>
-                    <td class="px-4 py-3 text-sm text-gray-900">{{ entry.calories }} cal</td>
+                    <td class="diet-notes">{{ entry.notes }}</td>
+                    <td class="diet-calories">{{ entry.calories }} cal</td>
                   </tr>
                 </app-table>
               </app-card>
             </div>
 
             <!-- Diet Summary & Add Form -->
-            <div class="space-y-6">
+            <div class="diet-summary-container">
               <app-card>
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Weekly Summary</h3>
-                <div class="space-y-3">
-                  <div class="flex justify-between">
-                    <span class="text-sm text-gray-600">Total Calories</span>
-                    <span class="text-sm font-medium text-gray-900">{{ dietSummary.totalCalories }}</span>
+                <h3 class="diet-summary-title">Weekly Summary</h3>
+                <div class="diet-summary-list">
+                  <div class="diet-summary-item">
+                    <span class="diet-summary-label">Total Calories</span>
+                    <span class="diet-summary-value">{{ dietSummary.totalCalories }}</span>
                   </div>
-                  <div class="flex justify-between">
-                    <span class="text-sm text-gray-600">Entries This Week</span>
-                    <span class="text-sm font-medium text-gray-900">{{ dietSummary.entriesThisWeek }}</span>
+                  <div class="diet-summary-item">
+                    <span class="diet-summary-label">Entries This Week</span>
+                    <span class="diet-summary-value">{{ dietSummary.entriesThisWeek }}</span>
                   </div>
-                  <div class="flex justify-between">
-                    <span class="text-sm text-gray-600">Compliance</span>
-                    <span class="text-sm font-medium text-gray-900">{{ dietSummary.compliancePercentage | number:'1.0-0' }}%</span>
+                  <div class="diet-summary-item">
+                    <span class="diet-summary-label">Compliance</span>
+                    <span class="diet-summary-value">{{ dietSummary.compliancePercentage | number:'1.0-0' }}%</span>
                   </div>
                 </div>
               </app-card>
 
               <app-card *ngIf="showAddDiet">
                 <h3 class="text-lg font-semibold text-gray-900 mb-4">Log New Meal</h3>
-                <form (ngSubmit)="addDietEntry()" class="space-y-4">
+                <form (ngSubmit)="addDietEntry()" class="form-container">
                   <div>
                     <label class="form-label">Meal Type</label>
                     <select class="form-input" [(ngModel)]="newDietEntry.mealType" name="mealType" required>
@@ -353,7 +352,7 @@
                       required
                     >
                   </div>
-                  <div class="flex space-x-3">
+                  <div class="form-actions">
                     <app-button type="submit" variant="primary" size="sm">
                       Log Meal
                     </app-button>
@@ -369,11 +368,11 @@
 
         <!-- Health Events Tab -->
         <div *ngIf="activeTab === 'health-events'">
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2">
+          <div class="health-events-grid">
+            <div class="health-events-main">
               <app-card>
-                <div class="flex items-center justify-between mb-6">
-                  <h3 class="text-lg font-semibold text-gray-900">Health Events Timeline</h3>
+                <div class="health-events-header">
+                  <h3 class="health-events-title">Health Events Timeline</h3>
                   <app-button variant="primary" size="sm" (onClick)="showAddEvent = !showAddEvent">
                     Add Event
                   </app-button>
@@ -387,7 +386,7 @@
             <div *ngIf="showAddEvent">
               <app-card>
                 <h3 class="text-lg font-semibold text-gray-900 mb-4">Log Health Event</h3>
-                <form (ngSubmit)="addHealthEvent()" class="space-y-4">
+                <form (ngSubmit)="addHealthEvent()" class="add-event-form">
                   <div>
                     <label class="form-label">Event Type</label>
                     <select class="form-input" [(ngModel)]="newHealthEvent.type" name="type" required>
@@ -440,7 +439,7 @@
                       required
                     >
                   </div>
-                  <div class="flex space-x-3">
+                  <div class="form-actions">
                     <app-button type="submit" variant="primary" size="sm">
                       Add Event
                     </app-button>
@@ -457,31 +456,31 @@
         <!-- Insights Tab -->
         <div *ngIf="activeTab === 'insights'">
           <app-card>
-            <div class="flex items-center mb-6">
-              <div class="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mr-3">
-                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="insights-header">
+              <div class="insights-icon-container">
+                <svg class="insights-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                 </svg>
               </div>
-              <h2 class="text-xl font-semibold text-gray-900">AI Medical Summary</h2>
+              <h2 class="insights-title">AI Medical Summary</h2>
             </div>
 
-            <div class="p-6 bg-gradient-to-r from-blue-50 to-teal-50 rounded-lg border border-blue-200">
-              <p class="text-gray-700">{{ medicalSummary.summary }}</p>
+            <div class="insights-summary">
+              <p class="insights-summary-text">{{ medicalSummary.summary }}</p>
             </div>
 
-            <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div class="text-center p-4 bg-green-50 rounded-lg">
-                <div class="text-2xl font-bold text-green-600">{{ medicalSummary.medicationCount }}</div>
-                <div class="text-sm text-gray-600">Active Medications</div>
+            <div class="insights-stats-grid">
+              <div class="insights-stat-card insights-stat-card-green">
+                <div class="insights-stat-value insights-stat-value-green">{{ medicalSummary.medicationCount }}</div>
+                <div class="insights-stat-label">Active Medications</div>
               </div>
-              <div class="text-center p-4 bg-blue-50 rounded-lg">
-                <div class="text-2xl font-bold text-blue-600">{{ medicalSummary.dietEntriesThisMonth }}</div>
-                <div class="text-sm text-gray-600">Diet Entries This Month</div>
+              <div class="insights-stat-card insights-stat-card-blue">
+                <div class="insights-stat-value insights-stat-value-blue">{{ medicalSummary.dietEntriesThisMonth }}</div>
+                <div class="insights-stat-label">Diet Entries This Month</div>
               </div>
-              <div class="text-center p-4 bg-purple-50 rounded-lg">
-                <div class="text-2xl font-bold text-purple-600">{{ healthEventsCount }}</div>
-                <div class="text-sm text-gray-600">Total Health Events</div>
+              <div class="insights-stat-card insights-stat-card-purple">
+                <div class="insights-stat-value insights-stat-value-purple">{{ healthEventsCount }}</div>
+                <div class="insights-stat-label">Total Health Events</div>
               </div>
             </div>
           </app-card>
@@ -490,10 +489,10 @@
     </div>
 
     <!-- Loading State -->
-    <div *ngIf="!patient" class="flex items-center justify-center py-12">
-      <div class="text-center">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-        <p class="text-gray-600">Loading patient information...</p>
+    <div *ngIf="!patient" class="loading-container">
+      <div class="loading-content">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Loading patient information...</p>
       </div>
     </div>
   </div>

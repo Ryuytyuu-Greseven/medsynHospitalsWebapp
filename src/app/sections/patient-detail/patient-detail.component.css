@@ -1,0 +1,491 @@
+/* Patient Detail Component Styles */
+
+/* Layout Classes */
+.patient-container {
+  @apply min-h-screen bg-gradient-to-br from-blue-50 via-teal-50 to-green-50 p-6;
+}
+
+.patient-content {
+  @apply max-w-7xl mx-auto;
+}
+
+.patient-header {
+  @apply mb-8;
+}
+
+.patient-header-content {
+  @apply flex items-center justify-between;
+}
+
+.patient-title {
+  @apply text-3xl font-bold text-gray-900 mb-2;
+}
+
+.patient-subtitle {
+  @apply text-gray-600;
+}
+
+.back-link {
+  @apply text-primary hover:text-primary/80 text-sm font-medium flex items-center transition-colors duration-200;
+}
+
+.back-link-icon {
+  @apply w-4 h-4 mr-2;
+}
+
+/* Patient Header Card */
+.patient-header-card {
+  @apply flex items-start justify-between;
+}
+
+.patient-avatar-container {
+  @apply flex items-center;
+}
+
+.patient-avatar {
+  @apply w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mr-6;
+}
+
+.patient-avatar-text {
+  @apply text-primary font-bold text-2xl;
+}
+
+.patient-info {
+  @apply flex-1;
+}
+
+.patient-name {
+  @apply text-2xl font-bold text-gray-900;
+}
+
+.patient-details {
+  @apply text-gray-600;
+}
+
+.patient-status-container {
+  @apply flex items-center mt-2;
+}
+
+.status-badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.status-badge-admitted {
+  @apply bg-green-100 text-green-800;
+}
+
+.status-badge-not-admitted {
+  @apply bg-gray-100 text-gray-800;
+}
+
+.admission-date {
+  @apply ml-3 text-sm text-gray-500;
+}
+
+.patient-id-section {
+  @apply text-right;
+}
+
+.patient-id-label {
+  @apply text-sm text-gray-500;
+}
+
+.patient-id-value {
+  @apply text-lg font-semibold text-gray-900;
+}
+
+.assigned-staff {
+  @apply mt-2 text-sm text-gray-600;
+}
+
+/* Medical Conditions */
+.conditions-section {
+  @apply mt-6 pt-6 border-t border-gray-200;
+}
+
+.conditions-title {
+  @apply text-sm font-medium text-gray-700 mb-3;
+}
+
+.conditions-list {
+  @apply flex flex-wrap gap-2;
+}
+
+.condition-badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800;
+}
+
+/* Patient Stats */
+.stats-title {
+  @apply text-xl font-semibold text-gray-900 mb-6;
+}
+
+.stats-grid {
+  @apply grid grid-cols-2 md:grid-cols-5 gap-6;
+}
+
+.stat-item {
+  @apply text-center;
+}
+
+.stat-value {
+  @apply text-2xl font-bold;
+}
+
+.stat-value-weight {
+  @apply text-primary;
+}
+
+.stat-value-height {
+  @apply text-accent;
+}
+
+.stat-value-bmi {
+  @apply text-success;
+}
+
+.stat-value-pressure {
+  @apply text-warning;
+}
+
+.stat-value-heart {
+  @apply text-error;
+}
+
+.stat-label {
+  @apply text-sm text-gray-600;
+}
+
+.stats-updated {
+  @apply mt-4 text-xs text-gray-500 text-center;
+}
+
+/* Tab Navigation */
+.tab-navigation {
+  @apply border-b border-gray-200;
+}
+
+.tab-nav {
+  @apply -mb-px flex space-x-8;
+}
+
+.tab-button {
+  @apply whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm;
+}
+
+.tab-button-active {
+  @apply border-primary text-primary;
+}
+
+.tab-button-inactive {
+  @apply border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300;
+}
+
+/* Tab Content */
+.tab-content {
+  @apply mt-6;
+}
+
+.overview-grid {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-8;
+}
+
+/* Recent Activity */
+.activity-title {
+  @apply text-lg font-semibold text-gray-900 mb-4;
+}
+
+.activity-list {
+  @apply space-y-3;
+}
+
+.activity-item {
+  @apply flex items-center p-3 bg-gray-50 rounded-lg;
+}
+
+.activity-indicator {
+  @apply w-2 h-2 bg-primary rounded-full mr-3;
+}
+
+.activity-content {
+  @apply flex-1;
+}
+
+.activity-title-text {
+  @apply text-sm font-medium text-gray-900;
+}
+
+.activity-date {
+  @apply text-xs text-gray-500;
+}
+
+/* Quick Stats */
+.quick-stats-title {
+  @apply text-lg font-semibold text-gray-900 mb-4;
+}
+
+.quick-stats-list {
+  @apply space-y-4;
+}
+
+.quick-stat-item {
+  @apply flex justify-between;
+}
+
+.quick-stat-label {
+  @apply text-sm text-gray-600;
+}
+
+.quick-stat-value {
+  @apply text-sm font-medium text-gray-900;
+}
+
+/* Medications */
+.medications-grid {
+  @apply grid grid-cols-1 lg:grid-cols-3 gap-8;
+}
+
+.medications-main {
+  @apply lg:col-span-2;
+}
+
+.medications-header {
+  @apply flex items-center justify-between mb-6;
+}
+
+.medications-title {
+  @apply text-lg font-semibold text-gray-900;
+}
+
+.medication-table-cell {
+  @apply px-4 py-3;
+}
+
+.medication-name {
+  @apply font-medium text-gray-900;
+}
+
+.medication-dosage {
+  @apply text-sm text-gray-500;
+}
+
+.medication-frequency {
+  @apply text-sm text-gray-600;
+}
+
+.medication-date {
+  @apply text-sm text-gray-500;
+}
+
+.medication-actions {
+  @apply flex space-x-2;
+}
+
+.medication-action-button {
+  @apply text-sm;
+}
+
+.medication-complete {
+  @apply text-green-600 hover:text-green-800;
+}
+
+.medication-discontinue {
+  @apply text-red-600 hover:text-red-800;
+}
+
+/* Add Medication Form */
+.add-medication-form {
+  @apply space-y-4;
+}
+
+/* Diet */
+.diet-grid {
+  @apply grid grid-cols-1 lg:grid-cols-3 gap-8;
+}
+
+.diet-main {
+  @apply lg:col-span-2;
+}
+
+.diet-header {
+  @apply flex items-center justify-between mb-6;
+}
+
+.diet-title {
+  @apply text-lg font-semibold text-gray-900;
+}
+
+.diet-table-cell {
+  @apply px-4 py-3;
+}
+
+.diet-meal-type {
+  @apply font-medium text-gray-900;
+}
+
+.diet-date {
+  @apply text-sm text-gray-500;
+}
+
+.diet-notes {
+  @apply text-sm text-gray-600;
+}
+
+.diet-calories {
+  @apply text-sm text-gray-900;
+}
+
+/* Diet Summary */
+.diet-summary-container {
+  @apply space-y-6;
+}
+
+.diet-summary-title {
+  @apply text-lg font-semibold text-gray-900 mb-4;
+}
+
+.diet-summary-list {
+  @apply space-y-3;
+}
+
+.diet-summary-item {
+  @apply flex justify-between;
+}
+
+.diet-summary-label {
+  @apply text-sm text-gray-600;
+}
+
+.diet-summary-value {
+  @apply text-sm font-medium text-gray-900;
+}
+
+/* Health Events */
+.health-events-grid {
+  @apply grid grid-cols-1 lg:grid-cols-3 gap-8;
+}
+
+.health-events-main {
+  @apply lg:col-span-2;
+}
+
+.health-events-header {
+  @apply flex items-center justify-between mb-6;
+}
+
+.health-events-title {
+  @apply text-lg font-semibold text-gray-900;
+}
+
+/* Add Health Event Form */
+.add-event-form {
+  @apply space-y-4;
+}
+
+/* Insights */
+.insights-header {
+  @apply flex items-center mb-6;
+}
+
+.insights-icon-container {
+  @apply w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mr-3;
+}
+
+.insights-icon {
+  @apply w-4 h-4 text-white;
+}
+
+.insights-title {
+  @apply text-xl font-semibold text-gray-900;
+}
+
+.insights-summary {
+  @apply p-6 bg-gradient-to-r from-blue-50 to-teal-50 rounded-lg border border-blue-200;
+}
+
+.insights-summary-text {
+  @apply text-gray-700;
+}
+
+.insights-stats-grid {
+  @apply mt-6 grid grid-cols-1 md:grid-cols-3 gap-6;
+}
+
+.insights-stat-card {
+  @apply text-center p-4 rounded-lg;
+}
+
+.insights-stat-card-green {
+  @apply bg-green-50;
+}
+
+.insights-stat-card-blue {
+  @apply bg-blue-50;
+}
+
+.insights-stat-card-purple {
+  @apply bg-purple-50;
+}
+
+.insights-stat-value {
+  @apply text-2xl font-bold;
+}
+
+.insights-stat-value-green {
+  @apply text-green-600;
+}
+
+.insights-stat-value-blue {
+  @apply text-blue-600;
+}
+
+.insights-stat-value-purple {
+  @apply text-purple-600;
+}
+
+.insights-stat-label {
+  @apply text-sm text-gray-600;
+}
+
+/* Loading State */
+.loading-container {
+  @apply flex items-center justify-center py-12;
+}
+
+.loading-content {
+  @apply text-center;
+}
+
+.loading-spinner {
+  @apply animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4;
+}
+
+.loading-text {
+  @apply text-gray-600;
+}
+
+/* Form Elements */
+.form-container {
+  @apply space-y-4;
+}
+
+.form-actions {
+  @apply flex space-x-3;
+}
+
+/* Status Classes */
+.medication-status {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.medication-status-active {
+  @apply bg-green-100 text-green-800;
+}
+
+.medication-status-completed {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.medication-status-discontinued {
+  @apply bg-red-100 text-red-800;
+}

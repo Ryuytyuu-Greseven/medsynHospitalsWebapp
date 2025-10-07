@@ -1,0 +1,141 @@
+<div class="login-container">
+  <div class="login-content">
+    <!-- Logo and Header -->
+    <div class="login-header">
+      <div class="logo-container">
+        <img
+          src="assets/logo/favicon.ico"
+          alt="Medsyn AI Logo"
+          class="logo-image"
+        />
+        <h1 class="logo-text">Medsyn AI</h1>
+      </div>
+      <p class="login-subtitle">Hospital Management System</p>
+    </div>
+
+    <!-- Login Form -->
+    <div class="login-form-container" *ngIf="!showPasswordReset">
+      <h2 class="form-title">Sign In</h2>
+      <p class="form-subtitle">Enter your credentials to access the system</p>
+
+      <form (ngSubmit)="onSubmit()" class="login-form">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input
+            type="email"
+            class="form-input"
+            [(ngModel)]="credentials.email"
+            name="email"
+            placeholder="Enter your email"
+            required
+            [disabled]="isLoading"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-input"
+            [(ngModel)]="credentials.password"
+            name="password"
+            placeholder="Enter your password"
+            required
+            [disabled]="isLoading"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="login-button"
+          [disabled]="isLoading"
+        >
+          <span *ngIf="!isLoading">Sign In</span>
+          <span *ngIf="isLoading" class="loading-content">
+            <div class="loading-spinner"></div>
+            Signing In...
+          </span>
+        </button>
+      </form>
+
+      <div class="form-footer">
+        <button
+          type="button"
+          class="forgot-password-link"
+          (click)="togglePasswordReset()"
+        >
+          Forgot your password?
+        </button>
+      </div>
+    </div>
+
+    <!-- Password Reset Form -->
+    <div class="password-reset-container" *ngIf="showPasswordReset">
+      <h2 class="form-title">Reset Password</h2>
+      <p class="form-subtitle">Enter your email address to receive reset instructions</p>
+
+      <form (ngSubmit)="onPasswordReset()" class="reset-form">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input
+            type="email"
+            class="form-input"
+            [(ngModel)]="resetEmail"
+            name="resetEmail"
+            placeholder="Enter your email"
+            required
+            [disabled]="isResettingPassword"
+          />
+        </div>
+
+        <div class="form-actions">
+          <button
+            type="submit"
+            class="reset-button"
+            [disabled]="isResettingPassword"
+          >
+            <span *ngIf="!isResettingPassword">Send Reset Instructions</span>
+            <span *ngIf="isResettingPassword" class="loading-content">
+              <div class="loading-spinner"></div>
+              Sending...
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="cancel-button"
+            (click)="cancelPasswordReset()"
+            [disabled]="isResettingPassword"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Demo Credentials Info -->
+    <div class="demo-info" *ngIf="!showPasswordReset">
+      <div class="demo-card">
+        <h3 class="demo-title">Demo Credentials</h3>
+        <div class="demo-credentials">
+          <div class="demo-item">
+            <span class="demo-label">Email:</span>
+            <span class="demo-value">admin&#64;medsyn.com</span>
+          </div>
+          <div class="demo-item">
+            <span class="demo-label">Password:</span>
+            <span class="demo-value">admin123</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Elements -->
+  <div class="background-elements">
+    <div class="floating-element floating-heart">❤️</div>
+    <div class="floating-element floating-brain">🧠</div>
+    <div class="floating-element floating-activity">📊</div>
+    <div class="floating-element floating-shield">🛡️</div>
+  </div>
+</div>
