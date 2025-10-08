@@ -1,16 +1,23 @@
-<div class="min-h-screen bg-gradient-to-br from-blue-50 via-teal-50 to-green-50 p-6">
-  <div class="max-w-7xl mx-auto">
-    <!-- Header -->
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">Patients</h1>
-      <p class="text-gray-600">Manage patient records and admissions</p>
-    </div>
-
-    <!-- Add Patient Component -->
-    <div class="mb-8">
-      <app-add-patient
-        (patientAdded)="onPatientAdded($event)"
-      ></app-add-patient>
+<div class="min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-green-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+    <!-- Header Section -->
+    <div class="mb-6 sm:mb-8 bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent mb-2">Patients Management</h1>
+          <p class="text-teal-900 font-medium">Manage patient records and admissions across all facilities</p>
+        </div>
+        <button
+          (click)="openAddPatientModal()"
+          class="bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white px-4 sm:px-6 py-3 rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 shadow-lg w-full sm:w-auto button-press hover-lift"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          <span class="hidden sm:inline">Add New Patient</span>
+          <span class="sm:hidden">Add Patient</span>
+        </button>
+      </div>
     </div>
 
     <!-- Patients Panel -->
@@ -18,5 +25,16 @@
       [patients]="patients"
       (patientAdmitted)="onPatientAdmitted($event)"
     ></app-patients-panel>
+  </div>
+
+  <!-- Add Patient Modal -->
+  <div *ngIf="showAddPatientModal" class="modal-backdrop fade-in" (click)="closeAddPatientModal()">
+    <div class="modal-enterprise max-h-[90vh] overflow-y-auto modal-enter" (click)="$event.stopPropagation()">
+      <app-add-patient
+        [showForm]="true"
+        (patientAdded)="onPatientAdded($event)"
+        (formToggled)="onFormToggled($event)"
+      ></app-add-patient>
+    </div>
   </div>
 </div>

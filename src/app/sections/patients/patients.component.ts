@@ -16,6 +16,7 @@ import { PatientsPanelComponent } from '../../shared/components/patients-panel/p
 })
 export class PatientsComponent implements OnInit {
   patients: Patient[] = [];
+  showAddPatientModal = false;
 
   constructor(
     private dataService: DataService,
@@ -32,8 +33,23 @@ export class PatientsComponent implements OnInit {
     });
   }
 
+  openAddPatientModal(): void {
+    this.showAddPatientModal = true;
+  }
+
+  closeAddPatientModal(): void {
+    this.showAddPatientModal = false;
+  }
+
   onPatientAdded(patient: Patient): void {
     this.loadPatients();
+    this.closeAddPatientModal();
+  }
+
+  onFormToggled(showForm: boolean): void {
+    if (!showForm) {
+      this.closeAddPatientModal();
+    }
   }
 
   onPatientAdmitted(patientId: number): void {

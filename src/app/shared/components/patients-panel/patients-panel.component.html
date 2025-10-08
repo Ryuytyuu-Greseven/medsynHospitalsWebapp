@@ -1,73 +1,191 @@
-<!-- Search Component -->
-<app-patient-search
-  [patients]="patients"
-  (filteredPatients)="onFilteredPatients($event)"
-></app-patient-search>
+<!-- Search and Filter Bar -->
+<div class="card-enterprise mb-6 slide-up">
+  <div class="flex flex-col lg:flex-row gap-4">
+    <!-- Search Input -->
+    <div class="flex-1 relative">
+      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search by Name, ID, or Phone"
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+      >
+    </div>
+
+    <!-- Filter Dropdowns -->
+    <div class="flex flex-col sm:flex-row gap-3">
+      <select class="filter-select" [(ngModel)]="selectedDepartment" (change)="onFilterChange()">
+        <option value="">All Departments</option>
+        <option value="cardiology">Cardiology</option>
+        <option value="pulmonology">Pulmonology</option>
+        <option value="oncology">Oncology</option>
+      </select>
+
+      <select class="filter-select" [(ngModel)]="selectedStatus" (change)="onFilterChange()">
+        <option value="">All Status</option>
+        <option value="admitted">Admitted</option>
+        <option value="discharged">Discharged</option>
+      </select>
+    </div>
+  </div>
+</div>
 
 <!-- Patients Table -->
-<app-card>
+<div class="card-enterprise fade-in">
   <div class="flex items-center justify-between mb-6">
-    <h2 class="text-xl font-semibold text-gray-900">All Patients</h2>
-    <div class="text-sm text-gray-500">
-      {{ filteredPatients.length }} of {{ patients.length }} patients
+    <div>
+      <h2 class="text-xl font-semibold text-gray-900">All Patients</h2>
+      <p class="text-sm text-gray-500 mt-1">{{ filteredPatients.length }} of {{ patients.length }} patients</p>
     </div>
   </div>
 
-  <app-table
-    [columns]="patientColumns"
-    [striped]="true"
-    [hover]="true"
-  >
-    <tr *ngFor="let patient of paginatedPatients">
-      <td class="px-4 py-3">
+  <!-- Desktop Table View -->
+  <div class="hidden lg:block overflow-x-auto">
+    <table class="table-enterprise">
+      <thead>
+        <tr>
+          <th>Patient</th>
+          <th>Age / Gender</th>
+          <th>Admission Date</th>
+          <th>Assigned Doctor</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let patient of paginatedPatients; let i = index" class="hover:bg-blue-50/30 transition-colors duration-200" [style.animation-delay]="(i * 0.1) + 's'">
+          <td>
+            <div class="flex items-center">
+              <div class="patient-avatar mr-4">
+                {{ patient.name.charAt(0) }}
+              </div>
+              <div>
+                <div class="font-semibold text-gray-900">{{ patient.name }}</div>
+                <div class="text-sm text-gray-500">ID: {{ patient.id }}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="text-sm text-gray-900">{{ patient.age }} years</div>
+            <div class="text-sm text-gray-500">{{ patient.gender }}</div>
+          </td>
+          <td>
+            <div class="text-sm text-gray-900">
+              {{ patient.admissionDate ? (patient.admissionDate | date:'MMM dd, yyyy') : '-' }}
+            </div>
+          </td>
+          <td>
+            <div class="text-sm text-gray-900">
+              {{ getAssignedDoctor(patient.assignedDoctor) }}
+            </div>
+          </td>
+          <td>
+            <span
+              [class]="patient.admitted ? 'status-tag status-active' : 'status-tag status-discharged'"
+            >
+              {{ patient.admitted ? 'Active' : 'Discharged' }}
+            </span>
+          </td>
+          <td>
+            <div class="flex items-center gap-2">
+              <button
+                [routerLink]="['/patients', patient.id]"
+                class="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors duration-200"
+              >
+                View
+              </button>
+              <button
+                class="text-gray-400 hover:text-gray-600 text-sm font-medium transition-colors duration-200"
+              >
+                Edit
+              </button>
+              <button
+                *ngIf="!patient.admitted"
+                (click)="admitPatient(patient.id)"
+                [disabled]="admittingPatients.has(patient.id)"
+                class="text-green-600 hover:text-green-800 text-sm font-medium transition-colors duration-200 disabled:opacity-50"
+              >
+                {{ admittingPatients.has(patient.id) ? 'Syncing...' : 'Admit' }}
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mobile Card View -->
+  <div class="lg:hidden space-y-4">
+    <div *ngFor="let patient of paginatedPatients; let i = index" class="bg-white border-2 border-gray-300 rounded-xl p-4 hover:shadow-xl transition-all duration-200 hover-lift slide-up shadow-md" [style.animation-delay]="(i * 0.1) + 's'">
+      <div class="flex items-start justify-between mb-4">
         <div class="flex items-center">
-          <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mr-4">
-            <span class="text-primary font-medium">{{ patient.name.charAt(0) }}</span>
+          <div class="patient-avatar-sm mr-3">
+            {{ patient.name.charAt(0) }}
           </div>
           <div>
-            <div class="font-medium text-gray-900">{{ patient.name }}</div>
-            <div class="text-sm text-gray-500">{{ patient.age }} years, {{ patient.gender }}</div>
+            <div class="font-semibold text-gray-900">{{ patient.name }}</div>
+            <div class="text-sm text-gray-500">ID: {{ patient.id }}</div>
           </div>
         </div>
-      </td>
-      <td class="px-4 py-3">
-        <div class="text-sm text-gray-900">
-          {{ patient.conditions.join(', ') || 'No conditions' }}
-        </div>
-      </td>
-      <td class="px-4 py-3">
         <span
-          [class]="patient.admitted ? 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800' : 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800'"
+          [class]="patient.admitted ? 'status-tag status-active' : 'status-tag status-discharged'"
         >
-          {{ patient.admitted ? 'Admitted' : 'Not Admitted' }}
+          {{ patient.admitted ? 'Active' : 'Discharged' }}
         </span>
-      </td>
-      <td class="px-4 py-3">
-        <div class="flex space-x-2">
-          <a
-            [routerLink]="['/patients', patient.id]"
-            class="text-primary hover:text-primary-dark text-sm font-medium"
-          >
-            View
-          </a>
-          <button
-            *ngIf="!patient.admitted"
-            (click)="admitPatient(patient.id)"
-            [disabled]="admittingPatients.has(patient.id)"
-            class="text-accent hover:text-accent-dark text-sm font-medium disabled:opacity-50"
-          >
-            {{ admittingPatients.has(patient.id) ? 'Syncing...' : 'Admit' }}
-          </button>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+        <div class="bg-teal-50 p-3 rounded-lg border border-gray-200">
+          <div class="text-teal-800 font-bold text-xs uppercase">Age / Gender</div>
+          <div class="font-bold text-gray-900 mt-1">{{ patient.age }} years, {{ patient.gender }}</div>
         </div>
-      </td>
-    </tr>
-  </app-table>
+        <div class="bg-cyan-50 p-3 rounded-lg border border-gray-200">
+          <div class="text-cyan-800 font-bold text-xs uppercase">Admission Date</div>
+          <div class="font-bold text-gray-900 mt-1">
+            {{ patient.admissionDate ? (patient.admissionDate | date:'MMM dd, yyyy') : '-' }}
+          </div>
+        </div>
+        <div class="bg-emerald-50 p-3 rounded-lg border border-gray-200">
+          <div class="text-emerald-800 font-bold text-xs uppercase">Doctor</div>
+          <div class="font-bold text-gray-900 mt-1">{{ getAssignedDoctor(patient.assignedDoctor) }}</div>
+        </div>
+        <div class="bg-lime-50 p-3 rounded-lg border border-gray-200">
+          <div class="text-lime-800 font-bold text-xs uppercase">Conditions</div>
+          <div class="font-bold text-gray-900 mt-1">{{ patient.conditions.join(', ') || 'None' }}</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 pt-3 border-t-2 border-gray-200">
+        <button
+          [routerLink]="['/patients', patient.id]"
+          class="flex-1 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white px-4 py-2.5 rounded-lg text-sm font-bold transition-all duration-200 shadow-md"
+        >
+          View Details
+        </button>
+        <button
+          *ngIf="!patient.admitted"
+          (click)="admitPatient(patient.id)"
+          [disabled]="admittingPatients.has(patient.id)"
+          class="flex-1 bg-gradient-to-r from-green-600 to-lime-600 hover:from-green-700 hover:to-lime-700 disabled:from-gray-300 disabled:to-gray-400 text-white px-4 py-2.5 rounded-lg text-sm font-bold transition-all duration-200 disabled:cursor-not-allowed shadow-md"
+        >
+          {{ admittingPatients.has(patient.id) ? 'Syncing...' : 'Admit' }}
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Pagination -->
-  <app-pagination
-    [totalItems]="50"
-    [itemsPerPage]="itemsPerPage"
-    [currentPage]="currentPage"
-    (pageChanged)="onPageChanged($event)"
-  ></app-pagination>
-</app-card>
+  <div class="mt-6">
+    <app-pagination
+      [totalItems]="filteredPatients.length"
+      [itemsPerPage]="itemsPerPage"
+      [currentPage]="currentPage"
+      (pageChanged)="onPageChanged($event)"
+    ></app-pagination>
+  </div>
+</div>

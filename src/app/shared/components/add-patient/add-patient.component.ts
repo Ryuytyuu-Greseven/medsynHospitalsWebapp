@@ -20,8 +20,15 @@ export class AddPatientComponent {
 
   newPatient = {
     name: '',
-    age: 0,
+    dateOfBirth: '',
     gender: '',
+    phone: '',
+    email: '',
+    address: '',
+    patientType: '',
+    department: '',
+    assignedDoctor: '',
+    admissionDate: '',
     conditions: ''
   };
 
@@ -41,25 +48,41 @@ export class AddPatientComponent {
   resetForm(): void {
     this.newPatient = {
       name: '',
-      age: 0,
+      dateOfBirth: '',
       gender: '',
+      phone: '',
+      email: '',
+      address: '',
+      patientType: '',
+      department: '',
+      assignedDoctor: '',
+      admissionDate: '',
       conditions: ''
     };
   }
 
   isFormValid(): boolean {
-    return !!(this.newPatient.name && this.newPatient.age && this.newPatient.gender);
+    return !!(this.newPatient.name && this.newPatient.dateOfBirth && this.newPatient.gender && this.newPatient.patientType && this.newPatient.department);
   }
 
   onSubmit(): void {
     if (!this.isFormValid()) return;
 
+    // Calculate age from date of birth
+    const birthDate = new Date(this.newPatient.dateOfBirth);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const actualAge = monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
+
     const patientData = {
       name: this.newPatient.name,
-      age: this.newPatient.age,
+      age: actualAge,
       gender: this.newPatient.gender as 'Male' | 'Female' | 'Other',
-      admitted: false,
-      conditions: this.newPatient.conditions ? this.newPatient.conditions.split(',').map(c => c.trim()) : []
+      admitted: this.newPatient.patientType === 'Inpatient',
+      conditions: this.newPatient.conditions ? this.newPatient.conditions.split(',').map(c => c.trim()) : [],
+      admissionDate: this.newPatient.admissionDate ? new Date(this.newPatient.admissionDate) : undefined,
+      assignedDoctor: this.newPatient.assignedDoctor ? parseInt(this.newPatient.assignedDoctor) : undefined
     };
 
     this.dataService.addPatient(patientData).subscribe({

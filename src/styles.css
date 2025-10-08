@@ -2,91 +2,96 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design Tokens - Time Machine Theme */
+/* Design Tokens - Medsyn Teal-Green Medical Theme */
 :root {
-  /* Core Time Machine Colors */
-  --color-primary: 59, 130, 246;        /* Blue - Present */
-  --color-accent: 16, 185, 129;        /* Teal - Future */
-  --color-success: 34, 197, 94;         /* Green - Past */
-  --color-warning: 245, 158, 11;        /* Orange - Alerts */
-  --color-error: 239, 68, 68;          /* Red - Errors */
+  /* Core Medsyn Colors - Teal & Leaf Green Palette */
+  --color-primary: 20, 184, 166;        /* #14B8A6 - Teal Primary */
+  --color-accent: 16, 185, 129;         /* #10B981 - Emerald Accent */
+  --color-success: 34, 197, 94;         /* #22C55E - Green Success */
+  --color-warning: 251, 191, 36;        /* #FBBF24 - Amber Alerts */
+  --color-error: 239, 68, 68;           /* #EF4444 - Red Errors */
 
-  /* Time Machine Theme Variants */
-  --color-demo: 59, 130, 246;           /* Demo button - Present AI */
-  --color-waitlist: 16, 185, 129;      /* Waitlist - Future Growth */
-  --color-contact: 34, 197, 94;         /* Contact - Past Data */
+  /* Medical Theme Variants */
+  --color-demo: 20, 184, 166;           /* Teal Primary */
+  --color-waitlist: 16, 185, 129;       /* Emerald Green */
+  --color-contact: 34, 197, 94;         /* Leaf Green */
 
   /* Neutrals */
-  --color-navy: 15, 23, 42;            /* Dark navy text */
-  --color-ink: 30, 41, 59;             /* Ink text */
-  --color-muted: 148, 163, 184;        /* Muted text */
+  --color-navy: 15, 23, 42;             /* Dark navy text */
+  --color-ink: 30, 41, 59;              /* Ink text */
+  --color-muted: 100, 116, 139;         /* Muted text */
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.15);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.2);
 }
 
 /* Base Styles */
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: linear-gradient(135deg, rgb(239, 246, 255) 0%, rgb(240, 253, 250) 50%, rgb(240, 253, 244) 100%);
+  background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 50%, #d1fae5 100%);
   min-height: 100vh;
+  color: #064e3b;
 }
 
 /* Component System */
 @layer components {
   /* Button System */
   .btn {
-    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+    @apply px-4 py-2 rounded-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-sm;
   }
 
   .btn-demo {
     @apply btn;
-    background: linear-gradient(135deg, rgb(59, 130, 246), rgb(37, 99, 235));
+    background: linear-gradient(135deg, #14B8A6, #0D9488);
     color: white;
-    box-shadow: var(--shadow-sm);
-    @apply focus:ring-orange-400;
+    box-shadow: 0 4px 6px -1px rgba(20, 184, 166, 0.4);
+    @apply focus:ring-teal-400;
   }
 
   .btn-waitlist {
     @apply btn;
-    background: linear-gradient(135deg, rgb(16, 185, 129), rgb(5, 150, 105));
+    background: linear-gradient(135deg, #10B981, #059669);
     color: white;
-    box-shadow: var(--shadow-sm);
-    @apply focus:ring-teal-500;
+    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.4);
+    @apply focus:ring-emerald-500;
   }
 
   .btn-contact {
     @apply btn;
-    background: linear-gradient(135deg, rgb(34, 197, 94), rgb(22, 163, 74));
+    background: linear-gradient(135deg, #22C55E, #16A34A);
     color: white;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.4);
     @apply focus:ring-green-500;
   }
 
   .btn-primary {
     @apply btn;
-    background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(37, 99, 235));
+    background: linear-gradient(135deg, #14B8A6, #0D9488);
     color: white;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 4px 6px -1px rgba(20, 184, 166, 0.4);
   }
 
   .btn-ghost {
-    @apply btn bg-transparent border border-gray-300 text-gray-700 hover:bg-gray-50;
+    @apply btn bg-white border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400;
   }
 
   .btn-outline {
-    @apply btn border-2 border-primary text-primary hover:bg-primary hover:text-white;
+    @apply btn border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white;
   }
 
   /* Card System */
   .card {
-    @apply bg-white/80 backdrop-blur-sm rounded-xl shadow-md border border-white/20 p-6;
+    @apply bg-white rounded-xl shadow-md border border-gray-200 p-6;
   }
 
   .card-glass {
-    @apply bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-white/30 p-6;
+    @apply bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200 p-6;
+  }
+
+  .card-enterprise {
+    @apply bg-white rounded-2xl shadow-lg border border-gray-200 p-8;
   }
 
   /* Table System */
@@ -95,15 +100,31 @@ body {
   }
 
   .table th {
-    @apply px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b border-gray-200;
+    @apply px-6 py-4 text-left text-xs font-bold text-teal-900 uppercase tracking-wider border-b-2 border-teal-300 bg-gradient-to-br from-teal-50 to-emerald-50;
   }
 
   .table td {
-    @apply px-4 py-3 text-sm text-gray-600 border-b border-gray-100;
+    @apply px-6 py-4 text-sm text-gray-800 border-b border-teal-100 bg-white;
   }
 
   .table tbody tr:hover {
-    @apply bg-gray-50/50;
+    @apply bg-teal-50 transition-colors duration-150;
+  }
+
+  .table-enterprise {
+    @apply w-full border-collapse bg-white rounded-xl overflow-hidden shadow-lg border border-gray-200;
+  }
+
+  .table-enterprise th {
+    @apply px-6 py-4 text-left text-xs font-bold text-teal-900 uppercase tracking-wider border-b-2 border-gray-200 bg-gradient-to-br from-teal-50 to-emerald-50;
+  }
+
+  .table-enterprise td {
+    @apply px-6 py-4 text-sm font-medium text-gray-800 border-b border-gray-100 bg-white;
+  }
+
+  .table-enterprise tbody tr:hover {
+    @apply bg-gradient-to-r from-teal-50 to-emerald-50 transition-all duration-200;
   }
 
   /* Timeline System */
@@ -148,11 +169,19 @@ body {
 
   /* Form Elements */
   .form-input {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200;
+    @apply w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200 text-gray-900 placeholder-gray-500 bg-white font-medium shadow-sm;
   }
 
   .form-label {
-    @apply block text-sm font-medium text-gray-700 mb-1;
+    @apply block text-sm font-bold text-gray-800 mb-2;
+  }
+
+  .form-input-enterprise {
+    @apply w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200 text-gray-900 placeholder-gray-500 bg-white font-medium shadow-sm;
+  }
+
+  .form-label-enterprise {
+    @apply block text-sm font-bold text-gray-800 mb-2;
   }
 
   /* Animations */
@@ -168,6 +197,58 @@ body {
     background: linear-gradient(-45deg, #3b82f6, #10b981, #22c55e);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
+  }
+
+  /* Enterprise Animations */
+  .fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+
+  .pulse-subtle {
+    animation: pulseSubtle 2s ease-in-out infinite;
+  }
+
+  .hover-lift {
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  .modal-enter {
+    animation: modalEnter 0.3s ease-out;
+  }
+
+  .modal-exit {
+    animation: modalExit 0.2s ease-in;
+  }
+
+  .button-press {
+    transition: transform 0.1s ease-out;
+  }
+
+  .button-press:active {
+    transform: scale(0.98);
+  }
+
+  .loading-spinner {
+    animation: spin 1s linear infinite;
+  }
+
+  .shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
   }
 
   /* Toast System */
@@ -197,7 +278,46 @@ body {
   }
 
   .modal-content {
-    @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md rounded-xl shadow-2xl border border-white/30 p-6 max-w-md w-full mx-4;
+    @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-8 max-w-2xl w-full mx-4;
+  }
+
+  .modal-enterprise {
+    @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-8 max-w-4xl w-full mx-4;
+  }
+
+  /* Status Tags */
+  .status-tag {
+    @apply inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold shadow-sm;
+  }
+
+  .status-active {
+    @apply bg-gradient-to-r from-green-500 to-emerald-600 text-white border-2 border-green-600;
+  }
+
+  .status-discharged {
+    @apply bg-gradient-to-r from-red-500 to-rose-600 text-white border-2 border-red-600;
+  }
+
+  .status-pending {
+    @apply bg-gradient-to-r from-yellow-500 to-amber-600 text-white border-2 border-yellow-600;
+  }
+
+  /* Search and Filter */
+  .search-input {
+    @apply w-full px-4 py-3 pl-10 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200 text-gray-900 placeholder-gray-500 bg-white shadow-sm font-medium;
+  }
+
+  .filter-select {
+    @apply px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200 text-gray-900 bg-white shadow-sm font-medium;
+  }
+
+  /* Patient Avatar */
+  .patient-avatar {
+    @apply w-12 h-12 rounded-full bg-gradient-to-br from-teal-600 to-emerald-700 flex items-center justify-center text-white font-bold text-lg shadow-md border-2 border-white;
+  }
+
+  .patient-avatar-sm {
+    @apply w-8 h-8 rounded-full bg-gradient-to-br from-teal-600 to-emerald-700 flex items-center justify-center text-white font-bold text-sm shadow-md border-2 border-white;
   }
 }
 
@@ -252,4 +372,115 @@ body {
   @apply absolute inset-4 rounded-full border-2 border-accent/50 animate-spin;
   animation-duration: 8s;
   animation-direction: reverse;
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translate(-50%, -50%);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%);
+  }
+}
+
+@keyframes modalExit {
+  from {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9) translate(-50%, -50%);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
