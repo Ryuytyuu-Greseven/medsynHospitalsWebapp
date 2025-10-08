@@ -1,0 +1,559 @@
+/* Digital Time Machine - Patient Outcome Component Styles */
+
+/* =========================
+   TIME MACHINE CONTAINER
+   ========================= */
+.time-machine-container {
+  position: relative;
+  overflow-x: hidden;
+  width: 100%;
+  min-width: 100%;
+}
+
+/* Header Section */
+.header-section {
+  /* Removed background - blends with page gradient */
+  /* Removed sticky positioning - header scrolls naturally with content */
+}
+
+/* Patient Profile Card - 3D Effect */
+.patient-profile-card {
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.12),
+    0 4px 8px rgba(20, 184, 166, 0.15),
+    0 8px 16px rgba(20, 184, 166, 0.1),
+    0 16px 32px rgba(20, 184, 166, 0.08);
+  border: 1px solid rgba(20, 184, 166, 0.1);
+  transform: translateY(0);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.patient-profile-card:hover {
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.12),
+    0 8px 16px rgba(20, 184, 166, 0.2),
+    0 16px 32px rgba(20, 184, 166, 0.15),
+    0 24px 48px rgba(20, 184, 166, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Patient Avatar - 3D Effect */
+.patient-avatar {
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 8px 16px rgba(20, 184, 166, 0.2),
+    0 12px 24px rgba(13, 148, 136, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.patient-header-card {
+  transition: all 0.3s ease;
+}
+
+.patient-header-card:hover {
+  box-shadow: 0 20px 40px -10px rgba(20, 184, 166, 0.3);
+}
+
+/* =========================
+   AI SUMMARY CARD
+   ========================= */
+.ai-summary-card {
+  position: relative;
+}
+
+.ai-summary-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, #a855f7, #6366f1, #3b82f6);
+  border-radius: 1rem;
+  z-index: -1;
+  opacity: 0.1;
+  filter: blur(10px);
+}
+
+/* =========================
+   TIMELINE STYLES
+   ========================= */
+.timeline-card {
+  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+}
+
+.timeline-wrapper {
+  position: relative;
+  padding-left: 1rem;
+}
+
+.timeline-event {
+  position: relative;
+  opacity: 1;
+  transform: translateX(0);
+  animation: slideInTimeline 0.5s ease-out forwards;
+}
+
+@keyframes slideInTimeline {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.timeline-event:hover .timeline-event-card {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.2);
+}
+
+/* Timeline connector - hidden to avoid visual clutter */
+.timeline-wrapper::before {
+  display: none;
+  /* Removed timeline connector line */
+}
+
+/* Timeline glow effect */
+.glow-effect {
+  /* Removed animation - was distracting */
+  box-shadow: 0 0 20px rgba(147, 51, 234, 0.5);
+}
+
+/* =========================
+   TAB NAVIGATION
+   ========================= */
+.tab-navigation {
+  /* Removed sticky - tabs scroll naturally with content */
+  background: white;
+}
+
+.tab-navigation nav button {
+  position: relative;
+  overflow: hidden;
+}
+
+.tab-navigation nav button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #14B8A6, #10B981);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.tab-navigation nav button:hover::after,
+.tab-navigation nav button.active::after {
+  transform: scaleX(1);
+}
+
+/* =========================
+   ANIMATIONS
+   ========================= */
+.fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+}
+
+.scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* =========================
+   MODAL STYLES
+   ========================= */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.modal-enterprise {
+  position: relative;
+  background: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(20, 184, 166, 0.2);
+  padding: 2rem;
+  max-width: 64rem;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-enter {
+  animation: modalEnter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Custom scrollbar for modal */
+.modal-enterprise::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-enterprise::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.modal-enterprise::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #14B8A6, #10B981);
+  border-radius: 10px;
+}
+
+.modal-enterprise::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #0D9488, #059669);
+}
+
+/* =========================
+   VITALS & STATS CARDS
+   ========================= */
+.vitals-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.vitals-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(20, 184, 166, 0.1) 0%,
+    transparent 70%
+  );
+  /* Removed floating animation */
+}
+
+/* =========================
+   RISK & STABILITY INDICATORS
+   ========================= */
+.stability-indicator {
+  position: relative;
+  background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 100%);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+.stability-indicator::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(16, 185, 129, 0.15) 0%,
+    transparent 60%
+  );
+  /* Removed pulsing animation */
+  opacity: 0.5;
+}
+
+/* =========================
+   LOADING SPINNER
+   ========================= */
+.loading-spinner {
+  border-style: solid;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================
+   GRADIENT TEXT
+   ========================= */
+.text-gradient {
+  background: linear-gradient(135deg, #14B8A6, #10B981, #22C55E);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* Removed gradient shift animation */
+}
+
+/* =========================
+   REPORT CARDS
+   ========================= */
+.report-card {
+  background: white;
+  border-radius: 1rem;
+  border: 2px solid #e5e7eb;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.report-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #14B8A6, #10B981);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.report-card:hover::before {
+  transform: scaleY(1);
+}
+
+.report-card:hover {
+  border-color: #14B8A6;
+  box-shadow: 0 10px 25px -5px rgba(20, 184, 166, 0.2);
+  transform: translateX(4px);
+}
+
+/* =========================
+   MEDICATION CARDS
+   ========================= */
+.medication-card {
+  position: relative;
+  background: white;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.medication-card:hover {
+  box-shadow: 0 12px 30px -10px rgba(59, 130, 246, 0.3);
+}
+
+/* =========================
+   HEALTH EVENT CARDS
+   ========================= */
+.health-event-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  border: 2px solid #e5e7eb;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.health-event-card:hover {
+  border-color: #14B8A6;
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px -10px rgba(20, 184, 166, 0.25);
+}
+
+/* =========================
+   BADGE ANIMATIONS
+   ========================= */
+.badge-pulse {
+  /* Removed pulsing animation */
+}
+
+/* =========================
+   QUICK ACTIONS
+   ========================= */
+.quick-action-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-action-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.quick-action-btn:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* =========================
+   RESPONSIVE UTILITIES
+   ========================= */
+@media (max-width: 1024px) {
+  .timeline-wrapper {
+    padding-left: 0.5rem;
+  }
+
+  .timeline-event {
+    padding-left: 4rem;
+  }
+
+  .modal-enterprise {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .patient-header-card {
+    padding: 1.25rem;
+  }
+
+  .timeline-event {
+    padding-left: 3rem;
+  }
+
+  .modal-enterprise {
+    padding: 1rem;
+    max-width: 100%;
+  }
+}
+
+/* =========================
+   TIME MACHINE SPECIFIC
+   ========================= */
+.time-travel-indicator {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #14B8A6, #10B981);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px -5px rgba(20, 184, 166, 0.4);
+  z-index: 30;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.time-travel-indicator:hover {
+  transform: scale(1.1);
+  box-shadow: 0 15px 35px -5px rgba(20, 184, 166, 0.6);
+}
+
+.time-travel-indicator::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid #14B8A6;
+  opacity: 0.3;
+  /* Removed ripple animation */
+}
+
+/* =========================
+   PRINT STYLES
+   ========================= */
+@media print {
+  .time-machine-container {
+    background: white;
+  }
+
+  .modal-backdrop,
+  .time-travel-indicator,
+  .quick-action-btn,
+  button {
+    display: none !important;
+  }
+
+  .patient-header-card,
+  .timeline-card,
+  app-card {
+    box-shadow: none;
+    border: 1px solid #e5e7eb;
+  }
+
+  .timeline-wrapper::before {
+    display: none;
+  }
+}
+
+/* =========================
+   ACCESSIBILITY
+   ========================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #14B8A6;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .timeline-wrapper::before {
+    display: none;
+  }
+
+  .text-gradient {
+    -webkit-text-fill-color: initial;
+    color: #000;
+  }
+}
+

@@ -7,15 +7,27 @@
           <h1 class="patient-title">{{ patient?.name || 'Loading...' }}</h1>
           <p class="patient-subtitle">Comprehensive Patient Medical Profile</p>
         </div>
-        <a
-          routerLink="/patients"
-          class="back-link"
-        >
-          <svg class="back-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-          </svg>
-          Back to Patients
-        </a>
+        <div class="flex items-center gap-4">
+          <a
+            *ngIf="patient"
+            [routerLink]="['/patients', patient.id, 'outcome']"
+            class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-bold rounded-xl shadow-lg transition-all duration-200 hover-lift"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Digital Time Machine
+          </a>
+          <a
+            routerLink="/patients"
+            class="back-link"
+          >
+            <svg class="back-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Back to Patients
+          </a>
+        </div>
       </div>
     </div>
 

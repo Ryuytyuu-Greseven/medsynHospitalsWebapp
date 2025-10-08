@@ -100,6 +100,16 @@
                 View
               </button>
               <button
+                [routerLink]="['/patients', patient.id, 'outcome']"
+                class="text-teal-600 hover:text-teal-800 text-sm font-medium transition-colors duration-200 flex items-center gap-1"
+                title="Digital Time Machine"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Timeline
+              </button>
+              <button
                 class="text-gray-400 hover:text-gray-600 text-sm font-medium transition-colors duration-200"
               >
                 Edit
@@ -160,18 +170,29 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-3 pt-3 border-t-2 border-gray-200">
-        <button
-          [routerLink]="['/patients', patient.id]"
-          class="flex-1 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white px-4 py-2.5 rounded-lg text-sm font-bold transition-all duration-200 shadow-md"
-        >
-          View Details
-        </button>
+      <div class="flex flex-col gap-2 pt-3 border-t-2 border-gray-200">
+        <div class="flex items-center gap-2">
+          <button
+            [routerLink]="['/patients', patient.id]"
+            class="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-4 py-2.5 rounded-lg text-sm font-bold transition-all duration-200 shadow-md"
+          >
+            View Details
+          </button>
+          <button
+            [routerLink]="['/patients', patient.id, 'outcome']"
+            class="flex-1 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white px-4 py-2.5 rounded-lg text-sm font-bold transition-all duration-200 shadow-md flex items-center justify-center gap-2"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Timeline
+          </button>
+        </div>
         <button
           *ngIf="!patient.admitted"
           (click)="admitPatient(patient.id)"
           [disabled]="admittingPatients.has(patient.id)"
-          class="flex-1 bg-gradient-to-r from-green-600 to-lime-600 hover:from-green-700 hover:to-lime-700 disabled:from-gray-300 disabled:to-gray-400 text-white px-4 py-2.5 rounded-lg text-sm font-bold transition-all duration-200 disabled:cursor-not-allowed shadow-md"
+          class="w-full bg-gradient-to-r from-green-600 to-lime-600 hover:from-green-700 hover:to-lime-700 disabled:from-gray-300 disabled:to-gray-400 text-white px-4 py-2.5 rounded-lg text-sm font-bold transition-all duration-200 disabled:cursor-not-allowed shadow-md"
         >
           {{ admittingPatients.has(patient.id) ? 'Syncing...' : 'Admit' }}
         </button>

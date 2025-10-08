@@ -356,22 +356,19 @@ body {
   animation-delay: 3s;
 }
 
-/* Time Machine Container */
+/* Time Machine Container - Removed rotating animations */
 .time-machine-container {
   @apply relative w-32 h-32 mx-auto;
 }
 
 .time-machine-container::before {
-  content: '';
-  @apply absolute inset-0 rounded-full border-4 border-primary/30 animate-spin;
-  animation-duration: 10s;
+  /* Removed spinning border animation */
+  display: none;
 }
 
 .time-machine-container::after {
-  content: '';
-  @apply absolute inset-4 rounded-full border-2 border-accent/50 animate-spin;
-  animation-duration: 8s;
-  animation-direction: reverse;
+  /* Removed spinning border animation */
+  display: none;
 }
 
 /* Keyframe Animations */

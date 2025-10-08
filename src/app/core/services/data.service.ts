@@ -710,4 +710,153 @@ export class DataService {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return Math.floor(diffDays / 30);
   }
+
+  // Enhanced Medical Journey methods for Digital Time Machine
+  getCompleteMedicalJourney(patientId: number): Observable<{
+    admissions: any[];
+    surgeries: HealthEvent[];
+    medications: Medication[];
+    reports: any[];
+    imaging: any[];
+    labTests: any[];
+    consultations: HealthEvent[];
+  }> {
+    const medications = this.mockMedications.filter(m => m.patientId === patientId);
+    const healthEvents = this.mockHealthEvents.filter(e => e.patientId === patientId);
+    const surgeries = healthEvents.filter(e => e.type === 'surgery' || e.type === 'operation');
+    const consultations = healthEvents.filter(e => e.type === 'consultation');
+
+    return of({
+      admissions: [],
+      surgeries,
+      medications,
+      reports: [],
+      imaging: [],
+      labTests: [],
+      consultations
+    }).pipe(delay(300));
+  }
+
+  // Get AI Health Summary (mock for now, would call AI service in production)
+  getAIHealthSummary(patientId: number): Observable<{
+    summary: string;
+    riskLevel: 'low' | 'medium' | 'high';
+    confidence: number;
+    lastAnalyzed: Date;
+    keyFindings: string[];
+    predictedRisks: string[];
+    suggestedActions: string[];
+  }> {
+    const patient = this.mockPatients.find(p => p.id === patientId);
+    const medications = this.mockMedications.filter(m => m.patientId === patientId && m.status === 'active');
+
+    let riskLevel: 'low' | 'medium' | 'high' = 'low';
+    if (patient?.conditions.some(c => c.includes('Cancer') || c.includes('Heart'))) {
+      riskLevel = 'high';
+    } else if (patient && patient.conditions.length > 1) {
+      riskLevel = 'medium';
+    }
+
+    return of({
+      summary: `Patient ${patient?.name || 'Unknown'} is showing stable vital signs with current medical management. Recent assessments indicate well-controlled conditions with effective medication regimen. Continued monitoring recommended with routine follow-ups.`,
+      riskLevel,
+      confidence: 0.88 + (Math.random() * 0.1),
+      lastAnalyzed: new Date(),
+      keyFindings: [
+        `Currently on ${medications.length} active medication(s)`,
+        'Vital signs within normal parameters',
+        'No recent adverse events reported',
+        'Treatment compliance: Excellent',
+        'Overall health trajectory: Stable'
+      ],
+      predictedRisks: [
+        'Continue monitoring for medication side effects',
+        'Regular follow-up consultations recommended',
+        'Lifestyle modifications may improve outcomes'
+      ],
+      suggestedActions: [
+        'Schedule follow-up in 2-4 weeks',
+        'Review medication dosages at next visit',
+        'Consider preventive care screening',
+        'Update patient education materials'
+      ]
+    }).pipe(delay(500));
+  }
+
+  // Get vitals trends over time
+  getVitalsTrends(patientId: number, days: number = 30): Observable<{
+    date: Date;
+    weight: number;
+    bloodPressure: string;
+    heartRate: number;
+    glucose?: number;
+  }[]> {
+    const trends = [];
+    const baseDate = new Date();
+
+    for (let i = days; i >= 0; i -= 3) {
+      const date = new Date(baseDate);
+      date.setDate(date.getDate() - i);
+
+      trends.push({
+        date,
+        weight: 70 + Math.random() * 3 - 1.5,
+        bloodPressure: `${120 + Math.floor(Math.random() * 15)}/${75 + Math.floor(Math.random() * 10)}`,
+        heartRate: 68 + Math.floor(Math.random() * 12),
+        glucose: 90 + Math.floor(Math.random() * 25)
+      });
+    }
+
+    return of(trends).pipe(delay(300));
+  }
+
+  // Get medical reports and scans
+  getMedicalReports(patientId: number): Observable<{
+    id: number;
+    title: string;
+    type: 'lab' | 'imaging' | 'prescription' | 'report';
+    date: Date;
+    aiSummary: string;
+    url?: string;
+  }[]> {
+    const reports = [
+      {
+        id: 1,
+        title: 'Complete Blood Count (CBC)',
+        type: 'lab' as const,
+        date: new Date(2024, 0, 15),
+        aiSummary: 'All blood parameters within normal range. Hemoglobin levels optimal. No signs of infection or anemia.'
+      },
+      {
+        id: 2,
+        title: 'Chest X-Ray',
+        type: 'imaging' as const,
+        date: new Date(2024, 0, 10),
+        aiSummary: 'Clear lung fields with no abnormalities. Cardiac silhouette appears normal. No signs of pneumonia or fluid.'
+      },
+      {
+        id: 3,
+        title: 'ECG Report',
+        type: 'imaging' as const,
+        date: new Date(2024, 0, 8),
+        aiSummary: 'Normal sinus rhythm. Heart rate regular. No signs of arrhythmia or ischemia detected.'
+      },
+      {
+        id: 4,
+        title: 'Lipid Profile',
+        type: 'lab' as const,
+        date: new Date(2023, 11, 20),
+        aiSummary: 'Cholesterol levels slightly elevated. HDL within normal range. LDL requires monitoring. Recommend dietary modifications.'
+      },
+      {
+        id: 5,
+        title: 'Medication Prescription',
+        type: 'prescription' as const,
+        date: new Date(2024, 0, 12),
+        aiSummary: 'Current medications prescribed for chronic condition management. Dosages adjusted based on recent vitals.'
+      }
+    ];
+
+    return of(reports).pipe(delay(300));
+  }
 }
