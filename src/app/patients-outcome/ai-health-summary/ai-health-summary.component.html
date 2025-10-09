@@ -1,0 +1,86 @@
+<div class="space-y-6">
+  <!-- Full Width Content -->
+  <div class="space-y-6">
+    <!-- Vitals -->
+    <!-- <div *ngIf="patientStats" class="grid grid-cols-4 gap-8 py-2">
+      <div class="text-center">
+        <div class="text-4xl font-bold text-blue-600">{{ patientStats.weight }}</div>
+        <div class="text-xs text-gray-500 mt-0.5">Weight (kg)</div>
+      </div>
+
+      <div class="text-center">
+        <div class="text-4xl font-bold text-red-600">{{ patientStats.bloodPressure }}</div>
+        <div class="text-xs text-gray-500 mt-0.5">BP (mmHg)</div>
+      </div>
+
+      <div class="text-center">
+        <div class="text-4xl font-bold text-green-600">{{ patientStats.heartRate }}</div>
+        <div class="text-xs text-gray-500 mt-0.5">HR (bpm)</div>
+      </div>
+
+      <div class="text-center">
+        <div class="text-4xl font-bold text-purple-600">{{ patientStats.bmi }}</div>
+        <div class="text-xs text-gray-500 mt-0.5">BMI (kg/m²)</div>
+      </div>
+    </div> -->
+
+    <!-- AI Summary Card -->
+    <app-card *ngIf="aiHealthSummary" class="hover-lift">
+      <div class="ai-summary-card">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center glow-effect">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-gray-900">AI Health Summary</h3>
+              <p class="text-xs text-gray-500">Last analyzed: {{ formatDateTime(aiHealthSummary.lastAnalyzed) }}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="text-right">
+              <div class="text-xs font-semibold text-gray-600">Risk Level</div>
+              <span [class]="'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold border-2 mt-0.5 ' + getRiskLevelClass(aiHealthSummary.riskLevel)">
+                {{ aiHealthSummary.riskLevel | uppercase }}
+              </span>
+            </div>
+            <div class="text-right">
+              <div class="text-xs font-semibold text-gray-600">AI Confidence</div>
+              <div class="text-xl font-bold text-teal-600 mt-0.5">{{ (aiHealthSummary.confidence * 100) | number:'1.0-0' }}%</div>
+            </div>
+            <button (click)="onGenerateAISummary()"
+                    class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white text-sm font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-md">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              Regenerate
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg p-4 border-2 border-purple-200">
+          <p class="text-gray-800 leading-relaxed text-sm">{{ aiHealthSummary.summary }}</p>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 mt-3">
+          <div class="text-center p-2.5 bg-teal-50 rounded-lg border border-teal-200">
+            <div class="text-xs font-semibold text-teal-700 mb-0.5">KEY FINDINGS</div>
+            <div class="text-xl font-bold text-teal-600">{{ aiHealthSummary.keyFindings.length }}</div>
+          </div>
+          <div class="text-center p-2.5 bg-orange-50 rounded-lg border border-orange-200">
+            <div class="text-xs font-semibold text-orange-700 mb-0.5">PREDICTED RISKS</div>
+            <div class="text-xl font-bold text-orange-600">{{ aiHealthSummary.predictedRisks.length }}</div>
+          </div>
+          <div class="text-center p-2.5 bg-blue-50 rounded-lg border border-blue-200">
+            <div class="text-xs font-semibold text-blue-700 mb-0.5">SUGGESTED ACTIONS</div>
+            <div class="text-xl font-bold text-blue-600">{{ aiHealthSummary.suggestedActions.length }}</div>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>
+

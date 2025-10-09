@@ -6,21 +6,14 @@ import { DataService, Patient, PatientStats, Medication, HealthEvent } from '../
 import { ToastService } from '../core/services/toast.service';
 import { CardComponent } from '../shared/components/card/card.component';
 import { ButtonComponent } from '../shared/components/button/button.component';
+import { MedicalTimelineComponent, MedicalJourneyEvent } from './medical-timeline/medical-timeline.component';
+import { AiHealthSummaryComponent } from './ai-health-summary/ai-health-summary.component';
+import { ReportsScansComponent } from './reports-scans/reports-scans.component';
+import { MedicationsComponent } from './medications/medications.component';
+import { HealthEventsComponent } from './health-events/health-events.component';
+import { AiInsightsComponent } from './ai-insights/ai-insights.component';
 
 // Extended interfaces for the Digital Time Machine
-export interface MedicalJourneyEvent {
-  id: number;
-  date: Date;
-  type: 'admission' | 'discharge' | 'surgery' | 'operation' | 'report' | 'lab' | 'imaging' | 'therapy' | 'medication' | 'consultation' | 'emergency';
-  title: string;
-  description: string;
-  icon: string;
-  aiInsight?: string;
-  riskLevel?: 'low' | 'medium' | 'high';
-  attachments?: string[];
-  doctor?: string;
-  outcome?: string;
-}
 
 export interface AIHealthSummary {
   summary: string;
@@ -53,7 +46,19 @@ export interface Report {
 @Component({
   selector: 'app-patient-outcome',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, CardComponent, ButtonComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    CardComponent,
+    ButtonComponent,
+    MedicalTimelineComponent,
+    AiHealthSummaryComponent,
+    ReportsScansComponent,
+    MedicationsComponent,
+    HealthEventsComponent,
+    AiInsightsComponent
+  ],
   templateUrl: './patient-outcome.component.html',
   styleUrls: ['./patient-outcome.component.css']
 })
@@ -70,7 +75,7 @@ export class PatientOutcomeComponent implements OnInit {
   reports: Report[] = [];
 
   // UI State
-  activeTab: 'overview' | 'reports' | 'medications' | 'health-events' | 'insights' = 'overview';
+  activeSection: 'overview' | 'timeline' | 'reports' | 'medications' | 'health-events' | 'insights' = 'overview';
   showAIModal = false;
   selectedEvent: MedicalJourneyEvent | null = null;
 
@@ -349,8 +354,8 @@ export class PatientOutcomeComponent implements OnInit {
   }
 
   // UI Methods
-  setActiveTab(tab: 'overview' | 'reports' | 'medications' | 'health-events' | 'insights'): void {
-    this.activeTab = tab;
+  setActiveSection(section: 'overview' | 'timeline' | 'reports' | 'medications' | 'health-events' | 'insights'): void {
+    this.activeSection = section;
   }
 
   openAIModal(): void {
@@ -429,20 +434,12 @@ export class PatientOutcomeComponent implements OnInit {
   }
 
   // Quick actions
-  requestReportUpload(): void {
-    this.toastService.success('Success', 'Report upload request sent to patient');
-  }
-
   generateAISummary(): void {
     this.toastService.success('Success', 'Generating AI summary...');
     // Regenerate summary
     if (this.patient) {
       this.generateAIHealthSummary(this.patient.id);
     }
-  }
-
-  shareWithDoctor(): void {
-    this.toastService.success('Success', 'Patient profile shared successfully');
   }
 
   // Get current admission status
