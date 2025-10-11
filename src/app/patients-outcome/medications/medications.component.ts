@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CardComponent } from '../../shared/components/card/card.component';
+import { DocumentViewerComponent, DocumentViewerData } from '../../shared/components/document-viewer/document-viewer.component';
 
 export interface Medication {
   id: number;
@@ -19,7 +20,7 @@ export interface Medication {
 @Component({
   selector: 'app-medications',
   standalone: true,
-  imports: [CommonModule, FormsModule, CardComponent],
+  imports: [CommonModule, FormsModule, CardComponent, DocumentViewerComponent],
   templateUrl: './medications.component.html',
   styleUrls: ['./medications.component.css']
 })
@@ -31,6 +32,10 @@ export class MedicationsComponent {
   medicationSearchTerm = '';
   selectedStatusFilter = 'all';
   filteredMedications: Medication[] = [];
+
+  // Document Viewer State
+  showDocumentViewer: boolean = false;
+  currentDocument: DocumentViewerData | null = null;
 
   // Sample discontinued medications for demo
   discontinuedMedications: Medication[] = [
@@ -133,6 +138,27 @@ export class MedicationsComponent {
   exportMedications(): void {
     console.log('Export medications');
     // TODO: Implement export functionality
+  }
+
+  // Document Viewer Methods
+  viewPrescription(medication: Medication) {
+    // For demo purposes, we'll create a mock prescription document
+    this.currentDocument = {
+      title: `Prescription - ${medication.name}`,
+      url: 'https://via.placeholder.com/800x600/4F46E5/FFFFFF?text=Prescription+Document',
+      type: 'image',
+      fileSize: '2.4 MB',
+      uploadedBy: medication.prescribedBy || 'Dr. Unknown',
+      uploadedAt: medication.startDate,
+      description: `Prescription for ${medication.name} - ${medication.dosage} ${medication.frequency}`
+    };
+
+    this.showDocumentViewer = true;
+  }
+
+  closeDocumentViewer() {
+    this.showDocumentViewer = false;
+    this.currentDocument = null;
   }
 }
 
