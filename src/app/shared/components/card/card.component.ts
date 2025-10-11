@@ -14,6 +14,7 @@ export class CardComponent {
   @Input() variant: CardVariant = 'default';
   @Input() padding = true;
   @Input() hover = false;
+  @Input() customeClass = '';
 
   get cardClasses(): string {
     const baseClasses = 'rounded-xl shadow-md border';
@@ -25,6 +26,6 @@ export class CardComponent {
     const paddingClass = this.padding ? 'p-6' : '';
     const hoverClass = this.hover ? 'hover:shadow-lg transition-shadow duration-200' : '';
 
-    return `${baseClasses} ${variantClasses[this.variant]} ${paddingClass} ${hoverClass}`;
+    return `${baseClasses} ${variantClasses[this.variant]} ${paddingClass} ${hoverClass} ${this.customeClass}`;
   }
 }
