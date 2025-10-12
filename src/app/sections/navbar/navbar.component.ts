@@ -1,8 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { AuthService, User } from '../../core/services/auth.service';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import { User } from '../../apis/auth.interface';
+import { AuthenticationService } from '../../apis/authentication.service';
 
 @Component({
   selector: 'app-navbar',
@@ -28,7 +30,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
@@ -60,15 +62,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   logout(): void {
     this.authService.logout();
+    this.router.navigate(['/login']);
     this.closeMobileMenu();
   }
 
   getUserInitials(): string {
     if (!this.currentUser) return '';
-    return this.currentUser.name
+    return this.currentUser.name ? this.currentUser.name
       .split(' ')
-      .map(name => name.charAt(0))
+      .map((name: string) => name.charAt(0))
       .join('')
+      .toUpperCase() : this.currentUser.email
+      .split('@')[0]
+      .charAt(0)
       .toUpperCase();
   }
 }

@@ -2,20 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService, LoginCredentials } from '../../core/services/auth.service';
+
+import { LoginCredentials } from '../../apis/auth.interface';
 import { ToastService } from '../../core/services/toast.service';
+import { AuthenticationService } from '../../apis/authentication.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   credentials: LoginCredentials = {
     email: '',
-    password: ''
+    password: '',
   };
 
   isLoading = false;
@@ -26,15 +28,16 @@ export class LoginComponent implements OnInit {
   returnUrl: string = '/dashboard';
 
   constructor(
-    private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
     // Get return URL from route parameters or default to '/dashboard'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+    this.returnUrl =
+      this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
 
     // If already authenticated, redirect to return URL
     if (this.authService.isAuthenticated()) {
@@ -59,7 +62,7 @@ export class LoginComponent implements OnInit {
       error: (error) => {
         this.isLoading = false;
         this.toastService.error('Error', error.message || 'Login failed');
-      }
+      },
     });
   }
 
@@ -76,18 +79,23 @@ export class LoginComponent implements OnInit {
 
     this.isResettingPassword = true;
 
-    this.authService.requestPasswordReset(this.resetEmail).subscribe({
-      next: (response) => {
-        this.isResettingPassword = false;
-        this.toastService.success('Success', response.message);
-        this.showPasswordReset = false;
-        this.resetEmail = '';
-      },
-      error: (error) => {
-        this.isResettingPassword = false;
-        this.toastService.error('Error', error.message || 'Password reset failed');
-      }
-    });
+    this.authService
+      .sendResetPasswordLink({ email: this.resetEmail })
+      .subscribe({
+        next: (response) => {
+          this.isResettingPassword = false;
+          this.toastService.success('Success', response.message);
+          this.showPasswordReset = false;
+          this.resetEmail = '';
+        },
+        error: (error) => {
+          this.isResettingPassword = false;
+          this.toastService.error(
+            'Error',
+            error.message || 'Password reset failed'
+          );
+        },
+      });
   }
 
   cancelPasswordReset(): void {

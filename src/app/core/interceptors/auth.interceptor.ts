@@ -2,21 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../../apis/authentication.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(
-    private authService: AuthService,
+    private authenticationService: AuthenticationService,
     private router: Router
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Get the auth token from the service
-    const token = this.authService.getToken();
+    const token = this.authenticationService.getStoredToken();
 
-    // Clone the request and add the authorization header if token exists
     if (token) {
       req = req.clone({
         setHeaders: {
@@ -28,9 +26,9 @@ export class AuthInterceptor implements HttpInterceptor {
     // Handle the request and catch errors
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
+        if (error.status === 401 && token?.length) {
           // Unauthorized - token might be expired
-          this.authService.logout();
+          this.authenticationService.logout();
           this.router.navigate(['/login']);
         } else if (error.status === 403) {
           // Forbidden - user doesn't have permission
