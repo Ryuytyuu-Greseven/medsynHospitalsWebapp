@@ -22,7 +22,7 @@ export class ApiService {
       sendResetPasswordLink: 'auth/forgot-password',
       resetPassword: 'auth/reset-password',
       logout: 'auth/logout',
-      updateUserProfile: 'auth/update-user-profile',
+      updateUserProfile: 'auth/update-profile/user',
       getUserProfile: 'auth/user-profile',
     },
 

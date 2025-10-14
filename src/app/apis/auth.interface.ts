@@ -57,7 +57,7 @@ export interface User {
   email: string;
   name: string;
   role: number;
-  bioDescription?: string;
+  bio?: string;
   phone?: string;
   address?: string;
   department?: string;

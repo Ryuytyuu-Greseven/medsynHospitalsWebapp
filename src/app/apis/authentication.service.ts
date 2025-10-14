@@ -195,7 +195,7 @@ export class AuthenticationService {
             specialization: doctorProfile.specialization,
             experience: doctorProfile.experience,
             languages: doctorProfile.languages,
-            bioDescription: doctorProfile.bio,
+            bio: doctorProfile.bio,
             profilePic: doctorProfile.profileImage,
           };
           this.updateProfileCompletion(user);

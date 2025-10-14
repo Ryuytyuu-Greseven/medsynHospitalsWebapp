@@ -1,5 +1,5 @@
 <div class="min-h-screen bg-gray-50 py-8">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto px-8">
 
     <!-- Header -->
     <div class="mb-8">
@@ -64,15 +64,15 @@
           <!-- Basic Information -->
           <div>
             <h3 class="text-lg font-medium text-gray-900 mb-6">Basic Information</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-2 gap-6">
               <div class="space-y-1">
                 <dt class="text-sm font-medium text-gray-500 flex items-center">
                   Full Name
-                  <span *ngIf="!isAdmin" class="ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                  <span class="ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
                     <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+                      <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path>
                     </svg>
-                    Admin Only
+                    Read Only
                   </span>
                 </dt>
                 <dd class="text-lg font-medium text-gray-900">{{ doctorProfile.name || 'Not provided' }}</dd>
@@ -80,11 +80,11 @@
               <div class="space-y-1">
                 <dt class="text-sm font-medium text-gray-500 flex items-center">
                   Email Address
-                  <span *ngIf="!isAdmin" class="ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                  <span class="ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
                     <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+                      <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path>
                     </svg>
-                    Admin Only
+                    Read Only
                   </span>
                 </dt>
                 <dd class="text-lg font-medium text-gray-900">{{ doctorProfile.email || 'Not provided' }}</dd>
@@ -96,11 +96,11 @@
               <div class="space-y-1">
                 <dt class="text-sm font-medium text-gray-500 flex items-center">
                   License Number
-                  <span *ngIf="!isAdmin" class="ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                  <span class="ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
                     <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+                      <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path>
                     </svg>
-                    Admin Only
+                    Read Only
                   </span>
                 </dt>
                 <dd class="text-lg font-medium text-gray-900">{{ doctorProfile.licenseNumber || 'Not provided' }}</dd>
@@ -115,7 +115,7 @@
           <!-- Professional Information -->
           <div>
             <h3 class="text-lg font-medium text-gray-900 mb-6">Professional Information</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-2 gap-6">
               <div class="space-y-1">
                 <dt class="text-sm font-medium text-gray-500">Department</dt>
                 <dd class="text-lg font-medium text-gray-900">{{ doctorProfile.department || 'Not specified' }}</dd>
@@ -156,23 +156,22 @@
         </div>
 
         <!-- Edit Mode -->
-        <form *ngIf="isEditing" class="space-y-8">
+        <form *ngIf="isEditing" [formGroup]="doctorForm" class="space-y-8">
           <!-- Basic Information -->
           <div>
             <h3 class="text-lg font-medium text-gray-900 mb-6">Basic Information</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-2 gap-6">
               <div>
                 <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
                 <input
                   type="text"
                   id="name"
-                  [(ngModel)]="doctorProfile.name"
-                  name="name"
-                  [disabled]="!isFieldEditable('name')"
+                  formControlName="name"
+                  [disabled]="true"
                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed"
                   placeholder="Dr. John Smith"
                 />
-                <p *ngIf="!isFieldEditable('name')" class="mt-1 text-sm text-amber-600 flex items-center">
+                <p class="mt-1 text-sm text-red-600 flex items-center">
                   <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                   </svg>
@@ -184,13 +183,12 @@
                 <input
                   type="email"
                   id="email"
-                  [(ngModel)]="doctorProfile.email"
-                  name="email"
-                  [disabled]="!isFieldEditable('email')"
+                  formControlName="email"
+                  [disabled]="true"
                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed"
                   placeholder="doctor@hospital.com"
                 />
-                <p *ngIf="!isFieldEditable('email')" class="mt-1 text-sm text-amber-600 flex items-center">
+                <p class="mt-1 text-sm text-red-600 flex items-center">
                   <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                   </svg>
@@ -202,24 +200,27 @@
                 <input
                   type="tel"
                   id="phone"
-                  [(ngModel)]="doctorProfile.phoneNumber"
-                  name="phone"
+                  formControlName="phoneNumber"
                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                  [class.border-red-500]="doctorForm.get('phoneNumber')?.invalid && doctorForm.get('phoneNumber')?.touched"
                   placeholder="+1 (555) 123-4567"
                 />
+                <div *ngIf="doctorForm.get('phoneNumber')?.invalid && doctorForm.get('phoneNumber')?.touched" class="mt-1 text-sm text-red-600">
+                  <span *ngIf="doctorForm.get('phoneNumber')?.errors?.['required']">Phone number is required</span>
+                  <span *ngIf="doctorForm.get('phoneNumber')?.errors?.['pattern']">Please enter a valid phone number</span>
+                </div>
               </div>
               <div>
                 <label for="license" class="block text-sm font-medium text-gray-700 mb-2">License Number *</label>
                 <input
                   type="text"
                   id="license"
-                  [(ngModel)]="doctorProfile.licenseNumber"
-                  name="license"
-                  [disabled]="!isFieldEditable('licenseNumber')"
+                  formControlName="licenseNumber"
+                  [disabled]="true"
                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed"
                   placeholder="MD-12345-2023"
                 />
-                <p *ngIf="!isFieldEditable('licenseNumber')" class="mt-1 text-sm text-amber-600 flex items-center">
+                <p class="mt-1 text-sm text-red-600 flex items-center">
                   <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                   </svg>
@@ -231,55 +232,70 @@
               <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Address *</label>
               <textarea
                 id="address"
-                [(ngModel)]="doctorProfile.address"
-                name="address"
+                formControlName="address"
                 rows="3"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                [class.border-red-500]="doctorForm.get('address')?.invalid && doctorForm.get('address')?.touched"
                 placeholder="123 Medical Center Dr, Healthcare City, HC 12345"
               ></textarea>
+              <div *ngIf="doctorForm.get('address')?.invalid && doctorForm.get('address')?.touched" class="mt-1 text-sm text-red-600">
+                <span *ngIf="doctorForm.get('address')?.errors?.['required']">Address is required</span>
+                <span *ngIf="doctorForm.get('address')?.errors?.['minlength']">Address must be at least 10 characters</span>
+              </div>
             </div>
           </div>
 
           <!-- Professional Information -->
           <div>
             <h3 class="text-lg font-medium text-gray-900 mb-6">Professional Information</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-2 gap-6">
               <div>
                 <label for="department" class="block text-sm font-medium text-gray-700 mb-2">Department *</label>
                 <select
                   id="department"
-                  [(ngModel)]="doctorProfile.department"
-                  name="department"
+                  formControlName="department"
                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                  [class.border-red-500]="doctorForm.get('department')?.invalid && doctorForm.get('department')?.touched"
                 >
                   <option value="">Select Department</option>
                   <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
                 </select>
+                <div *ngIf="doctorForm.get('department')?.invalid && doctorForm.get('department')?.touched" class="mt-1 text-sm text-red-600">
+                  <span *ngIf="doctorForm.get('department')?.errors?.['required']">Department is required</span>
+                </div>
               </div>
               <div>
                 <label for="specialization" class="block text-sm font-medium text-gray-700 mb-2">Specialization *</label>
                 <select
                   id="specialization"
-                  [(ngModel)]="doctorProfile.specialization"
-                  name="specialization"
+                  formControlName="specialization"
                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                  [class.border-red-500]="doctorForm.get('specialization')?.invalid && doctorForm.get('specialization')?.touched"
                 >
                   <option value="">Select Specialization</option>
                   <option *ngFor="let spec of specializations" [value]="spec">{{ spec }}</option>
                 </select>
+                <div *ngIf="doctorForm.get('specialization')?.invalid && doctorForm.get('specialization')?.touched" class="mt-1 text-sm text-red-600">
+                  <span *ngIf="doctorForm.get('specialization')?.errors?.['required']">Specialization is required</span>
+                </div>
               </div>
               <div>
                 <label for="experience" class="block text-sm font-medium text-gray-700 mb-2">Years of Experience *</label>
                 <input
                   type="number"
                   id="experience"
-                  [(ngModel)]="doctorProfile.experience"
-                  name="experience"
+                  formControlName="experience"
                   min="0"
                   max="50"
                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                  [class.border-red-500]="doctorForm.get('experience')?.invalid && doctorForm.get('experience')?.touched"
                   placeholder="15"
                 />
+                <div *ngIf="doctorForm.get('experience')?.invalid && doctorForm.get('experience')?.touched" class="mt-1 text-sm text-red-600">
+                  <span *ngIf="doctorForm.get('experience')?.errors?.['required']">Experience is required</span>
+                  <span *ngIf="doctorForm.get('experience')?.errors?.['min']">Experience must be 0 or greater</span>
+                  <span *ngIf="doctorForm.get('experience')?.errors?.['max']">Experience cannot exceed 50 years</span>
+                </div>
               </div>
             </div>
           </div>
@@ -287,12 +303,12 @@
           <!-- Languages -->
           <div>
             <h3 class="text-lg font-medium text-gray-900 mb-6">Languages Spoken *</h3>
-            <div class="space-y-4">
-              <div *ngFor="let lang of doctorProfile.languages; let i = index; trackBy: trackByLanguage" class="flex items-center space-x-3">
+            <div formArrayName="languages" class="space-y-4">
+              <div *ngFor="let languageControl of languagesArray.controls; let i = index; trackBy: trackByLanguage" class="flex items-center space-x-3">
                 <select
-                  [(ngModel)]="doctorProfile.languages[i]"
-                  name="language-{{i}}"
+                  [formControlName]="i"
                   class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                  [class.border-red-500]="languageControl.invalid && languageControl.touched"
                 >
                   <option value="">Select Language</option>
                   <option *ngFor="let commonLang of commonLanguages" [value]="commonLang">{{ commonLang }}</option>
@@ -318,6 +334,10 @@
                 </svg>
                 Add Language
               </button>
+              <div *ngIf="doctorForm.get('languages')?.invalid && doctorForm.get('languages')?.touched" class="mt-1 text-sm text-red-600">
+                <span *ngIf="doctorForm.get('languages')?.errors?.['required']">At least one language is required</span>
+                <span *ngIf="doctorForm.get('languages')?.errors?.['invalidLanguages']">Please select all languages or remove empty ones</span>
+              </div>
             </div>
           </div>
 
@@ -328,12 +348,16 @@
               <label for="bio" class="block text-sm font-medium text-gray-700 mb-2">About You *</label>
               <textarea
                 id="bio"
-                [(ngModel)]="doctorProfile.bio"
-                name="bio"
+                formControlName="bio"
                 rows="5"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                [class.border-red-500]="doctorForm.get('bio')?.invalid && doctorForm.get('bio')?.touched"
                 placeholder="Tell us about your professional background, interests, and approach to patient care..."
               ></textarea>
+              <div *ngIf="doctorForm.get('bio')?.invalid && doctorForm.get('bio')?.touched" class="mt-1 text-sm text-red-600">
+                <span *ngIf="doctorForm.get('bio')?.errors?.['required']">Professional bio is required</span>
+                <span *ngIf="doctorForm.get('bio')?.errors?.['minlength']">Professional bio must be at least 20 characters</span>
+              </div>
             </div>
           </div>
 

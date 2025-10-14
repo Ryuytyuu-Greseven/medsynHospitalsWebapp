@@ -14,7 +14,6 @@ import { AuthenticationService } from '../../apis/authentication.service';
   styles: []
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  isMobileMenuOpen = false;
   currentUser: User | null = null;
   isAuthenticated = false;
   isProfileComplete = false;
@@ -54,23 +53,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.authSubscription.unsubscribe();
   }
 
-  toggleMobileMenu(): void {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
-  }
-
-  closeMobileMenu(): void {
-    this.isMobileMenuOpen = false;
-  }
-
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
-    this.closeMobileMenu();
   }
 
   navigateToSettings(): void {
     this.router.navigate(['/settings']);
-    this.closeMobileMenu();
   }
 
   getUserInitials(): string {

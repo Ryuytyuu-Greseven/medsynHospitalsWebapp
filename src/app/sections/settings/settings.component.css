@@ -102,11 +102,6 @@
   gap: 1.5rem;
 }
 
-@media (max-width: 768px) {
-  .grid-2 {
-    grid-template-columns: 1fr;
-  }
-}
 
 /* Animation for loading states */
 @keyframes spin {
@@ -163,18 +158,6 @@ textarea::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 
-/* Responsive design */
-@media (max-width: 640px) {
-  .px-4 {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
-  .py-8 {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-  }
-}
 
 /* Print styles */
 @media print {
