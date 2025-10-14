@@ -2,6 +2,7 @@ import { ApiService } from './api.service';
 import { Injectable } from '@angular/core';
 import {
   AuthResponse,
+  DoctorProfile,
   LoginRequest,
   MagicLinkResponse,
   ResetPasswordRequest,
@@ -58,6 +59,10 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
+  setCurrentUser(user: User): void {
+    this.currentUserSubject.next(user);
+  }
+
   isAuthenticated(): boolean {
     return this.isAuthenticatedSubject.value;
   }
@@ -67,6 +72,23 @@ export class AuthenticationService {
     // update state
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
+  }
+
+  /**
+   * Get User Profile
+   */
+  getUserProfile(): Observable<User> {
+    return this.apiService
+      .sendGetLoginRequest<{ data: { user: User } }>(
+        this.apiService.endpoints.auth.getUserProfile
+      )
+      .pipe(
+        map((response: { data: { user: User } }) => {
+          this.setCurrentUser(response.data.user);
+          return response.data.user;
+        }),
+        catchError(this.apiService.handleError.bind(this))
+      );
   }
 
   /**
@@ -138,5 +160,67 @@ export class AuthenticationService {
     //   this.apiService.endpoints.auth.logout,
     //   {}
     // );
+  }
+
+  /**
+   * Update user profile
+   * @param user
+   */
+  updateUserProfile(doctorProfile: DoctorProfile): Observable<User> {
+    const userData = {
+      phoneNo: doctorProfile.phoneNumber,
+      address: doctorProfile.address,
+      department: doctorProfile.department,
+      specialization: doctorProfile.specialization,
+      experience: doctorProfile.experience,
+      languages: doctorProfile.languages,
+      bio: doctorProfile.bio,
+      profilePic: '',
+    };
+
+    return this.apiService
+      .postLoginContainerRequest(
+        this.apiService.endpoints.auth.updateUserProfile,
+        userData
+      )
+      .pipe(
+        map((response: any) => {
+          let user = this.getCurrentUser() as User;
+          user = {
+            ...user,
+
+            phone: doctorProfile.phoneNumber,
+            address: doctorProfile.address,
+            department: doctorProfile.department,
+            specialization: doctorProfile.specialization,
+            experience: doctorProfile.experience,
+            languages: doctorProfile.languages,
+            bioDescription: doctorProfile.bio,
+            profilePic: doctorProfile.profileImage,
+          };
+          this.updateProfileCompletion(user);
+          return response;
+        }),
+        catchError(this.apiService.handleError.bind(this))
+      );
+  }
+
+  /**
+   * Check if user profile is complete based on user profile data
+   */
+  isProfileComplete(): boolean {
+    const user = this.getCurrentUser();
+    if (!user) return false;
+
+    // Check if user has profile completion flag
+    return !!user.phone;
+  }
+
+  /**
+   * Update user profile completion status
+   */
+  updateProfileCompletion(user: User): void {
+    if (!user) return;
+    this.setCurrentUser(user);
   }
 }

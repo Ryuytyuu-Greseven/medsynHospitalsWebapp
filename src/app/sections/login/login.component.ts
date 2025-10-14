@@ -57,7 +57,13 @@ export class LoginComponent implements OnInit {
       next: (response) => {
         this.isLoading = false;
         this.toastService.success('Success', 'Login successful');
-        this.router.navigate([this.returnUrl]);
+
+        // Check if profile is complete, if not redirect to settings
+        if (!this.authService.isProfileComplete()) {
+          this.router.navigate(['/settings']);
+        } else {
+          this.router.navigate([this.returnUrl]);
+        }
       },
       error: (error) => {
         this.isLoading = false;

@@ -30,7 +30,7 @@ export const environment = {
     retryDelay: 1000,
   },
   client: {
-    name: 'subham',
-    hospitalId: 'HOSP-1760259752226-U3KWF7',
+    name: 'mediplus',
+    hospitalId: 'HOSP-1760377991618-F0KONT',
   },
 };

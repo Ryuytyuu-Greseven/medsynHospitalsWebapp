@@ -46,6 +46,11 @@ export const routes: Routes = [
     loadComponent: () => import('./sections/insights/insights.component').then(m => m.InsightsComponent),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'settings',
+    loadComponent: () => import('./sections/settings/settings.component').then(m => m.SettingsComponent),
+    canActivate: [AuthGuard]
+  },
 
   // Fallback routes
   { path: '**', redirectTo: '/dashboard' }

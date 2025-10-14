@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isMobileMenuOpen = false;
   currentUser: User | null = null;
   isAuthenticated = false;
+  isProfileComplete = false;
 
   private authSubscription: Subscription = new Subscription();
 
@@ -44,6 +45,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.authSubscription.add(
       this.authService.currentUser$.subscribe(user => {
         this.currentUser = user;
+        this.isProfileComplete = this.authService.isProfileComplete();
       })
     );
   }
@@ -63,6 +65,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
+    this.closeMobileMenu();
+  }
+
+  navigateToSettings(): void {
+    this.router.navigate(['/settings']);
     this.closeMobileMenu();
   }
 

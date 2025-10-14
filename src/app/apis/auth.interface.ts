@@ -27,22 +27,9 @@ export interface AuthResponse {
   data: {
     token: string;
     refreshToken: string;
-    user: UserProfile;
+    user: User;
   };
   message?: string;
-}
-
-export interface UserProfile {
-  id: string;
-  email: string;
-  firstName?: string;
-  lastName?: string;
-  profilePic?: string;
-  role: number;
-  status: number;
-  userId: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface MagicLinkResponse {
@@ -66,14 +53,37 @@ export interface ApiError {
 // BUSINESS USER INTERFACE
 export interface User {
   id: number;
+  userId: string;
   email: string;
   name: string;
-  role: 'admin' | 'doctor' | 'nurse' | 'staff';
+  role: number;
+  bioDescription?: string;
+  phone?: string;
+  address?: string;
   department?: string;
-  permissions: string[];
+  specialization?: string;
+  license?: string;
+  experience?: number;
+  languages?: string[];
+  profilePic?: string;
 }
 
 export interface LoginCredentials {
   email: string;
   password: string;
+}
+
+export interface DoctorProfile {
+  id?: number;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+  department: string;
+  specialization: string;
+  licenseNumber: string;
+  experience: number;
+  languages: string[];
+  bio: string;
+  profileImage?: string;
 }

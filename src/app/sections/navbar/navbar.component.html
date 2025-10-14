@@ -1,30 +1,36 @@
-<nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50"  *ngIf="isAuthenticated">
+<nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50" *ngIf="isAuthenticated">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <!-- Logo -->
       <div class="flex items-center">
         <div class="flex-shrink-0 flex items-center">
-          <img
-            src="assets/logo/favicon.ico"
-            alt="Medsyn AI Logo"
-            class="w-8 h-8 mr-3 rounded-full border-2 border-gray-200"
-          />
+          <img src="assets/logo/favicon.ico" alt="Medsyn AI Logo"
+            class="w-8 h-8 mr-3 rounded-full border-2 border-gray-200" />
           <span class="text-xl font-bold text-gradient">Medsyn AI</span>
         </div>
       </div>
 
       <!-- Navigation Links -->
-      <div class="hidden md:block" *ngIf="isAuthenticated">
+      <div class="hidden md:block" *ngIf="isAuthenticated && isProfileComplete">
         <div class="ml-10 flex items-baseline space-x-4">
-          <a
-            *ngFor="let link of navLinks"
-            [routerLink]="link.route"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact: true}"
-            class="nav-link"
-          >
+          <a *ngFor="let link of navLinks" [routerLink]="link.route" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}" class="nav-link">
             {{ link.label }}
           </a>
+        </div>
+      </div>
+
+      <!-- Profile Completion Notice -->
+      <div class="hidden md:block" *ngIf="isAuthenticated && !isProfileComplete">
+        <div class="ml-10 flex items-center space-x-2">
+          <div class="flex items-center px-3 py-2 bg-amber-50 border border-amber-200 rounded-md">
+            <svg class="w-4 h-4 text-amber-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-sm font-medium text-amber-800">Complete your profile to access all features</span>
+          </div>
         </div>
       </div>
 
@@ -42,11 +48,22 @@
             </div>
           </div>
 
+          <!-- Settings Button -->
+          <button (click)="navigateToSettings()"
+            class="text-gray-500 hover:text-gray-700 p-2 rounded-md transition-colors duration-200"
+            title="Doctor Settings">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+              </path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+          </button>
+
           <!-- Logout Button -->
-          <button
-            (click)="logout()"
-            class="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
-          >
+          <button (click)="logout()"
+            class="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
             Logout
           </button>
         </div>
@@ -54,11 +71,9 @@
 
       <!-- Mobile menu button -->
       <div class="md:hidden">
-        <button
-          type="button"
+        <button type="button"
           class="bg-gray-50 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
-          (click)="toggleMobileMenu()"
-        >
+          (click)="toggleMobileMenu()">
           <span class="sr-only">Open main menu</span>
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -85,23 +100,47 @@
       </div>
 
       <!-- Navigation Links (Mobile) -->
-      <a
-        *ngFor="let link of navLinks"
-        [routerLink]="link.route"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact: true}"
-        class="nav-link block px-3 py-2 rounded-md text-base font-medium"
-        (click)="closeMobileMenu()"
-      >
-        {{ link.label }}
-      </a>
+      <ng-container *ngIf="isProfileComplete">
+        <a
+          *ngFor="let link of navLinks"
+          [routerLink]="link.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}"
+          class="nav-link block px-3 py-2 rounded-md text-base font-medium"
+          (click)="closeMobileMenu()"
+        >
+          {{ link.label }}
+        </a>
+      </ng-container>
+
+      <!-- Profile Completion Notice (Mobile) -->
+      <div *ngIf="!isProfileComplete" class="px-3 py-2 mb-2">
+        <div class="flex items-center px-3 py-2 bg-amber-50 border border-amber-200 rounded-md">
+          <svg class="w-4 h-4 text-amber-600 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+              clip-rule="evenodd"></path>
+          </svg>
+          <span class="text-sm font-medium text-amber-800">Complete your profile to access all features</span>
+        </div>
+      </div>
+
+      <!-- Settings Button (Mobile) -->
+      <button *ngIf="isAuthenticated" (click)="navigateToSettings()"
+        class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-50 flex items-center">
+        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+          </path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z">
+          </path>
+        </svg>
+        Doctor Settings
+      </button>
 
       <!-- Logout Button (Mobile) -->
-      <button
-        *ngIf="isAuthenticated"
-        (click)="logout()"
-        class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-50"
-      >
+      <button *ngIf="isAuthenticated" (click)="logout()"
+        class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-50">
         Logout
       </button>
     </div>

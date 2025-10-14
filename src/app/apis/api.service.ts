@@ -5,8 +5,9 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { LoginRequest, AuthResponse, ApiError, User } from './auth.interface';
+import { catchError } from 'rxjs/operators';
+
+import { ApiError, User } from './auth.interface';
 
 import { ApiConfigService } from '../core/services/api.config';
 
@@ -21,6 +22,8 @@ export class ApiService {
       sendResetPasswordLink: 'auth/forgot-password',
       resetPassword: 'auth/reset-password',
       logout: 'auth/logout',
+      updateUserProfile: 'auth/update-user-profile',
+      getUserProfile: 'auth/user-profile',
     },
 
     bot: {
@@ -169,7 +172,14 @@ export class ApiService {
   }
 
   /** With Auth Headers */
-  sendGetRequest<T>(endpoint: string): Observable<T> {
+  public sendGetLoginRequest<T>(endpoint: string): Observable<T> {
+    return this.http.get<T>(this.getApiLoginUrl(endpoint), {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  /** With Auth Headers */
+  public sendGetRequest<T>(endpoint: string): Observable<T> {
     return this.http.get<T>(this.getApiUrl(endpoint), {
       headers: this.getAuthHeaders(),
     });
