@@ -8,6 +8,8 @@ import {
   ResetPasswordRequest,
   ResetPasswordResponse,
   SendResetPasswordLinkRequest,
+  StaffOnboardingData,
+  UpdateStaffData,
   User,
 } from './auth.interface';
 import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
@@ -222,5 +224,30 @@ export class AuthenticationService {
   updateProfileCompletion(user: User): void {
     if (!user) return;
     this.setCurrentUser(user);
+  }
+
+  // ************************ STAFF ADD/UPDATE ************************ //
+  /**
+   * Register new staff
+   * @param staffData
+   * @returns
+   */
+  registerStaff(staffData: StaffOnboardingData): Observable<AuthResponse> {
+    return this.apiService.postLoginContainerRequest(
+      this.apiService.endpoints.auth.registerStaff,
+      staffData
+    );
+  }
+
+  /**
+   * Update staff profile
+   * @param staffData
+   * @returns
+   */
+  updateStaff(staffData: UpdateStaffData): Observable<AuthResponse> {
+    return this.apiService.postLoginContainerRequest(
+      this.apiService.endpoints.auth.updateStaff,
+      staffData
+    );
   }
 }

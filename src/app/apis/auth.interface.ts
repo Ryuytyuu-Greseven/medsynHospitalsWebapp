@@ -87,3 +87,20 @@ export interface DoctorProfile {
   bio: string;
   profileImage?: string;
 }
+
+export interface StaffOnboardingData {
+  name: string;
+  email: string;
+  license: string;
+  password: string;
+  role: 1 | 2 | 3;
+  phone?: string;
+  specialization?: string;
+}
+
+export interface UpdateStaffData {
+  userId: string;
+  name: string;
+  license: string;
+  role: 1 | 2 | 3;
+}

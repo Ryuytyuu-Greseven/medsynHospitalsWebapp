@@ -18,12 +18,19 @@ export class ApiService {
   public readonly endpoints = {
     auth: {
       login: 'auth/signin',
-      sendSignupMagicLink: 'auth/create',
       sendResetPasswordLink: 'auth/forgot-password',
       resetPassword: 'auth/reset-password',
       logout: 'auth/logout',
       updateUserProfile: 'auth/update-profile/user',
       getUserProfile: 'auth/user-profile',
+
+      registerStaff: 'auth/create',
+      updateStaff: 'auth/update-profile',
+    },
+
+    staff: {
+      getStaff: 'staff/list',
+      getStaffById: 'staff/{userId}',
     },
 
     bot: {

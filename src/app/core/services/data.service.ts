@@ -16,11 +16,11 @@ export interface Patient {
 export interface Staff {
   id: number;
   name: string;
-  role: 'doctor' | 'nurse' | 'admin';
+  role: 1 | 2 | 3;
   specialization?: string;
   assignedPatients: number[];
   email: string;
-  phone: string;
+  phone?: string;
 }
 
 export interface Admission {
@@ -150,7 +150,7 @@ export class DataService {
     {
       id: 1,
       name: 'Dr. James Wilson',
-      role: 'doctor',
+      role: 2,
       specialization: 'Cardiology',
       assignedPatients: [1, 5],
       email: 'james.wilson@medsyn.ai',
@@ -159,7 +159,7 @@ export class DataService {
     {
       id: 2,
       name: 'Dr. Maria Garcia',
-      role: 'doctor',
+      role: 2,
       specialization: 'Pulmonology',
       assignedPatients: [3],
       email: 'maria.garcia@medsyn.ai',
@@ -168,7 +168,7 @@ export class DataService {
     {
       id: 3,
       name: 'Nurse Jennifer Lee',
-      role: 'nurse',
+      role: 3,
       assignedPatients: [1, 5],
       email: 'jennifer.lee@medsyn.ai',
       phone: '+1-555-0103'
@@ -176,7 +176,7 @@ export class DataService {
     {
       id: 4,
       name: 'Nurse Robert Brown',
-      role: 'nurse',
+      role: 3,
       assignedPatients: [3],
       email: 'robert.brown@medsyn.ai',
       phone: '+1-555-0104'
@@ -184,7 +184,7 @@ export class DataService {
     {
       id: 5,
       name: 'Admin Sarah Davis',
-      role: 'admin',
+      role: 1,
       assignedPatients: [],
       email: 'sarah.davis@medsyn.ai',
       phone: '+1-555-0105'
@@ -487,9 +487,29 @@ export class DataService {
     return this.staffSubject.asObservable();
   }
 
-  getStaffByRole(role: string): Observable<Staff[]> {
-    const staff = this.mockStaff.filter(s => s.role === role);
+  getStaffByRole(role: number): Observable<Staff[]> {
+    const staff = this.mockStaff.filter(s => s.role === Number(role));
     return of(staff).pipe(delay(200));
+  }
+
+  addStaff(staffData: {
+    name: string;
+    email: string;
+    license: string;
+    password: string;
+    role: 1 | 2 | 3;
+  }): Observable<Staff> {
+    const newStaff: Staff = {
+      id: Math.max(...this.mockStaff.map(s => s.id)) + 1,
+      name: staffData.name,
+      email: staffData.email,
+      role: staffData.role,
+      assignedPatients: []
+    };
+
+    this.mockStaff.push(newStaff);
+    this.staffSubject.next([...this.mockStaff]);
+    return of(newStaff).pipe(delay(1000));
   }
 
   // Medical history methods

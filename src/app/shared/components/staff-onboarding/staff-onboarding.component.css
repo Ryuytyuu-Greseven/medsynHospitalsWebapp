@@ -1,0 +1,192 @@
+/* Staff Onboarding Modal Styles */
+
+.staff-onboarding-modal {
+  @apply fixed inset-0 z-50;
+}
+
+/* Form Enhancements */
+.form-input-enterprise:focus {
+  @apply ring-2 ring-primary border-primary;
+}
+
+/* Role Selection Enhancement */
+select.form-input-enterprise {
+  @apply cursor-pointer;
+}
+
+/* Password Strength Indicator */
+.password-strength {
+  @apply mt-1 text-xs;
+}
+
+.password-strength.weak {
+  @apply text-red-600;
+}
+
+.password-strength.medium {
+  @apply text-yellow-600;
+}
+
+.password-strength.strong {
+  @apply text-green-600;
+}
+
+/* Specialization Field Animation */
+.specialization-field {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.specialization-field.entering {
+  @apply opacity-0 transform translate-y-2;
+}
+
+.specialization-field.entered {
+  @apply opacity-100 transform translate-y-0;
+}
+
+/* Loading State */
+.loading-overlay {
+  @apply absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-10;
+}
+
+/* Form Validation States */
+.form-field-error {
+  @apply border-red-500 ring-2 ring-red-200;
+}
+
+.form-field-success {
+  @apply border-green-500 ring-2 ring-green-200;
+}
+
+/* Role Description */
+.role-description {
+  @apply text-sm text-gray-600 mt-1 p-2 bg-gray-50 rounded-md border-l-4 border-primary;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modal-enterprise {
+    @apply mx-4 max-h-[95vh];
+  }
+
+  .grid.md\\:grid-cols-2 {
+    @apply grid-cols-1;
+  }
+}
+
+/* Animation Enhancements */
+.modal-enter {
+  animation: modalEnter 0.3s ease-out;
+}
+
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translate(-50%, -50%);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%);
+  }
+}
+
+/* Button Hover Effects */
+.btn-onboard {
+  @apply transition-all duration-200;
+}
+
+.btn-onboard:hover {
+  @apply transform translate-y-0.5 shadow-lg;
+}
+
+.btn-onboard:active {
+  @apply transform translate-y-0;
+}
+
+/* Form Section Styling */
+.form-section {
+  @apply bg-gray-50 rounded-lg p-6 border border-gray-200;
+}
+
+.form-section h3 {
+  @apply text-lg font-semibold text-gray-900 mb-4 flex items-center;
+}
+
+.form-section h3::before {
+  content: '';
+  @apply w-1 h-6 bg-primary rounded-full mr-3;
+}
+
+/* Input Group Styling */
+.input-group {
+  @apply relative;
+}
+
+.input-group .form-input-enterprise {
+  @apply pr-10;
+}
+
+.input-group .input-icon {
+  @apply absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400;
+}
+
+/* Validation Message Styling */
+.validation-message {
+  @apply text-sm mt-1 flex items-center;
+}
+
+.validation-message.error {
+  @apply text-red-600;
+}
+
+.validation-message.success {
+  @apply text-green-600;
+}
+
+.validation-message .icon {
+  @apply w-4 h-4 mr-1;
+}
+
+/* Role Selection Cards */
+.role-option {
+  @apply p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:border-primary hover:bg-primary/5;
+}
+
+.role-option.selected {
+  @apply border-primary bg-primary/10;
+}
+
+.role-option .role-icon {
+  @apply w-8 h-8 text-primary mb-2;
+}
+
+.role-option .role-title {
+  @apply font-semibold text-gray-900 mb-1;
+}
+
+.role-option .role-description {
+  @apply text-sm text-gray-600;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  @apply animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent;
+}
+
+/* Success Animation */
+.success-checkmark {
+  @apply w-6 h-6 text-green-600;
+  animation: checkmark 0.6s ease-in-out;
+}
+
+@keyframes checkmark {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
