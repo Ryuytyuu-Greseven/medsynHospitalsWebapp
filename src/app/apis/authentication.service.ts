@@ -62,6 +62,7 @@ export class AuthenticationService {
   }
 
   setCurrentUser(user: User): void {
+    this.apiService.setStoredUserProfile(JSON.stringify(user));
     this.currentUserSubject.next(user);
   }
 
