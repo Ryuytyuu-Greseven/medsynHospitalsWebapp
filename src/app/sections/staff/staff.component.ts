@@ -112,20 +112,22 @@ export class StaffComponent implements OnInit {
   }
 
   onStaffAdded(staffData: any): void {
-    this.dataService.addStaff(staffData).subscribe({
-      next: (newStaff) => {
-        this.toastService.success(
-          'Success',
-          'Staff member onboarded successfully'
-        );
-        this.loadStaff();
-        this.closeOnboardingModal();
-      },
-      error: (error) => {
-        this.toastService.error('Error', 'Failed to onboard staff member');
-        console.error('Staff onboarding error:', error);
-      },
-    });
+    this.loadStaff();
+    this.closeOnboardingModal();
+    // this.dataService.addStaff(staffData).subscribe({
+    //   next: (newStaff) => {
+    //     this.toastService.success(
+    //       'Success',
+    //       'Staff member onboarded successfully'
+    //     );
+    //     this.loadStaff();
+    //     this.closeOnboardingModal();
+    //   },
+    //   error: (error) => {
+    //     this.toastService.error('Error', 'Failed to onboard staff member');
+    //     console.error('Staff onboarding error:', error);
+    //   },
+    // });
   }
 
   onFormToggled(showForm: boolean): void {
