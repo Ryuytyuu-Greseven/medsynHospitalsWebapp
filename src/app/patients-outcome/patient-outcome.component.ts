@@ -12,6 +12,7 @@ import { ReportsScansComponent } from './reports-scans/reports-scans.component';
 import { MedicationsComponent } from './medications/medications.component';
 import { HealthEventsComponent } from './health-events/health-events.component';
 import { AiInsightsComponent } from './ai-insights/ai-insights.component';
+import { PatientService } from '../core/services/patient.service';
 
 // Extended interfaces for the Digital Time Machine
 
@@ -85,14 +86,26 @@ export class PatientOutcomeComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private dataService: DataService,
+    private patientService: PatientService,
     private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const patientId = +params['id'];
+    this.route.paramMap.subscribe(params => {
+      const patientId = params.get('id') as any;
+      console.log('patientId', patientId);
       this.loadPatientData(patientId);
+      this.loadPatient(patientId);
     });
+  }
+
+  private loadPatient(patientId: string): void {
+    this.patientService
+      .getSinglePatient( { patientId: patientId } )
+      .subscribe((patient) => {
+        console.log('patient', patient);
+        // this.patients = patients;
+      });
   }
 
   private loadPatientData(patientId: number): void {

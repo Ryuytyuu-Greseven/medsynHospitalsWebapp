@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -10,6 +17,7 @@ import { PatientSearchComponent } from '../patient-search/patient-search.compone
 import { PaginationComponent } from '../pagination/pagination.component';
 import { PatientService } from '../../../core/services/patient.service';
 import { PublicPatientProfile } from '../../../core/interfaces';
+import { Subject, Subscription, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-patients-panel',
@@ -26,7 +34,7 @@ import { PublicPatientProfile } from '../../../core/interfaces';
   templateUrl: './patients-panel.component.html',
   styles: [],
 })
-export class PatientsPanelComponent implements OnInit {
+export class PatientsPanelComponent implements OnInit, OnDestroy {
   @Input() patients: PublicPatientProfile[] = [];
   @Output() patientAdmitted = new EventEmitter<number>();
 
@@ -43,6 +51,11 @@ export class PatientsPanelComponent implements OnInit {
   itemsPerPage = 10;
   currentPage = 1;
 
+  // Debouncer for search
+  private searchSubject = new Subject<string>();
+  private searchSubscription!: Subscription;
+  private destroy$ = new Subject<void>();
+
   constructor(
     private patientService: PatientService,
     private dataService: DataService,
@@ -53,10 +66,21 @@ export class PatientsPanelComponent implements OnInit {
     this.loadRecentAdmissions();
     // this.filteredPatients = this.patients;
     this.updatePaginatedPatients();
+
+    // Setup debounced search
+    this.searchSubscription = this.searchSubject
+      .pipe(
+        debounceTime(2000), // 2 seconds debounce
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.loadRecentAdmissions();
+      });
   }
 
   onSearchChange(): void {
-    this.applyFilters();
+    this.searchSubject.next(this.searchTerm);
   }
 
   onFilterChange(): void {
@@ -72,7 +96,6 @@ export class PatientsPanelComponent implements OnInit {
 
   private applyFilters(): void {
     // let filtered = [...this.patients];
-
     // // Search filter
     // if (this.searchTerm) {
     //   const term = this.searchTerm.toLowerCase();
@@ -82,7 +105,6 @@ export class PatientsPanelComponent implements OnInit {
     //       patient.id.toString().includes(term)
     //   );
     // }
-
     // // Status filter
     // if (this.selectedStatus) {
     //   if (this.selectedStatus === 'admitted') {
@@ -91,7 +113,6 @@ export class PatientsPanelComponent implements OnInit {
     //     filtered = filtered.filter((patient) => !patient.admitted);
     //   }
     // }
-
     // // this.filteredPatients = filtered;
     // this.currentPage = 1; // Reset to first page when filtering
     // this.updatePaginatedPatients();
@@ -137,5 +158,11 @@ export class PatientsPanelComponent implements OnInit {
         console.error('Error admitting patient:', error);
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.searchSubscription.unsubscribe();
   }
 }
