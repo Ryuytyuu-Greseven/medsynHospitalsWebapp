@@ -189,6 +189,12 @@
     </div>
   </div>
 
+  <!-- Floating AI Chatbot (Always Present) -->
+  <app-medical-chatbot
+    [patientId]="patient?.id"
+    [patientName]="patient?.name">
+  </app-medical-chatbot>
+
   <!-- AI Insight Modal -->
   <div *ngIf="showAIModal" class="modal-backdrop fade-in" (click)="closeAIModal()">
     <div class="modal-enterprise modal-enter" (click)="$event.stopPropagation()">
