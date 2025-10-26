@@ -98,11 +98,6 @@ export class StaffComponent implements OnInit {
     }`;
   }
 
-  getPatientName(patientId: number): string {
-    const patient = this.patients.find((p) => p.id === patientId);
-    return patient ? patient.name : `Patient #${patientId}`;
-  }
-
   openOnboardingModal(): void {
     this.showOnboardingModal = true;
   }

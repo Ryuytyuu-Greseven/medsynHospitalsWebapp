@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-green-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
     <!-- Header Section -->
-    <div class="mb-6 sm:mb-8 bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+    <!-- <div class="mb-6 sm:mb-8 bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent mb-2">Patients Management</h1>
@@ -18,17 +18,14 @@
           <span class="sm:hidden">Add Patient</span>
         </button>
       </div>
-    </div>
+    </div> -->
 
     <!-- Patients Panel -->
-    <app-patients-panel
-      [patients]="patients"
-      (patientAdmitted)="onPatientAdmitted($event)"
-    ></app-patients-panel>
+    <app-patients-panel (patientAdmitted)="onPatientAdmitted($event)"></app-patients-panel>
   </div>
 
   <!-- Add Patient Modal -->
-  <div *ngIf="showAddPatientModal" class="modal-backdrop fade-in" (click)="closeAddPatientModal()">
+  <!-- <div *ngIf="showAddPatientModal" class="modal-backdrop fade-in" (click)="closeAddPatientModal()">
     <div class="modal-enterprise max-h-[90vh] overflow-y-auto modal-enter" (click)="$event.stopPropagation()">
       <app-add-patient
         [showForm]="true"
@@ -36,5 +33,5 @@
         (formToggled)="onFormToggled($event)"
       ></app-add-patient>
     </div>
-  </div>
+  </div> -->
 </div>

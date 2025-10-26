@@ -33,6 +33,13 @@ export class ApiService {
       getStaffById: 'staff/{userId}',
     },
 
+    patient: {
+      getPatients: 'patients/list',
+      getPatientById: 'patients/{patientId}',
+      onboardPatient: 'patients/onboard',
+      updatePatient: 'patients/update/{patientId}',
+    },
+
     bot: {
       userQuery: 'medsyn-consumer/api/bot/user-query',
     },

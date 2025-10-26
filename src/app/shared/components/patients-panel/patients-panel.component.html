@@ -58,7 +58,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let patient of paginatedPatients; let i = index" class="hover:bg-blue-50/30 transition-colors duration-200" [style.animation-delay]="(i * 0.1) + 's'">
+        <tr *ngFor="let patient of patients; let i = index" class="hover:bg-blue-50/30 transition-colors duration-200" [style.animation-delay]="(i * 0.1) + 's'">
           <td>
             <div class="flex items-center">
               <div class="patient-avatar mr-4">
@@ -66,41 +66,41 @@
               </div>
               <div>
                 <div class="font-semibold text-gray-900">{{ patient.name }}</div>
-                <div class="text-sm text-gray-500">ID: {{ patient.id }}</div>
+                <div class="text-sm text-gray-500">ID: {{ patient.healthId }}</div>
               </div>
             </div>
           </td>
           <td>
-            <div class="text-sm text-gray-900">{{ patient.age }} years</div>
+            <div class="text-sm text-gray-900">{{ patient.dateOfBirth | date: 'short' }}</div>
             <div class="text-sm text-gray-500">{{ patient.gender }}</div>
           </td>
           <td>
             <div class="text-sm text-gray-900">
-              {{ patient.admissionDate ? (patient.admissionDate | date:'MMM dd, yyyy') : '-' }}
+              {{ patient.lastAdmittedAt ? (patient.lastAdmittedAt | date:'short') : '-' }}
             </div>
           </td>
           <td>
             <div class="text-sm text-gray-900">
-              {{ getAssignedDoctor(patient.assignedDoctor) }}
+              {{ 'NA' }}
             </div>
           </td>
           <td>
             <span
-              [class]="patient.admitted ? 'status-tag status-active' : 'status-tag status-discharged'"
+              [class]="patient.isActive ? 'status-tag status-active' : 'status-tag status-discharged'"
             >
-              {{ patient.admitted ? 'Active' : 'Discharged' }}
+              {{ patient.isActive ? 'Active' : 'Discharged' }}
             </span>
           </td>
           <td>
             <div class="flex items-center gap-2">
-              <button
-                [routerLink]="['/patients', patient.id]"
+              <!-- <button
+                [routerLink]="['/patients', patient.healthId]"
                 class="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors duration-200"
               >
                 View
-              </button>
+              </button> -->
               <button
-                [routerLink]="['/patients', patient.id, 'outcome']"
+                [routerLink]="['/patients', patient.healthId, 'outcome']"
                 class="text-teal-600 hover:text-teal-800 text-sm font-medium transition-colors duration-200 flex items-center gap-1"
                 title="Digital Time Machine"
               >
@@ -114,14 +114,14 @@
               >
                 Edit
               </button>
-              <button
-                *ngIf="!patient.admitted"
-                (click)="admitPatient(patient.id)"
-                [disabled]="admittingPatients.has(patient.id)"
+              <!-- <button
+                *ngIf="!patient.lastAdmittedAt"
+                (click)="admitPatient(patient.healthId)"
+                [disabled]="admittingPatients.has(patient.healthId)"
                 class="text-green-600 hover:text-green-800 text-sm font-medium transition-colors duration-200 disabled:opacity-50"
               >
-                {{ admittingPatients.has(patient.id) ? 'Syncing...' : 'Admit' }}
-              </button>
+                {{ admittingPatients.has(patient.healthId) ? 'Syncing...' : 'Admit' }}
+              </button> -->
             </div>
           </td>
         </tr>

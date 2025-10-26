@@ -15,7 +15,100 @@
     </button>
   </div>
 
-  <form (ngSubmit)="onSubmit()" class="space-y-8">
+  <!-- Health ID Lookup Section -->
+  <div *ngIf="!showPatientForm" class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-8 border border-gray-200 shadow-md mb-8">
+    <div class="text-center mb-6">
+      <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+      </div>
+      <h3 class="text-xl font-bold text-blue-900 mb-2">Patient Health ID Lookup</h3>
+      <p class="text-blue-700">Enter the patient's Health ID to check if they already exist in the medsyn system</p>
+    </div>
+
+    <div class="max-w-md mx-auto">
+      <div class="mb-4">
+        <label class="form-label-enterprise">Health ID *</label>
+        <input
+          type="text"
+          class="form-input-enterprise"
+          [(ngModel)]="healthId"
+          name="healthId"
+          placeholder="Enter 24-character Health ID"
+          maxlength="24"
+          (input)="onHealthIdInput($event)"
+        >
+        <div class="mt-2 text-sm text-gray-600">
+          <span class="font-medium">{{ healthId.length }}/24</span> characters
+        </div>
+      </div>
+
+      <div class="flex justify-center space-x-4">
+        <button
+          type="button"
+          (click)="lookupHealthId()"
+          [disabled]="healthId.length !== 24 || isLookingUp"
+          class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-300 disabled:to-gray-400 text-white rounded-xl font-bold transition-all duration-200 disabled:cursor-not-allowed button-press shadow-lg flex items-center gap-2"
+        >
+          <svg *ngIf="isLookingUp" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <svg *ngIf="!isLookingUp" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          {{ isLookingUp ? 'Looking up...' : 'Lookup Patient' }}
+        </button>
+
+        <button
+          type="button"
+          (click)="proceedWithoutHealthId()"
+          class="px-6 py-3 border-2 border-gray-400 rounded-xl text-gray-800 font-bold hover:bg-gray-100 transition-all duration-200 button-press shadow-md"
+        >
+          No Health ID - Proceed
+        </button>
+      </div>
+    </div>
+
+    <!-- Health ID Lookup Results -->
+    <div *ngIf="lookupResult" class="mt-6 max-w-md mx-auto">
+      <div *ngIf="lookupResult?.found" class="bg-green-50 border border-green-200 rounded-lg p-4">
+        <div class="flex items-center mb-2">
+          <svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <h4 class="text-green-800 font-bold">Patient Found</h4>
+        </div>
+        <p class="text-green-700 text-sm mb-3">{{ lookupResult?.patient?.name }} is already registered in the system.</p>
+        <button
+          (click)="viewExistingPatient()"
+          class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors duration-200"
+        >
+          View Patient Details
+        </button>
+      </div>
+
+      <div *ngIf="(!lookupResult || !lookupResult?.found) && !isLookingUp" class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <div class="flex items-center mb-2">
+          <svg class="w-5 h-5 text-yellow-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.671-.806 2.671-1.806V6.806C20.5 5.806 19.369 5 17.828 5H6.172C4.631 5 3.5 5.806 3.5 6.806v10.388c0 1 1.131 1.806 2.672 1.806z"></path>
+          </svg>
+          <h4 class="text-yellow-800 font-bold">Patient Not Found</h4>
+        </div>
+        <p class="text-yellow-700 text-sm mb-3">No patient found with this Health ID. You can proceed to create a new patient record.</p>
+        <button
+          (click)="proceedToForm()"
+          class="px-4 py-2 bg-yellow-600 text-white rounded-lg text-sm font-medium hover:bg-yellow-700 transition-colors duration-200"
+        >
+          Create New Patient
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Patient Form (only shown after Health ID lookup or when proceeding without Health ID) -->
+  <form *ngIf="showPatientForm" [formGroup]="patientForm" class="space-y-8">
     <!-- Personal Information Section -->
     <div class="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl p-6 slide-up border border-gray-200 shadow-md">
       <h3 class="text-lg font-bold text-teal-900 mb-6 flex items-center gap-2">
@@ -30,11 +123,12 @@
           <input
             type="text"
             class="form-input-enterprise"
-            [(ngModel)]="newPatient.name"
-            name="name"
-            required
+            formControlName="name"
             placeholder="Enter patient full name"
           >
+          <div *ngIf="patientForm.get('name')?.invalid && patientForm.get('name')?.touched" class="text-red-600 text-sm mt-1">
+            Full name is required
+          </div>
         </div>
 
         <div>
@@ -42,25 +136,27 @@
           <input
             type="date"
             class="form-input-enterprise"
-            [(ngModel)]="newPatient.dateOfBirth"
-            name="dateOfBirth"
-            required
+            formControlName="dateOfBirth"
           >
+          <div *ngIf="patientForm.get('dateOfBirth')?.invalid && patientForm.get('dateOfBirth')?.touched" class="text-red-600 text-sm mt-1">
+            Date of birth is required
+          </div>
         </div>
 
         <div>
           <label class="form-label-enterprise">Gender *</label>
           <select
             class="form-input-enterprise"
-            [(ngModel)]="newPatient.gender"
-            name="gender"
-            required
+            formControlName="gender"
           >
             <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="prefer_not_to_say">Prefer not to say</option>
           </select>
+          <div *ngIf="patientForm.get('gender')?.invalid && patientForm.get('gender')?.touched" class="text-red-600 text-sm mt-1">
+            Gender is required
+          </div>
         </div>
 
         <div>
@@ -68,8 +164,7 @@
           <input
             type="tel"
             class="form-input-enterprise"
-            [(ngModel)]="newPatient.phone"
-            name="phone"
+            formControlName="phone"
             placeholder="Enter phone number"
           >
         </div>
@@ -79,21 +174,25 @@
           <input
             type="email"
             class="form-input-enterprise"
-            [(ngModel)]="newPatient.email"
-            name="email"
+            formControlName="email"
             placeholder="Enter email address"
           >
+          <div *ngIf="patientForm.get('email')?.invalid && patientForm.get('email')?.touched" class="text-red-600 text-sm mt-1">
+            Please enter a valid email address
+          </div>
         </div>
 
         <div class="md:col-span-2">
-          <label class="form-label-enterprise">Address</label>
+          <label class="form-label-enterprise">Address *</label>
           <textarea
             class="form-input-enterprise"
-            [(ngModel)]="newPatient.address"
-            name="address"
+            formControlName="address"
             rows="3"
             placeholder="Enter patient address"
           ></textarea>
+          <div *ngIf="patientForm.get('address')?.invalid && patientForm.get('address')?.touched" class="text-red-600 text-sm mt-1">
+            Address is required and must be at least 5 characters long
+          </div>
         </div>
       </div>
     </div>
@@ -111,43 +210,15 @@
           <label class="form-label-enterprise">Patient Type *</label>
           <select
             class="form-input-enterprise"
-            [(ngModel)]="newPatient.patientType"
-            name="patientType"
-            required
+            formControlName="patientType"
           >
             <option value="">Select Patient Type</option>
             <option value="Inpatient">Inpatient</option>
             <option value="Outpatient">Outpatient</option>
           </select>
-        </div>
-
-        <div>
-          <label class="form-label-enterprise">Department *</label>
-          <select
-            class="form-input-enterprise"
-            [(ngModel)]="newPatient.department"
-            name="department"
-            required
-          >
-            <option value="">Select Department</option>
-            <option value="cardiology">Cardiology</option>
-            <option value="pulmonology">Pulmonology</option>
-            <option value="oncology">Oncology</option>
-            <option value="general">General Medicine</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="form-label-enterprise">Assigned Doctor</label>
-          <select
-            class="form-input-enterprise"
-            [(ngModel)]="newPatient.assignedDoctor"
-            name="assignedDoctor"
-          >
-            <option value="">Select Doctor</option>
-            <option value="1">Dr. James Wilson</option>
-            <option value="2">Dr. Maria Garcia</option>
-          </select>
+          <div *ngIf="patientForm.get('patientType')?.invalid && patientForm.get('patientType')?.touched" class="text-red-600 text-sm mt-1">
+            Patient type is required
+          </div>
         </div>
 
         <div>
@@ -155,8 +226,7 @@
           <input
             type="date"
             class="form-input-enterprise"
-            [(ngModel)]="newPatient.admissionDate"
-            name="admissionDate"
+            formControlName="admissionDate"
           >
         </div>
 
@@ -165,33 +235,10 @@
           <input
             type="text"
             class="form-input-enterprise"
-            [(ngModel)]="newPatient.conditions"
-            name="conditions"
+            formControlName="conditions"
             placeholder="e.g., Diabetes, Hypertension (comma separated)"
           >
         </div>
-      </div>
-    </div>
-
-    <!-- Medical Reports Section -->
-    <div class="bg-gradient-to-br from-lime-50 to-green-50 rounded-xl p-6 slide-up border border-gray-200 shadow-md" style="animation-delay: 0.2s">
-      <h3 class="text-lg font-bold text-lime-900 mb-6 flex items-center gap-2">
-        <svg class="w-6 h-6 text-lime-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-        </svg>
-        Medical Reports
-      </h3>
-      <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-teal-500 hover:bg-teal-50 transition-all duration-200 bg-white">
-        <svg class="mx-auto h-12 w-12 text-lime-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-        </svg>
-        <div class="mt-4">
-          <p class="text-sm text-gray-700 font-medium">Drag and drop medical reports here, or</p>
-          <button type="button" class="text-lime-700 hover:text-lime-900 font-bold text-sm">
-            browse files
-          </button>
-        </div>
-        <p class="text-xs text-gray-600 font-medium mt-2">PDF, DOC, DOCX up to 10MB</p>
       </div>
     </div>
 
@@ -205,7 +252,8 @@
         Cancel
       </button>
       <button
-        type="submit"
+        type="button"
+        (click)="onSubmit()"
         [disabled]="!isFormValid()"
         class="px-6 py-3 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 disabled:from-gray-300 disabled:to-gray-400 text-white rounded-xl font-bold transition-all duration-200 disabled:cursor-not-allowed button-press shadow-lg"
       >

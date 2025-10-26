@@ -6,17 +6,25 @@ import { CardComponent } from '../../shared/components/card/card.component';
 import { TableComponent } from '../../shared/components/table/table.component';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { AddPatientComponent } from '../../shared/components/add-patient/add-patient.component';
+import { PatientService } from '../../core/services/patient.service';
+import { PublicPatientProfile } from '../../core/interfaces';
 
 @Component({
   selector: 'app-admissions',
   standalone: true,
-  imports: [CommonModule, CardComponent, TableComponent, ButtonComponent, AddPatientComponent],
+  imports: [
+    CommonModule,
+    CardComponent,
+    TableComponent,
+    ButtonComponent,
+    AddPatientComponent,
+  ],
   templateUrl: './admissions.component.html',
-  styles: []
+  styles: [],
 })
 export class AdmissionsComponent implements OnInit {
   pendingPatients: Patient[] = [];
-  recentAdmissions: any[] = [];
+  recentAdmissions: PublicPatientProfile[] = [];
   admittingPatients = new Set<number>();
 
   // modals
@@ -26,11 +34,12 @@ export class AdmissionsComponent implements OnInit {
     { key: 'patient', label: 'Patient', sortable: false },
     { key: 'status', label: 'Status', sortable: false },
     { key: 'date', label: 'Admission Date', sortable: true },
-    { key: 'notes', label: 'Notes', sortable: false }
+    // { key: 'notes', label: 'Notes', sortable: false },
   ];
 
   constructor(
     private dataService: DataService,
+    private patientService: PatientService,
     private toastService: ToastService
   ) {}
 
@@ -40,53 +49,21 @@ export class AdmissionsComponent implements OnInit {
   }
 
   private loadPendingAdmissions(): void {
-    this.dataService.getPendingAdmissions().subscribe(patients => {
+    this.dataService.getPendingAdmissions().subscribe((patients) => {
       this.pendingPatients = patients;
     });
   }
 
   private loadRecentAdmissions(): void {
-    this.dataService.getAdmissions().subscribe(admissions => {
-      this.recentAdmissions = admissions
-        .filter(admission => admission.status === 'admitted')
-        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-        .slice(0, 10);
-    });
+    this.patientService
+      .getPatients({ page: 1, limit: 5 })
+      .subscribe((patients) => {
+        this.recentAdmissions = patients;
+      });
   }
 
   admitPatient(patientId: number): void {
-    this.admittingPatients.add(patientId);
-
-    this.dataService.admitPatient(patientId).subscribe({
-      next: (result) => {
-        if (result.success) {
-          this.toastService.success('Success', result.message);
-          this.loadPendingAdmissions();
-          this.loadRecentAdmissions();
-        } else {
-          this.toastService.error('Error', result.message);
-        }
-        this.admittingPatients.delete(patientId);
-      },
-      error: (error) => {
-        this.toastService.error('Error', 'Failed to admit patient');
-        this.admittingPatients.delete(patientId);
-        console.error('Error admitting patient:', error);
-      }
-    });
-  }
-
-  getPatientName(patientId: number): string {
-    // In a real app, you'd fetch this from the service
-    // For now, we'll use a simple mapping
-    const patientNames: { [key: number]: string } = {
-      1: 'Sarah Johnson',
-      2: 'Michael Chen',
-      3: 'Emily Rodriguez',
-      4: 'David Thompson',
-      5: 'Lisa Wang'
-    };
-    return patientNames[patientId] || `Patient #${patientId}`;
+    this.loadRecentAdmissions();
   }
 
   // modals
@@ -99,8 +76,7 @@ export class AdmissionsComponent implements OnInit {
   }
 
   onPatientAdded(patient: Patient): void {
-    // this.loadPatients();
-    // this.closeAddPatientModal();
+    this.loadRecentAdmissions();
   }
 
   onFormToggled(showForm: boolean): void {
@@ -108,5 +84,4 @@ export class AdmissionsComponent implements OnInit {
       this.closeAddPatientModal();
     }
   }
-
 }

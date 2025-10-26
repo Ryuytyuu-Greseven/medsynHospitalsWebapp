@@ -1,0 +1,86 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { catchError, map, Observable, pipe } from 'rxjs';
+
+import {
+  NewPatient,
+  PublicPatientProfile,
+  PublicStaffProfile,
+} from '../interfaces';
+import { ApiService } from '../../apis/api.service';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class PatientService {
+  constructor(private apiService: ApiService, private http: HttpClient) {}
+
+  /**
+   * Get list of patients
+   */
+  getPatients(payload: {
+    page: number;
+    limit: number;
+  }): Observable<PublicPatientProfile[]> {
+    return this.apiService
+      .sendPostRequest<{ success: boolean; data: PublicPatientProfile[] }>(
+        this.apiService.endpoints.patient.getPatients,
+        payload
+      )
+      .pipe(
+        map((response: { success: boolean; data: PublicPatientProfile[] }) => {
+          if (response.success) {
+            return response.data;
+          } else {
+            throw new Error('Failed to get patients');
+          }
+        }),
+        catchError(this.apiService.handleError.bind(this))
+      );
+  }
+
+  /**
+   * Get single patient details
+   */
+  getSinglePatient(payload: { patientId: string }): Observable<any> {
+    return this.apiService
+      .sendGetRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.patient.getPatientById.replace(
+          '{patientId}',
+          payload.patientId
+        )
+      )
+      .pipe(
+        map((response: { success: boolean; data: any }) => {
+          if (response.success) {
+            return response.data;
+          } else {
+            throw new Error('Failed to get patient');
+          }
+        }),
+        catchError(this.apiService.handleError.bind(this))
+      );
+  }
+
+  /**
+   * Onboard new patient
+   * @returns Observable<any>
+   */
+  onboardPatient(payload: NewPatient): Observable<any> {
+    return this.apiService
+      .sendPostRequest<{ success: boolean; healthId: string }>(
+        this.apiService.endpoints.patient.onboardPatient,
+        payload
+      )
+      .pipe(
+        map((response: { success: boolean; healthId: string }) => {
+          if (response.healthId) {
+            return response.healthId;
+          } else {
+            throw new Error('Failed to onboard patient');
+          }
+        }),
+        catchError(this.apiService.handleError.bind(this))
+      );
+  }
+}
