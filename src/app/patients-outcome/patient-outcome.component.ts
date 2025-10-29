@@ -66,7 +66,7 @@ export interface Report {
   styleUrls: ['./patient-outcome.component.css']
 })
 export class PatientOutcomeComponent implements OnInit {
-  patient: Patient | null = null;
+  patient: Patient | null | any= null;
   patientStats: PatientStats | null = null;
   medications: Medication[] = [];
   healthEvents: HealthEvent[] = [];
@@ -106,14 +106,14 @@ export class PatientOutcomeComponent implements OnInit {
       .getSinglePatient( { patientId: patientId } )
       .subscribe((patient) => {
         console.log('patient', patient);
-        // this.patients = patients;
+        this.patient = patient;
       });
   }
 
   private loadPatientData(patientId: number): void {
     // Load patient basic info
     this.dataService.getPatientById(patientId).subscribe(patient => {
-      this.patient = patient || null;
+      // this.patient = patient || null;
 
       // Generate AI health summary AFTER patient is loaded
       this.generateAIHealthSummary(patientId);
@@ -184,7 +184,7 @@ export class PatientOutcomeComponent implements OnInit {
         date: this.patient.admissionDate,
         type: 'admission',
         title: 'Hospital Admission',
-        description: `Patient admitted for ${this.patient.conditions.join(', ')}`,
+        description: `Patient admitted for ${this.patient?.conditions?.join(', ')}`,
         icon: '🏥',
         aiInsight: 'Patient admitted for ongoing monitoring and treatment',
         riskLevel: 'medium'
@@ -347,12 +347,12 @@ export class PatientOutcomeComponent implements OnInit {
 
     // Simple risk calculation based on conditions
     const highRiskConditions = ['Cancer', 'Heart Disease', 'Stroke'];
-    const hasHighRisk = this.patient.conditions.some(c =>
-      highRiskConditions.some(hr => c.includes(hr))
+    const hasHighRisk = this.patient?.conditions?.some((c: any) =>
+      highRiskConditions.some((hr: any) => c.includes(hr))
     );
 
     if (hasHighRisk) return 'high';
-    if (this.patient.conditions.length > 2) return 'medium';
+    if (this.patient?.conditions?.length > 2) return 'medium';
     return 'low';
   }
 

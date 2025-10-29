@@ -83,4 +83,46 @@ export class PatientService {
         catchError(this.apiService.handleError.bind(this))
       );
   }
+
+  /** Upload reports */
+  uploadPatientReports(payload: {
+    healthId: string;
+    reports: File[];
+  }): Observable<any> {
+    const formData = new FormData();
+    formData.append('healthId', payload.healthId);
+    payload.reports.forEach((report) => {
+      formData.append('reports', report);
+    });
+
+    return this.apiService.sendMultipartRequest<{
+      success: boolean;
+      data: any;
+    }>(this.apiService.endpoints.patient.uploadReports, formData);
+  }
+
+  /** Get patient reports */
+  getPatientReports(payload: {
+    healthId: string;
+    page?: number;
+    limit?: number;
+  }): Observable<any> {
+    return this.apiService
+      .sendGetRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.patient.getReports
+          .replace('{healthId}', payload.healthId)
+          .replace('{page}', payload.page?.toString() || '1')
+          .replace('{limit}', payload.limit?.toString() || '10')
+      )
+      .pipe(
+        map((response: { success: boolean; data: any }) => {
+          if (response.success) {
+            return response.data;
+          } else {
+            throw new Error('Failed to get patient reports');
+          }
+        }),
+        catchError(this.apiService.handleError.bind(this))
+      );
+  }
 }

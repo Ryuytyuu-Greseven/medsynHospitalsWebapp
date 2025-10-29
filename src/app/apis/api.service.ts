@@ -38,6 +38,8 @@ export class ApiService {
       getPatientById: 'patients/{patientId}',
       onboardPatient: 'patients/onboard',
       updatePatient: 'patients/update/{patientId}',
+      uploadReports: 'patients/health-reports/add-new',
+      getReports: 'patients/health-reports/{healthId}/{page}/{limit}',
     },
 
     bot: {
