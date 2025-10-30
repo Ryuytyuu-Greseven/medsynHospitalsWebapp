@@ -125,4 +125,49 @@ export class PatientService {
         catchError(this.apiService.handleError.bind(this))
       );
   }
+
+  // ========================== EVENTS API CALLS ==========================
+  /** Get patient events */
+  getPatientEvents(payload: {
+    healthId: string;
+    page?: number;
+    limit?: number;
+  }): Observable<any> {
+    return this.apiService
+      .sendGetRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.patient.getEvents
+          .replace('{healthId}', payload.healthId)
+          .replace('{page}', payload.page?.toString() || '1')
+          .replace('{limit}', payload.limit?.toString() || '10')
+      )
+      .pipe(
+        map((response: { success: boolean; data: any }) => {
+          if (response.success) {
+            return response.data;
+          } else {
+            throw new Error('Failed to get patient events');
+          }
+        }),
+        catchError(this.apiService.handleError.bind(this))
+      );
+  }
+
+  /** Add patient event */
+  addPatientEvent(payload: any): Observable<any> {
+    return this.apiService.sendPostRequest<{ success: boolean; data: any }>(
+      this.apiService.endpoints.patient.addEvent,
+      payload
+    );
+  }
+
+  /** Update patient event */
+  updatePatientEvent(payload: any): Observable<any> {
+    return this.apiService.sendPostRequest<{ success: boolean; data: any }>(
+      this.apiService.endpoints.patient.updateEvent.replace(
+        '{healthId}',
+        payload.healthId
+      ),
+      payload
+    );
+  }
 }

@@ -40,6 +40,9 @@ export class ApiService {
       updatePatient: 'patients/update/{patientId}',
       uploadReports: 'patients/health-reports/add-new',
       getReports: 'patients/health-reports/{healthId}/{page}/{limit}',
+      addEvent: 'patients/health-events/add-new',
+      updateEvent: 'patients/health-events/update/{healthId}',
+      getEvents: 'patients/health-events/{healthId}/{page}/{limit}',
     },
 
     bot: {

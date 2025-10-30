@@ -181,7 +181,7 @@
 
     <!-- Reports Section -->
     <div *ngIf="activeSection === 'reports'" class="space-y-6 fade-in">
-      <app-reports-scans [reports]="reports" [patientDetails]="patient"></app-reports-scans>
+      <app-reports-scans [patientDetails]="patient"></app-reports-scans>
     </div>
 
     <!-- Medications Section -->
@@ -191,7 +191,7 @@
 
     <!-- Health Events Section -->
     <div *ngIf="activeSection === 'health-events'" class="space-y-6 fade-in">
-      <app-health-events [healthEvents]="healthEvents"></app-health-events>
+      <app-health-events [healthEvents]="healthEvents" [patientDetails]="patient"></app-health-events>
     </div>
 
     <!-- AI Insights Section -->
