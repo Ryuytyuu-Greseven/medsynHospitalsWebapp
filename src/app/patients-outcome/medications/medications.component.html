@@ -461,16 +461,11 @@
         </div>
 
         <!-- AI Processing -->
-        <div *ngIf="isProcessingImage" class="mt-4 p-4 bg-purple-50 rounded-lg border border-purple-200">
-          <div class="flex items-center gap-3">
-            <div class="animate-spin">
-              <fa-icon [icon]="faExclamationTriangle" class="w-5 h-5 text-purple-600"></fa-icon>
-            </div>
-            <div>
-              <p class="text-sm font-medium text-purple-900">AI is analyzing your prescription...</p>
-              <p class="text-xs text-purple-700">Extracting medication details automatically</p>
-            </div>
-          </div>
+        <div *ngIf="isProcessingImage" class="mt-4">
+          <app-loading 
+            text="AI is analyzing your prescription..."
+            size="md">
+          </app-loading>
         </div>
 
         <!-- Extracted Data Preview -->

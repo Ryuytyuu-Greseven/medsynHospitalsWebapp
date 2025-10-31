@@ -167,7 +167,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
     <!-- Overview Section -->
     <div *ngIf="activeSection === 'overview'" class="space-y-6 fade-in">
-      <app-ai-health-summary [aiHealthSummary]="aiHealthSummary" [patientStats]="patientStats"
+      <app-ai-health-summary [patientDetails]="patient" [aiHealthSummary]="aiHealthSummary" [patientStats]="patientStats"
         [stabilityScore]="stabilityScore" [activeMedicationsCount]="activeMedicationsCount"
         [medicalJourney]="medicalJourney" (generateAISummary)="generateAISummary()">
       </app-ai-health-summary>

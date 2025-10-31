@@ -25,6 +25,7 @@ import {
   faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 import { CardComponent } from '../../shared/components/card/card.component';
+import { LoadingComponent } from '../../shared/components/loading/loading.component';
 import {
   DocumentViewerComponent,
   DocumentViewerData,
@@ -60,6 +61,7 @@ export interface Medication {
     FormsModule,
     FontAwesomeModule,
     CardComponent,
+    LoadingComponent,
     DocumentViewerComponent,
   ],
   templateUrl: './medications.component.html',

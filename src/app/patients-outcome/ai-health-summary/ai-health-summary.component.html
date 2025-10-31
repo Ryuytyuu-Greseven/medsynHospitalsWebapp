@@ -25,7 +25,7 @@
     </div> -->
 
     <!-- AI Summary Card -->
-    <app-card *ngIf="aiHealthSummary" class="hover-lift">
+    <app-card *ngIf="aiHealthSummary && !isLoading" class="hover-lift">
       <div class="ai-summary-card">
         <div class="flex items-start justify-between mb-3">
           <div class="flex items-center gap-2">
@@ -81,6 +81,78 @@
         </div>
       </div>
     </app-card>
+
+    <!-- Empty State -->
+    <app-card *ngIf="!aiHealthSummary && !isLoading" class="hover-lift">
+      <div class="flex flex-col items-center justify-center py-8 px-6 text-center">
+        <!-- AI Icon -->
+        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-teal-50 to-emerald-100 flex items-center justify-center mb-4 relative">
+          <div class="absolute inset-0 rounded-full bg-gradient-to-br from-teal-500 to-emerald-600 opacity-10 animate-pulse"></div>
+          <svg class="w-8 h-8 text-teal-600 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+          </svg>
+        </div>
+
+        <!-- Title -->
+        <h3 class="text-lg font-bold text-teal-900 mb-2">No AI Health Summary Yet</h3>
+
+        <!-- Description -->
+        <p class="text-sm text-gray-600 max-w-md mb-4 leading-relaxed">
+          Generate an AI-powered health analysis. Our AI will analyze medical history, conditions, and medications to provide actionable insights.
+        </p>
+
+        <!-- Features List -->
+        <div class="grid grid-cols-3 gap-3 mb-5 w-full max-w-lg">
+          <div class="flex flex-col items-center p-2.5 bg-teal-50 rounded-lg border border-teal-200">
+            <div class="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center mb-1.5">
+              <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+              </svg>
+            </div>
+            <p class="text-[10px] font-semibold text-teal-700">Key Findings</p>
+          </div>
+
+          <div class="flex flex-col items-center p-2.5 bg-emerald-50 rounded-lg border border-emerald-200">
+            <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center mb-1.5">
+              <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+              </svg>
+            </div>
+            <p class="text-[10px] font-semibold text-emerald-700">Risk Assessment</p>
+          </div>
+
+          <div class="flex flex-col items-center p-2.5 bg-green-50 rounded-lg border border-green-200">
+            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mb-1.5">
+              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+            <p class="text-[10px] font-semibold text-green-700">Action Items</p>
+          </div>
+        </div>
+
+        <!-- Generate Button -->
+        <button (click)="onGenerateAISummary()"
+                class="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white text-sm font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-md hover:shadow-lg">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+          Generate AI Health Summary
+        </button>
+
+        <!-- Helper Text -->
+        <p class="text-[10px] text-gray-500 mt-3">
+          This process typically takes 10-15 seconds
+        </p>
+      </div>
+    </app-card>
+
+    <!-- Loading State -->
+    <app-loading
+      *ngIf="isLoading"
+      text="Generating AI Health Summary..."
+      size="lg">
+    </app-loading>
   </div>
 </div>
 

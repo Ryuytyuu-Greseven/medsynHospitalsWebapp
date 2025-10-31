@@ -34,6 +34,8 @@ export class ApiService {
     },
 
     patient: {
+      getSummary: 'patients/overview/{healthId}',
+      generateSummary: 'patients/overview/generate/{healthId}',
       getPatients: 'patients/list',
       getPatientById: 'patients/{patientId}',
       onboardPatient: 'patients/onboard',

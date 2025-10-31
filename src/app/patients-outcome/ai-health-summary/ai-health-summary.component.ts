@@ -1,6 +1,19 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from '../../shared/components/card/card.component';
+import { LoadingComponent } from '../../shared/components/loading/loading.component';
+import { PatientService } from '../../core/services/patient.service';
+import {
+  PatientHealthSummary,
+  PublicPatientProfile,
+} from '../../core/interfaces';
+import { ToastService } from '../../core/services';
 
 export interface AIHealthSummary {
   summary: string;
@@ -35,12 +48,13 @@ export interface MedicalJourneyEvent {
 @Component({
   selector: 'app-ai-health-summary',
   standalone: true,
-  imports: [CommonModule, CardComponent],
+  imports: [CommonModule, CardComponent, LoadingComponent],
   templateUrl: './ai-health-summary.component.html',
-  styleUrls: ['./ai-health-summary.component.css']
+  styleUrls: ['./ai-health-summary.component.css'],
 })
 export class AiHealthSummaryComponent {
-  @Input() aiHealthSummary: AIHealthSummary | null = null;
+  @Input() patientDetails: PublicPatientProfile | null = null;
+  @Input() aiHealthSummary: PatientHealthSummary = {} as any;
   @Input() patientStats: PatientStats | null = null;
   @Input() stabilityScore: number = 0;
   @Input() activeMedicationsCount: number = 0;
@@ -48,13 +62,75 @@ export class AiHealthSummaryComponent {
 
   @Output() generateAISummary = new EventEmitter<void>();
 
+  // Loading state
+  isLoading = false;
+
+  constructor(
+    private patientService: PatientService,
+    private toastService: ToastService
+  ) {}
+
+  ngOnInit(): void {
+    console.log('patientDetails', this.patientDetails);
+    // this.getPatientHealthSummary();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['patientDetails']?.currentValue?.healthId) {
+      this.getPatientHealthSummary();
+    }
+  }
+
+  // fetch patient health summary
+  getPatientHealthSummary(): void {
+    if (!this.patientDetails?.healthId) return;
+    this.isLoading = true;
+    this.patientService
+      .getPatientHealthSummary({
+        healthId: this.patientDetails?.healthId,
+      })
+      .subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          if (response?.summary) {
+            this.aiHealthSummary = response;
+          }
+          console.log('aiHealthSummary', this.aiHealthSummary);
+        },
+        error: (error) => {
+          this.isLoading = false;
+          console.error('Error fetching patient health summary', error);
+        },
+      });
+  }
+
+  // generate new summary
+  requestGenerationOfSummary(): void {
+    if (!this.patientDetails?.healthId || this.aiHealthSummary?.isProcessing)
+      return;
+
+    this.patientService
+      .initiateAiSummary({ healthId: this.patientDetails?.healthId })
+      .subscribe({
+        next: () => {
+          this.aiHealthSummary!.isProcessing = true;
+          this.toastService.success('Success', 'Generating AI summary...');
+        },
+        error: (error) => {
+          this.isLoading = false;
+          console.error('Error generating AI summary', error);
+          this.toastService.error('Error', 'Failed to generate AI summary');
+        },
+      });
+  }
+
   getRiskLevelClass(riskLevel?: string): string {
     if (!riskLevel) return 'bg-gray-100 text-gray-800';
 
     const classes: { [key: string]: string } = {
       low: 'bg-green-100 text-green-800 border-green-300',
       medium: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-      high: 'bg-red-100 text-red-800 border-red-300'
+      high: 'bg-red-100 text-red-800 border-red-300',
     };
 
     return classes[riskLevel] || 'bg-gray-100 text-gray-800';
@@ -72,7 +148,7 @@ export class AiHealthSummaryComponent {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   }
 
@@ -80,7 +156,7 @@ export class AiHealthSummaryComponent {
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
   }
 
@@ -89,7 +165,6 @@ export class AiHealthSummaryComponent {
   }
 
   onGenerateAISummary(): void {
-    this.generateAISummary.emit();
+    this.requestGenerationOfSummary();
   }
 }
-

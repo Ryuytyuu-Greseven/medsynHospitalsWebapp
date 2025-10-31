@@ -4,6 +4,7 @@ import { catchError, map, Observable, pipe } from 'rxjs';
 
 import {
   NewPatient,
+  PatientHealthSummary,
   PublicPatientProfile,
   PublicStaffProfile,
 } from '../interfaces';
@@ -222,6 +223,38 @@ export class PatientService {
         payload.healthId
       ),
       payload
+    );
+  }
+
+  // ========================== HEALTH SUMMARY API CALLS ========================== //
+  // Get patient health summary
+  getPatientHealthSummary(payload: { healthId: string }): Observable<PatientHealthSummary> {
+    return this.apiService
+      .sendGetRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.patient.getSummary.replace(
+          '{healthId}',
+          payload.healthId
+        )
+      )
+      .pipe(
+        map((response: { success: boolean; data: PatientHealthSummary }) => {
+          if (response?.success) {
+            return response.data;
+          } else {
+            throw new Error('Failed to get patient health summary');
+          }
+        }),
+        catchError(this.apiService.handleError.bind(this))
+      );
+  }
+
+  // Generate AI summary
+  initiateAiSummary(payload: { healthId: string }): Observable<any> {
+    return this.apiService.sendGetRequest<{ success: boolean; data: any }>(
+      this.apiService.endpoints.patient.generateSummary.replace(
+        '{healthId}',
+        payload.healthId
+      )
     );
   }
 }

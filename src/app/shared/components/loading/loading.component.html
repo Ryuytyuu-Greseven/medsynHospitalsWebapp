@@ -1,0 +1,71 @@
+<!-- Full Screen Loading -->
+<div *ngIf="fullScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-90 backdrop-blur-sm">
+  <div class="text-center">
+    <ng-container *ngTemplateOutlet="loadingContent"></ng-container>
+  </div>
+</div>
+
+<!-- Overlay Loading -->
+<div *ngIf="overlay && !fullScreen" class="absolute inset-0 z-40 flex items-center justify-center bg-white bg-opacity-75 backdrop-blur-sm rounded-lg">
+  <div class="text-center">
+    <ng-container *ngTemplateOutlet="loadingContent"></ng-container>
+  </div>
+</div>
+
+<!-- Inline Loading -->
+<div *ngIf="!fullScreen && !overlay" class="flex items-center justify-center py-8">
+  <div class="text-center">
+    <ng-container *ngTemplateOutlet="loadingContent"></ng-container>
+  </div>
+</div>
+
+<!-- Loading Content Template -->
+<ng-template #loadingContent>
+  <div [class]="'flex flex-col items-center ' + sizeClasses.container">
+    <!-- Time Machine Animation -->
+    <div class="time-machine-loader" [ngClass]="sizeClasses.spinner">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" [class]="sizeClasses.spinner">
+        <!-- Outer rotating ring -->
+        <circle class="time-ring outer-ring" cx="50" cy="50" r="45" fill="none" stroke="currentColor"
+                stroke-width="2" opacity="0.3"/>
+
+        <!-- Middle rotating ring -->
+        <circle class="time-ring middle-ring" cx="50" cy="50" r="35" fill="none" stroke="currentColor"
+                stroke-width="2" opacity="0.5"/>
+
+        <!-- Inner rotating ring -->
+        <circle class="time-ring inner-ring" cx="50" cy="50" r="25" fill="none" stroke="currentColor"
+                stroke-width="2" opacity="0.7"/>
+
+        <!-- Clock hands -->
+        <g class="clock-hands">
+          <!-- Hour hand -->
+          <line class="hour-hand" x1="50" y1="50" x2="50" y2="35" stroke="currentColor"
+                stroke-width="3" stroke-linecap="round"/>
+          <!-- Minute hand -->
+          <line class="minute-hand" x1="50" y1="50" x2="50" y2="25" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round"/>
+        </g>
+
+        <!-- Center dot -->
+        <circle cx="50" cy="50" r="4" fill="currentColor"/>
+
+        <!-- Time particles -->
+        <g class="time-particles">
+          <circle class="particle particle-1" cx="50" cy="10" r="2" fill="currentColor" opacity="0.8"/>
+          <circle class="particle particle-2" cx="80" cy="30" r="2" fill="currentColor" opacity="0.8"/>
+          <circle class="particle particle-3" cx="80" cy="70" r="2" fill="currentColor" opacity="0.8"/>
+          <circle class="particle particle-4" cx="50" cy="90" r="2" fill="currentColor" opacity="0.8"/>
+          <circle class="particle particle-5" cx="20" cy="70" r="2" fill="currentColor" opacity="0.8"/>
+          <circle class="particle particle-6" cx="20" cy="30" r="2" fill="currentColor" opacity="0.8"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Loading Text -->
+    <p *ngIf="text" [class]="'font-medium ' + colorClasses.text + ' ' + sizeClasses.text">
+      {{ text }}
+    </p>
+  </div>
+</ng-template>
+

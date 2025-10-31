@@ -1,0 +1,110 @@
+/* Time Machine Loading Animation */
+.time-machine-loader {
+  color: #14B8A6; /* Teal-500 */
+  position: relative;
+  display: inline-block;
+}
+
+/* Rotating rings */
+.outer-ring {
+  animation: rotate-clockwise 3s linear infinite;
+  transform-origin: center;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 70;
+}
+
+.middle-ring {
+  animation: rotate-counter-clockwise 2s linear infinite;
+  transform-origin: center;
+  stroke-dasharray: 220;
+  stroke-dashoffset: 55;
+}
+
+.inner-ring {
+  animation: rotate-clockwise 1.5s linear infinite;
+  transform-origin: center;
+  stroke-dasharray: 157;
+  stroke-dashoffset: 40;
+}
+
+/* Clock hands */
+.hour-hand {
+  animation: rotate-hour 4s linear infinite;
+  transform-origin: 50px 50px;
+}
+
+.minute-hand {
+  animation: rotate-minute 2s linear infinite;
+  transform-origin: 50px 50px;
+}
+
+/* Time particles that orbit and pulse */
+.time-particles .particle {
+  animation: particle-pulse 2s ease-in-out infinite;
+}
+
+.particle-1 { animation-delay: 0s; }
+.particle-2 { animation-delay: 0.33s; }
+.particle-3 { animation-delay: 0.66s; }
+.particle-4 { animation-delay: 1s; }
+.particle-5 { animation-delay: 1.33s; }
+.particle-6 { animation-delay: 1.66s; }
+
+/* Keyframe Animations */
+@keyframes rotate-clockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-counter-clockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes rotate-hour {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-minute {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes particle-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    r: 2;
+  }
+  50% {
+    opacity: 1;
+    r: 3;
+  }
+}
+
+/* Smooth transitions */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+/* Loading overlay styles */
+.absolute.inset-0 {
+  transition: opacity 0.3s ease-in-out;
+}
+
