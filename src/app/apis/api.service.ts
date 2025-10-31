@@ -43,6 +43,9 @@ export class ApiService {
       addEvent: 'patients/health-events/add-new',
       updateEvent: 'patients/health-events/update/{healthId}',
       getEvents: 'patients/health-events/{healthId}/{page}/{limit}',
+      getMedications: 'patients/health-medications/{healthId}/{page}/{limit}',
+      uploadMedications: 'patients/health-medications/add-new',
+      updateMedication: 'patients/health-medications/update/{healthId}',
     },
 
     bot: {

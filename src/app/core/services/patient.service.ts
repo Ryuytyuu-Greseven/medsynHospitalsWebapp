@@ -170,4 +170,58 @@ export class PatientService {
       payload
     );
   }
+
+  // ========================== MEDICATIONS API CALLS ========================== //
+  /** Get patient medications */
+  getPatientMedications(payload: {
+    healthId: string;
+    page?: number;
+    limit?: number;
+  }): Observable<any> {
+    return this.apiService
+      .sendGetRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.patient.getMedications
+          .replace('{healthId}', payload.healthId)
+          .replace('{page}', payload.page?.toString() || '1')
+          .replace('{limit}', payload.limit?.toString() || '10')
+      )
+      .pipe(
+        map((response: { success: boolean; data: any }) => {
+          if (response.success) {
+            return response.data;
+          } else {
+            throw new Error('Failed to get patient medications');
+          }
+        }),
+        catchError(this.apiService.handleError.bind(this))
+      );
+  }
+
+  /** Add patient medication */
+  addPatientMedication(payload: {
+    healthId: string;
+    medications: File[];
+  }): Observable<any> {
+    const formData = new FormData();
+    formData.append('healthId', payload.healthId);
+    payload.medications.forEach((medication) => {
+      formData.append('medications', medication);
+    });
+
+    return this.apiService.sendMultipartRequest<{
+      success: boolean;
+      data: any;
+    }>(this.apiService.endpoints.patient.uploadMedications, formData);
+  }
+
+  /** Update patient medication */
+  updatePatientMedication(payload: any): Observable<any> {
+    return this.apiService.sendPostRequest<{ success: boolean; data: any }>(
+      this.apiService.endpoints.patient.updateMedication.replace(
+        '{healthId}',
+        payload.healthId
+      ),
+      payload
+    );
+  }
 }

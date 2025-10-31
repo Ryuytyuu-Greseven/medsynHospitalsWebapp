@@ -1,10 +1,37 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faPills, faEye, faEdit, faTimes, faSearch, faPlus, faDownload, faCheckCircle, faCalendarAlt, faUserMd, faFileMedical, faHistory, faExclamationTriangle, faCamera } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPills,
+  faEye,
+  faEdit,
+  faTimes,
+  faSearch,
+  faPlus,
+  faDownload,
+  faCheckCircle,
+  faCalendarAlt,
+  faUserMd,
+  faFileMedical,
+  faHistory,
+  faExclamationTriangle,
+  faCamera,
+} from '@fortawesome/free-solid-svg-icons';
 import { CardComponent } from '../../shared/components/card/card.component';
-import { DocumentViewerComponent, DocumentViewerData } from '../../shared/components/document-viewer/document-viewer.component';
+import {
+  DocumentViewerComponent,
+  DocumentViewerData,
+} from '../../shared/components/document-viewer/document-viewer.component';
+import { PatientService } from '../../core/services/patient.service';
+import { PublicPatientProfile } from '../../core/interfaces';
+import { ToastService } from '../../core/services';
 
 export interface Medication {
   id: number;
@@ -27,12 +54,20 @@ export interface Medication {
 @Component({
   selector: 'app-medications',
   standalone: true,
-  imports: [CommonModule, FormsModule, FontAwesomeModule, CardComponent, DocumentViewerComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    FontAwesomeModule,
+    CardComponent,
+    DocumentViewerComponent,
+  ],
   templateUrl: './medications.component.html',
-  styleUrls: ['./medications.component.css']
+  styleUrls: ['./medications.component.css'],
 })
 export class MedicationsComponent {
   @Input() medications: Medication[] = [];
+  @Input() patientDetails: PublicPatientProfile | null = null;
 
   // FontAwesome icons
   faPills = faPills;
@@ -61,8 +96,12 @@ export class MedicationsComponent {
   // New medication form
   newMedication: Partial<Medication> = {};
 
+  // Reactive Form
+  medicationForm!: FormGroup;
+
   // Image upload state
-  uploadedImage: string | null = null;
+  uploadedImage: File | null = null;
+  medicationFiles: File[] = [];
   isProcessingImage = false;
   extractedMedicationData: Partial<Medication> | null = null;
 
@@ -81,15 +120,48 @@ export class MedicationsComponent {
       endDate: new Date('2024-01-15'),
       status: 'discontinued',
       prescribedBy: 'Dr. Smith',
-      discontinueReason: 'Switched to alternative medication'
-    }
+      discontinueReason: 'Switched to alternative medication',
+    },
   ];
+
+  constructor(
+    private fb: FormBuilder,
+    private patientService: PatientService,
+    private toastService: ToastService
+  ) {
+    this.initializeForm();
+  }
+  ngOnInit(): void {
+    this.getPatientMedications();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // if (changes['patientDetails']) {
+    //   this.getPatientMedications();
+    // }
+  }
+
+  private initializeForm(): void {
+    this.medicationForm = this.fb.group({
+      name: ['', Validators.required],
+      dosage: ['', Validators.required],
+      frequency: ['', Validators.required],
+      timesPerDay: [''],
+      startDate: ['', Validators.required],
+      prescribedBy: [''],
+      description: [''],
+      instructions: [''],
+      sideEffects: [''],
+      interactions: [''],
+      notes: [''],
+    });
+  }
 
   formatDate(date: Date): string {
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
   }
 
@@ -98,7 +170,7 @@ export class MedicationsComponent {
       active: 'bg-green-100 text-green-800',
       completed: 'bg-blue-100 text-blue-800',
       discontinued: 'bg-gray-100 text-gray-800',
-      paused: 'bg-yellow-100 text-yellow-800'
+      paused: 'bg-yellow-100 text-yellow-800',
     };
     return classes[status] || 'bg-gray-100 text-gray-800';
   }
@@ -120,15 +192,22 @@ export class MedicationsComponent {
 
     // Filter by search term
     if (this.medicationSearchTerm) {
-      allMeds = allMeds.filter(med =>
-        med.name.toLowerCase().includes(this.medicationSearchTerm.toLowerCase()) ||
-        med.dosage.toLowerCase().includes(this.medicationSearchTerm.toLowerCase())
+      allMeds = allMeds.filter(
+        (med) =>
+          med.name
+            .toLowerCase()
+            .includes(this.medicationSearchTerm.toLowerCase()) ||
+          med.dosage
+            .toLowerCase()
+            .includes(this.medicationSearchTerm.toLowerCase())
       );
     }
 
     // Filter by status
     if (this.selectedStatusFilter !== 'all') {
-      allMeds = allMeds.filter(med => med.status === this.selectedStatusFilter);
+      allMeds = allMeds.filter(
+        (med) => med.status === this.selectedStatusFilter
+      );
     }
 
     this.filteredMedications = allMeds;
@@ -140,11 +219,16 @@ export class MedicationsComponent {
 
   getFilteredMedications(status: string): Medication[] {
     if (status === 'all') {
-      return this.filteredMedications.length > 0 ? this.filteredMedications : this.getAllMedications();
+      return this.filteredMedications.length > 0
+        ? this.filteredMedications
+        : this.getAllMedications();
     }
 
-    const allMeds = this.filteredMedications.length > 0 ? this.filteredMedications : this.getAllMedications();
-    return allMeds.filter(med => med.status === status);
+    const allMeds =
+      this.filteredMedications.length > 0
+        ? this.filteredMedications
+        : this.getAllMedications();
+    return allMeds.filter((med) => med.status === status);
   }
 
   // Medication actions
@@ -165,33 +249,48 @@ export class MedicationsComponent {
 
   openAddMedicationModal(): void {
     this.showAddMedicationModal = true;
+    this.medicationForm.reset({
+      name: '',
+      dosage: '',
+      frequency: '',
+      timesPerDay: '',
+      startDate: new Date().toISOString().split('T')[0],
+      prescribedBy: '',
+      description: '',
+      instructions: '',
+      sideEffects: '',
+      interactions: '',
+      notes: '',
+    });
     this.newMedication = {
       startDate: new Date(),
-      status: 'active'
+      status: 'active',
     };
   }
 
   closeAddMedicationModal(): void {
     this.showAddMedicationModal = false;
+    this.medicationForm.reset();
     this.newMedication = {};
   }
 
   addMedication(): void {
-    if (this.isMedicationFormValid()) {
+    if (this.medicationForm.valid) {
+      const formValue = this.medicationForm.value;
       const medication: Medication = {
         id: Date.now(),
-        name: this.newMedication.name!,
-        dosage: this.newMedication.dosage!,
-        frequency: this.newMedication.frequency!,
-        startDate: new Date(this.newMedication.startDate!),
-        status: this.newMedication.status!,
-        notes: this.newMedication.notes,
-        prescribedBy: this.newMedication.prescribedBy,
-        description: this.newMedication.description,
-        timesPerDay: this.newMedication.timesPerDay,
-        instructions: this.newMedication.instructions,
-        sideEffects: this.newMedication.sideEffects,
-        interactions: this.newMedication.interactions
+        name: formValue.name,
+        dosage: formValue.dosage,
+        frequency: formValue.frequency,
+        startDate: new Date(formValue.startDate),
+        status: 'active',
+        notes: formValue.notes,
+        prescribedBy: formValue.prescribedBy,
+        description: formValue.description,
+        timesPerDay: formValue.timesPerDay,
+        instructions: formValue.instructions,
+        sideEffects: formValue.sideEffects,
+        interactions: formValue.interactions,
       };
 
       this.medications.push(medication);
@@ -201,13 +300,14 @@ export class MedicationsComponent {
   }
 
   isMedicationFormValid(): boolean {
-    return !!(this.newMedication.name && this.newMedication.dosage && this.newMedication.frequency && this.newMedication.startDate);
+    return this.medicationForm.valid;
   }
 
   // Image upload methods
   openImageUpload(): void {
     this.showImageUploadModal = true;
     this.uploadedImage = null;
+    this.medicationFiles = [];
     this.extractedMedicationData = null;
     this.isProcessingImage = false;
   }
@@ -215,12 +315,15 @@ export class MedicationsComponent {
   closeImageUploadModal(): void {
     this.showImageUploadModal = false;
     this.uploadedImage = null;
+    this.medicationFiles = [];
     this.extractedMedicationData = null;
     this.isProcessingImage = false;
   }
 
   triggerFileInput(): void {
-    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const fileInput = document.querySelector(
+      'input[type="file"]'
+    ) as HTMLInputElement;
     if (fileInput) {
       fileInput.click();
     }
@@ -229,6 +332,7 @@ export class MedicationsComponent {
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
+      this.medicationFiles = [file];
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.uploadedImage = e.target.result;
@@ -253,6 +357,7 @@ export class MedicationsComponent {
 
     const files = event.dataTransfer?.files;
     if (files && files.length > 0) {
+      this.medicationFiles = Array.from(files);
       const file = files[0];
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -264,26 +369,74 @@ export class MedicationsComponent {
 
   removeUploadedImage(): void {
     this.uploadedImage = null;
+    this.medicationFiles = [];
     this.extractedMedicationData = null;
   }
 
+  // ========================== API CALLS ========================== //
+  // Upload medications
+  getPatientMedications(): void {
+    if (this.patientDetails?.healthId) {
+      this.patientService
+        .getPatientMedications({
+          healthId: this.patientDetails?.healthId,
+        })
+        .subscribe({
+          next: (response) => {
+            console.log('response', response);
+          },
+        });
+    }
+  }
+
+  // ========================== IMAGE PROCESSING ========================== //
+  // Process image
   processImage(): void {
     if (!this.uploadedImage) return;
 
-    this.isProcessingImage = true;
+    // this.isProcessingImage = true;
+
+    if (this.patientDetails?.healthId) {
+      this.patientService
+        .uploadPatientReports({
+          healthId: this.patientDetails?.healthId,
+          reports: this.medicationFiles,
+        })
+        .subscribe({
+          next: (response) => {
+            console.log('response', response);
+            this.toastService.success(
+              'Success',
+              'Medications uploaded successfully'
+            );
+            this.isProcessingImage = false;
+            this.closeImageUploadModal();
+          },
+          error: (error) => {
+            console.error('Upload error:', error);
+            this.toastService.error(
+              'Error',
+              'Failed to upload medications. Please try again.'
+            );
+            this.isProcessingImage = false;
+          },
+        });
+    } else {
+      this.isProcessingImage = false;
+    }
 
     // Simulate AI processing
-    setTimeout(() => {
-      this.extractedMedicationData = {
-        name: 'Metformin',
-        dosage: '500mg',
-        frequency: 'Twice daily',
-        instructions: 'Take with food',
-        startDate: new Date(),
-        status: 'active'
-      };
-      this.isProcessingImage = false;
-    }, 3000);
+    // setTimeout(() => {
+    //   this.extractedMedicationData = {
+    //     name: 'Metformin',
+    //     dosage: '500mg',
+    //     frequency: 'Twice daily',
+    //     instructions: 'Take with food',
+    //     startDate: new Date(),
+    //     status: 'active'
+    //   };
+    //   this.isProcessingImage = false;
+    // }, 3000);
   }
 
   confirmExtractedData(): void {
@@ -296,7 +449,7 @@ export class MedicationsComponent {
         startDate: new Date(this.extractedMedicationData.startDate!),
         status: this.extractedMedicationData.status!,
         instructions: this.extractedMedicationData.instructions,
-        notes: 'Added via prescription scan'
+        notes: 'Added via prescription scan',
       };
 
       this.medications.push(medication);
@@ -308,8 +461,20 @@ export class MedicationsComponent {
   editExtractedData(): void {
     // Open the manual entry modal with pre-filled data
     this.closeImageUploadModal();
-    this.openAddMedicationModal();
-    this.newMedication = { ...this.extractedMedicationData };
+    this.showAddMedicationModal = true;
+    if (this.extractedMedicationData) {
+      this.medicationForm.patchValue({
+        name: this.extractedMedicationData.name || '',
+        dosage: this.extractedMedicationData.dosage || '',
+        frequency: this.extractedMedicationData.frequency || '',
+        startDate: this.extractedMedicationData.startDate
+          ? new Date(this.extractedMedicationData.startDate)
+              .toISOString()
+              .split('T')[0]
+          : new Date().toISOString().split('T')[0],
+        instructions: this.extractedMedicationData.instructions || '',
+      });
+    }
   }
 
   // Helper methods for insights
@@ -323,18 +488,18 @@ export class MedicationsComponent {
       {
         icon: this.faPills,
         colorClass: 'text-green-600',
-        description: 'Metformin added via scan'
+        description: 'Metformin added via scan',
       },
       {
         icon: this.faEdit,
         colorClass: 'text-blue-600',
-        description: 'Lisinopril dosage updated'
+        description: 'Lisinopril dosage updated',
       },
       {
         icon: this.faTimes,
         colorClass: 'text-red-600',
-        description: 'Aspirin discontinued'
-      }
+        description: 'Aspirin discontinued',
+      },
     ];
   }
 
@@ -353,7 +518,7 @@ export class MedicationsComponent {
       fileSize: '2.4 MB',
       uploadedBy: medication.prescribedBy || 'Dr. Unknown',
       uploadedAt: medication.startDate,
-      description: `Prescription for ${medication.name} - ${medication.dosage} ${medication.frequency}`
+      description: `Prescription for ${medication.name} - ${medication.dosage} ${medication.frequency}`,
     };
 
     this.showDocumentViewer = true;
