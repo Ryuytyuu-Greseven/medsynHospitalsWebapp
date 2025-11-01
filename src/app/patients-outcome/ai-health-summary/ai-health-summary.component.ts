@@ -167,4 +167,8 @@ export class AiHealthSummaryComponent {
   onGenerateAISummary(): void {
     this.requestGenerationOfSummary();
   }
+
+  isSummaryProcessing(): boolean {
+    return !this.aiHealthSummary?.summary || this.aiHealthSummary?.isProcessing;
+  }
 }
