@@ -44,6 +44,7 @@ export class ApiService {
       getReports: 'patients/health-reports/{healthId}/{page}/{limit}',
       addEvent: 'patients/health-events/add-new',
       updateEvent: 'patients/health-events/update/{healthId}',
+      deleteEvent: 'patients/health-events/delete/{healthId}/{eventId}',
       getEvents: 'patients/health-events/{healthId}/{page}/{limit}',
       getMedications: 'patients/health-medications/{healthId}/{page}/{limit}',
       uploadMedications: 'patients/health-medications/add-new',
@@ -213,6 +214,13 @@ export class ApiService {
   public sendGetNonAuthRequest<T>(endpoint: string): Observable<T> {
     return this.http.get<T>(this.getApiUrl(endpoint), {
       headers: this.getHttpHeaders(),
+    });
+  }
+
+  /** With Auth Headers */
+  public sendDeleteRequest<T>(endpoint: string): Observable<T> {
+    return this.http.delete<T>(this.getApiUrl(endpoint), {
+      headers: this.getAuthHeaders(),
     });
   }
 

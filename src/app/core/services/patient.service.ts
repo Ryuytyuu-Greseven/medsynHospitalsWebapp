@@ -162,13 +162,25 @@ export class PatientService {
   }
 
   /** Update patient event */
-  updatePatientEvent(payload: any): Observable<any> {
+  updatePatientEvent(payload: any, healthId: string): Observable<any> {
     return this.apiService.sendPostRequest<{ success: boolean; data: any }>(
       this.apiService.endpoints.patient.updateEvent.replace(
         '{healthId}',
-        payload.healthId
+        healthId
       ),
       payload
+    );
+  }
+
+  /** Delete patient event */
+  deletePatientEvent(payload: {
+    healthId: string;
+    eventId: string;
+  }): Observable<any> {
+    return this.apiService.sendDeleteRequest<{ success: boolean; data: any }>(
+      this.apiService.endpoints.patient.deleteEvent
+        .replace('{healthId}', payload.healthId)
+        .replace('{eventId}', payload.eventId)
     );
   }
 
@@ -228,7 +240,9 @@ export class PatientService {
 
   // ========================== HEALTH SUMMARY API CALLS ========================== //
   // Get patient health summary
-  getPatientHealthSummary(payload: { healthId: string }): Observable<PatientHealthSummary> {
+  getPatientHealthSummary(payload: {
+    healthId: string;
+  }): Observable<PatientHealthSummary> {
     return this.apiService
       .sendGetRequest<{ success: boolean; data: any }>(
         this.apiService.endpoints.patient.getSummary.replace(

@@ -1,13 +1,18 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { CardComponent } from '../../shared/components/card/card.component';
 import { PublicPatientProfile } from '../../core/interfaces';
 import { PatientService } from '../../core/services/patient.service';
 import { ToastService } from '../../core/services';
 
 export interface HealthEvent {
-  id: number;
+  id: string;
   title: string;
   description: string;
   // type:
@@ -38,8 +43,14 @@ export class HealthEventsComponent {
 
   // Modal state
   showAddEventModal = false;
+  showDeleteConfirmModal = false;
+  isEditMode = false;
   newEvent: Partial<HealthEvent> = {};
   updateEvent: Partial<HealthEvent> = {};
+
+  // Loading states
+  isSubmitting = false;
+  isDeleting = false;
 
   // Reactive Form
   eventForm!: FormGroup;
@@ -72,7 +83,7 @@ export class HealthEventsComponent {
     // }
   }
 
-  formatDate(date: Date): string {
+  formatDate(date: any): string {
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -122,6 +133,7 @@ export class HealthEventsComponent {
 
   // Modal functions
   openAddEventModal(eventType?: string): void {
+    this.isEditMode = false;
     this.showAddEventModal = true;
     this.eventForm.reset({
       title: '',
@@ -130,17 +142,43 @@ export class HealthEventsComponent {
       status: 'scheduled',
       doctor: '',
     });
-    // this.newEvent = {
-    //   // type: eventType as any,
-    //   status: 'scheduled',
-    //   date: new Date(),
-    // };
+  }
+
+  openEditEventModal(event: HealthEvent): void {
+    this.isEditMode = true;
+    this.showAddEventModal = true;
+    this.updateEvent = { ...event };
+
+    // Format date for input field
+    const dateString = new Date(event.start).toISOString().split('T')[0];
+
+    this.eventForm.patchValue({
+      title: event.title,
+      description: event.description,
+      date: dateString,
+      status: event.status || 'scheduled',
+      doctor: event.doctor || '',
+    });
   }
 
   closeAddEventModal(): void {
     this.showAddEventModal = false;
+    this.isEditMode = false;
+    this.isSubmitting = false;
     this.eventForm.reset();
     this.newEvent = {};
+    this.updateEvent = {};
+  }
+
+  openDeleteConfirmModal(event: HealthEvent): void {
+    this.updateEvent = event;
+    this.showDeleteConfirmModal = true;
+  }
+
+  closeDeleteConfirmModal(): void {
+    this.showDeleteConfirmModal = false;
+    this.isDeleting = false;
+    this.updateEvent = {};
   }
 
   isFormValid(): boolean {
@@ -161,7 +199,9 @@ export class HealthEventsComponent {
         (event) =>
           event.status === 'scheduled' && new Date(event.start) > new Date()
       )
-      .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+      .sort(
+        (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()
+      );
 
     if (upcomingEvents.length > 0) {
       const nextEvent = upcomingEvents[0];
@@ -189,6 +229,9 @@ export class HealthEventsComponent {
 
   /** Add patient event */
   addPatientEvent(): void {
+    if (this.isSubmitting) return;
+
+    this.isSubmitting = true;
     const formValue = this.eventForm.value;
     const payload = {
       healthId: this.patientDetails?.healthId,
@@ -202,6 +245,7 @@ export class HealthEventsComponent {
 
     this.patientService.addPatientEvent(payload).subscribe({
       next: (response) => {
+        this.isSubmitting = false;
         if (response.success) {
           this.toastService.success(
             'Success',
@@ -214,6 +258,7 @@ export class HealthEventsComponent {
         }
       },
       error: (error) => {
+        this.isSubmitting = false;
         this.toastService.error('Error', 'Failed to add health event');
         console.error('Error adding health event:', error);
       },
@@ -222,6 +267,9 @@ export class HealthEventsComponent {
 
   /** Update patient event */
   updatePatientEvent(): void {
+    if (this.isSubmitting) return;
+
+    this.isSubmitting = true;
     const formValue = this.eventForm.value;
     const payload = {
       eventId: this.updateEvent?.id,
@@ -232,23 +280,65 @@ export class HealthEventsComponent {
       status: formValue.status,
     };
 
-    this.patientService.updatePatientEvent(payload).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.toastService.success(
-            'Success',
-            'Health event updated successfully'
-          );
-          this.getPatientEvents();
-          this.closeAddEventModal();
-        } else {
+    this.patientService
+      .updatePatientEvent(payload, this.patientDetails!.healthId)
+      .subscribe({
+        next: (response) => {
+          this.isSubmitting = false;
+          if (response.success) {
+            this.toastService.success(
+              'Success',
+              'Health event updated successfully'
+            );
+            this.getPatientEvents();
+            this.closeAddEventModal();
+          } else {
+            this.toastService.error('Error', 'Failed to update health event');
+          }
+        },
+        error: (error) => {
+          this.isSubmitting = false;
           this.toastService.error('Error', 'Failed to update health event');
-        }
-      },
-      error: (error) => {
-        this.toastService.error('Error', 'Failed to update health event');
-        console.error('Error updating health event:', error);
-      },
-    });
+          console.error('Error updating health event:', error);
+        },
+      });
+  }
+
+  /** Delete patient event */
+  deletePatientEvent(): void {
+    if (!this.updateEvent?.id) {
+      this.toastService.error('Error', 'No event selected for deletion');
+      return;
+    }
+
+    if (this.isDeleting) return;
+
+    this.isDeleting = true;
+
+    this.patientService
+      .deletePatientEvent({
+        eventId: this.updateEvent.id,
+        healthId: this.patientDetails!.healthId,
+      })
+      .subscribe({
+        next: (response) => {
+          this.isDeleting = false;
+          if (response.success) {
+            this.toastService.success(
+              'Success',
+              'Health event deleted successfully'
+            );
+            this.getPatientEvents();
+            this.closeDeleteConfirmModal();
+          } else {
+            this.toastService.error('Error', 'Failed to delete health event');
+          }
+        },
+        error: (error) => {
+          this.isDeleting = false;
+          this.toastService.error('Error', 'Failed to delete health event');
+          console.error('Error deleting health event:', error);
+        },
+      });
   }
 }
