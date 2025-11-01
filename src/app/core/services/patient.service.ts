@@ -188,16 +188,22 @@ export class PatientService {
   /** Get patient medications */
   getPatientMedications(payload: {
     healthId: string;
+    search?: string;
     page?: number;
     limit?: number;
   }): Observable<any> {
+    let path = this.apiService.endpoints.patient.getMedications
+      .replace('{healthId}', payload.healthId)
+      .replace('{page}', payload.page?.toString() || '1')
+      .replace('{limit}', payload.limit?.toString() || '10');
+    if (payload.search?.length) {
+      path = path.replace('{search}', payload.search);
+    } else {
+      path = path.replace('/{search}', '');
+    }
+
     return this.apiService
-      .sendGetRequest<{ success: boolean; data: any }>(
-        this.apiService.endpoints.patient.getMedications
-          .replace('{healthId}', payload.healthId)
-          .replace('{page}', payload.page?.toString() || '1')
-          .replace('{limit}', payload.limit?.toString() || '10')
-      )
+      .sendGetRequest<{ success: boolean; data: any }>(path)
       .pipe(
         map((response: { success: boolean; data: any }) => {
           if (response.success) {

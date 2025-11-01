@@ -92,6 +92,7 @@ export class MedicationsComponent {
   showAddMedicationModal = false;
   showImageUploadModal = false;
   medicationSearchTerm = '';
+  quickSearchTerm = '';
   selectedStatusFilter = 'all';
   filteredMedications: Medication[] = [];
 
@@ -105,6 +106,7 @@ export class MedicationsComponent {
   uploadedImage: File | null = null;
   medicationFiles: File[] = [];
   isProcessingImage = false;
+  isUploadingMedication = false;
   extractedMedicationData: Partial<Medication> | null = null;
 
   // Document Viewer State
@@ -175,6 +177,12 @@ export class MedicationsComponent {
       paused: 'bg-yellow-100 text-yellow-800',
     };
     return classes[status] || 'bg-gray-100 text-gray-800';
+  }
+
+  // Quick search function
+  quickSearchMedication(): void {
+    this.medicationSearchTerm = this.quickSearchTerm;
+    this.getPatientMedications();
   }
 
   // Modal functions
@@ -320,6 +328,7 @@ export class MedicationsComponent {
     this.medicationFiles = [];
     this.extractedMedicationData = null;
     this.isProcessingImage = false;
+    this.isUploadingMedication = false;
   }
 
   triggerFileInput(): void {
@@ -382,10 +391,14 @@ export class MedicationsComponent {
       this.patientService
         .getPatientMedications({
           healthId: this.patientDetails?.healthId,
+          search: this.quickSearchTerm,
+          limit: 10,
+          page: 1,
         })
         .subscribe({
           next: (response) => {
             console.log('response', response);
+            this.medications = response;
           },
         });
     }
@@ -395,23 +408,27 @@ export class MedicationsComponent {
   // Process image
   processImage(): void {
     if (!this.uploadedImage) return;
+    if (this.isUploadingMedication) return;
 
-    // this.isProcessingImage = true;
+    this.isUploadingMedication = true;
+    this.isProcessingImage = true;
 
     if (this.patientDetails?.healthId) {
       this.patientService
-        .uploadPatientReports({
+        .addPatientMedication({
           healthId: this.patientDetails?.healthId,
-          reports: this.medicationFiles,
+          medications: this.medicationFiles,
         })
         .subscribe({
           next: (response) => {
             console.log('response', response);
             this.toastService.success(
               'Success',
-              'Medications uploaded successfully'
+              'Medications are being processed...'
             );
             this.isProcessingImage = false;
+            this.isUploadingMedication = false;
+            this.getPatientMedications();
             this.closeImageUploadModal();
           },
           error: (error) => {
@@ -421,10 +438,12 @@ export class MedicationsComponent {
               'Failed to upload medications. Please try again.'
             );
             this.isProcessingImage = false;
+            this.isUploadingMedication = false;
           },
         });
     } else {
       this.isProcessingImage = false;
+      this.isUploadingMedication = false;
     }
 
     // Simulate AI processing
@@ -531,4 +550,3 @@ export class MedicationsComponent {
     this.currentDocument = null;
   }
 }
-

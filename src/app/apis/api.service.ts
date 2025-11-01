@@ -46,7 +46,7 @@ export class ApiService {
       updateEvent: 'patients/health-events/update/{healthId}',
       deleteEvent: 'patients/health-events/delete/{healthId}/{eventId}',
       getEvents: 'patients/health-events/{healthId}/{page}/{limit}',
-      getMedications: 'patients/health-medications/{healthId}/{page}/{limit}',
+      getMedications: 'patients/health-medications/{healthId}/{page}/{limit}/{search}',
       uploadMedications: 'patients/health-medications/add-new',
       updateMedication: 'patients/health-medications/update/{healthId}',
     },
