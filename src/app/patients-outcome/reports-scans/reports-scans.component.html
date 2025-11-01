@@ -8,7 +8,17 @@
         <h3 class="text-lg font-bold text-gray-900">Reports & Scans</h3>
         <div class="flex items-center gap-2">
           <span class="text-xs text-gray-500">{{ reports.length || 0 }} files</span>
-          <button (click)="openUploadModal()" class="px-3 py-1.5 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-1">
+          <!-- [class.animate-spin]="isRefreshing" -->
+          <button (click)="refreshReports()"
+            [disabled]="isRefreshing"
+            class="px-3 py-1.5 bg-teal-600 text-white text-xs rounded-lg hover:bg-teal-700 transition-colors flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+            <fa-icon [icon]="faSync" class="w-3 h-3" [class.animate-spin]="isRefreshing"></fa-icon>
+            <span *ngIf="!isRefreshing">Refresh</span>
+            <span *ngIf="isRefreshing">Refreshing...</span>
+          </button>
+          <button (click)="openUploadModal()"
+            class="px-3 py-1.5 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-1">
             <fa-icon [icon]="faCloudUploadAlt" class="w-3 h-3"></fa-icon>
             Upload
           </button>
@@ -17,25 +27,20 @@
 
       <!-- Filter Tabs -->
       <div class="flex gap-2 mb-4 overflow-x-auto">
-        <button *ngFor="let filter of reportFilters"
-                (click)="setActiveFilter(filter.key)"
-                [class]="'px-3 py-1.5 text-xs rounded-lg transition-colors whitespace-nowrap ' + (activeFilter === filter.key ? 'bg-blue-100 text-blue-700 font-medium' : 'bg-gray-100 text-gray-600 hover:bg-gray-200')">
+        <button *ngFor="let filter of reportFilters" (click)="setActiveFilter(filter.key)"
+          [class]="'px-3 py-1.5 text-xs rounded-lg transition-colors whitespace-nowrap ' + (activeFilter === filter.key ? 'bg-blue-100 text-blue-700 font-medium' : 'bg-gray-100 text-gray-600 hover:bg-gray-200')">
           {{ filter.label }} ({{ getFilteredReports(filter.key).length }})
         </button>
       </div>
 
-      <!-- Empty State -->
-      <div *ngIf="!reports || reports.length === 0" class="text-center py-8">
-        <fa-icon [icon]="faFileMedical" class="w-12 h-12 mx-auto text-gray-300 mb-3"></fa-icon>
-        <p class="text-gray-500 font-semibold">No reports available</p>
-        <p class="text-gray-400 text-xs mt-1">Upload reports and scans to get started</p>
-      </div>
 
       <!-- Reports List -->
       <div class="space-y-3">
-        <div *ngFor="let report of currentPatientReports" class="bg-white rounded-lg border border-gray-200 p-3 hover:shadow-md transition-all hover-lift">
+        <div *ngFor="let report of currentPatientReports"
+          class="bg-white rounded-lg border border-gray-200 p-3 hover:shadow-md transition-all hover-lift">
           <div class="flex items-start gap-3">
-            <div [class]="'w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-white text-sm ' + getReportTypeClass(report.type)">
+            <div
+              [class]="'w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-white text-sm ' + getReportTypeClass(report.type)">
               <fa-icon [icon]="getReportIcon(report.type)" class="w-5 h-5"></fa-icon>
             </div>
             <div class="flex-1 min-w-0">
@@ -50,18 +55,23 @@
                   <p class="text-xs text-gray-500 mt-0.5">{{ formatDate(report.reportDate) }}</p>
                 </div>
                 <div class="flex items-center gap-1 ml-2">
-                  <button *ngIf="report.analysis" (click)="viewAiAnalysis(report)" class="p-1 text-purple-600 hover:text-purple-800 transition-colors" title="View AI Analysis">
+                  <button *ngIf="report.analysis" (click)="viewAiAnalysis(report)"
+                    class="p-1 text-purple-600 hover:text-purple-800 transition-colors" title="View AI Analysis">
                     <fa-icon [icon]="faBrain" class="w-4 h-4"></fa-icon>
                   </button>
-                  <button (click)="viewReport(report)" class="p-1 text-blue-600 hover:text-blue-800 transition-colors" title="View Report">
+                  <button (click)="viewReport(report)" class="p-1 text-blue-600 hover:text-blue-800 transition-colors"
+                    title="View Report">
                     <fa-icon [icon]="faEye" class="w-4 h-4"></fa-icon>
                   </button>
-                  <button (click)="downloadReport(report)" class="p-1 text-green-600 hover:text-green-800 transition-colors" title="Download">
+                  <button (click)="downloadReport(report)"
+                    class="p-1 text-green-600 hover:text-green-800 transition-colors" title="Download">
                     <fa-icon [icon]="faDownload" class="w-4 h-4"></fa-icon>
                   </button>
                 </div>
               </div>
-              <div *ngIf="report.analysis" class="mt-2 p-2 bg-purple-50 rounded border border-purple-200 cursor-pointer hover:bg-purple-100 transition-colors" (click)="viewAiAnalysis(report)">
+              <div *ngIf="report.analysis"
+                class="mt-2 p-2 bg-purple-50 rounded border border-purple-200 cursor-pointer hover:bg-purple-100 transition-colors"
+                (click)="viewAiAnalysis(report)">
                 <div class="flex items-center justify-between mb-0.5">
                   <div class="text-xs font-semibold text-purple-700">AI ANALYSIS</div>
                   <fa-icon [icon]="faChevronRight" class="w-3 h-3 text-purple-500"></fa-icon>
@@ -76,6 +86,14 @@
           </div>
         </div>
       </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!currentPatientReports || currentPatientReports.length === 0" class="text-center py-8">
+        <fa-icon [icon]="faFileMedical" class="w-12 h-12 mx-auto text-gray-300 mb-3"></fa-icon>
+        <p class="text-gray-500 font-semibold">No reports available</p>
+        <p class="text-gray-400 text-xs mt-1">Upload reports and scans to get started</p>
+      </div>
+
     </app-card>
   </div>
 
@@ -87,7 +105,8 @@
       <!-- Quick Upload Buttons -->
       <div class="grid grid-cols-1 gap-3 mb-4">
         <!-- Lab Results -->
-        <button (click)="openUploadModal('lab')" class="p-3 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-colors text-left">
+        <button (click)="openUploadModal('lab')"
+          class="p-3 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-colors text-left">
           <div class="flex items-center gap-3">
             <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center text-white text-sm">
               <fa-icon [icon]="faFlask" class="w-4 h-4"></fa-icon>
@@ -101,7 +120,8 @@
         </button>
 
         <!-- Imaging/Scans -->
-        <button (click)="openUploadModal('imaging')" class="p-3 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors text-left">
+        <button (click)="openUploadModal('imaging')"
+          class="p-3 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors text-left">
           <div class="flex items-center gap-3">
             <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center text-white text-sm">
               <fa-icon [icon]="faCamera" class="w-4 h-4"></fa-icon>
@@ -115,7 +135,8 @@
         </button>
 
         <!-- Medical Reports -->
-        <button (click)="openUploadModal('report')" class="p-3 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-100 transition-colors text-left">
+        <button (click)="openUploadModal('report')"
+          class="p-3 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-100 transition-colors text-left">
           <div class="flex items-center gap-3">
             <div class="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center text-white text-sm">
               <fa-icon [icon]="faFileAlt" class="w-4 h-4"></fa-icon>
@@ -129,7 +150,8 @@
         </button>
 
         <!-- Prescriptions -->
-        <button (click)="openUploadModal('prescription')" class="p-3 bg-orange-50 border border-orange-200 rounded-lg hover:bg-orange-100 transition-colors text-left">
+        <button (click)="openUploadModal('prescription')"
+          class="p-3 bg-orange-50 border border-orange-200 rounded-lg hover:bg-orange-100 transition-colors text-left">
           <div class="flex items-center gap-3">
             <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white text-sm">
               <fa-icon [icon]="faPills" class="w-4 h-4"></fa-icon>
@@ -159,15 +181,15 @@
       </div>
 
       <!-- Drag & Drop Zone -->
-      <div class="mt-4 p-4 border-2 border-dashed border-gray-300 rounded-lg text-center hover:border-blue-400 transition-colors cursor-pointer"
-           (click)="triggerFileInput()"
-           (dragover)="onDragOver($event)"
-           (dragleave)="onDragLeave($event)"
-           (drop)="onDrop($event)">
+      <div
+        class="mt-4 p-4 border-2 border-dashed border-gray-300 rounded-lg text-center hover:border-blue-400 transition-colors cursor-pointer"
+        (click)="triggerFileInput()" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)">
         <fa-icon [icon]="faCloudUploadAlt" class="w-8 h-8 mx-auto text-gray-400 mb-2"></fa-icon>
         <p class="text-sm font-medium text-gray-700">Drop files here or click to browse</p>
         <p class="text-xs text-gray-500 mt-1">PDF, JPG, PNG, DICOM files up to 50MB</p>
-        <input #fileInput type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.dcm,.dicom" class="hidden" (change)="onFileSelected($event)">
+        <input #fileInput type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.dcm,.dicom" class="hidden"
+          (change)="onFileSelected($event)">
       </div>
     </app-card>
   </div>
@@ -181,7 +203,9 @@
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
     <!-- Modal panel -->
-    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" (click)="$event.stopPropagation()">
+    <div
+      class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+      (click)="$event.stopPropagation()">
       <!-- Modal Header -->
       <div class="bg-white px-6 py-4 border-b border-gray-200">
         <div class="flex items-center justify-between">
@@ -195,11 +219,15 @@
       <!-- Modal Body -->
       <div class="bg-white px-6 py-4 relative">
         <!-- Loading Overlay -->
-        <div *ngIf="isUploading" class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10 rounded">
+        <div *ngIf="isUploading"
+          class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10 rounded">
           <div class="text-center">
-            <svg class="animate-spin h-10 w-10 text-blue-600 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg class="animate-spin h-10 w-10 text-blue-600 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
             </svg>
             <p class="text-sm font-medium text-gray-700">Uploading files...</p>
             <p class="text-xs text-gray-500 mt-1">Please wait</p>
@@ -210,20 +238,23 @@
           <!-- File Selection -->
           <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 mb-2">Select Files</label>
-            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors cursor-pointer"
-                 [class.pointer-events-none]="isUploading"
-                 [class.opacity-50]="isUploading"
-                 (click)="triggerModalFileInput()">
+            <div
+              class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors cursor-pointer"
+              [class.pointer-events-none]="isUploading" [class.opacity-50]="isUploading"
+              (click)="triggerModalFileInput()">
               <fa-icon [icon]="faCloudUploadAlt" class="w-8 h-8 mx-auto text-gray-400 mb-2"></fa-icon>
               <p class="text-sm text-gray-600">Click to select files or drag and drop</p>
-              <input #modalFileInput type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.dcm,.dicom" class="hidden" (change)="onModalFileSelected($event)" [disabled]="isUploading">
+              <input #modalFileInput type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.dcm,.dicom" class="hidden"
+                (change)="onModalFileSelected($event)" [disabled]="isUploading">
             </div>
             <div *ngIf="selectedFiles.length > 0" class="mt-2">
               <p class="text-sm font-medium text-gray-700 mb-1">Selected files:</p>
               <div class="space-y-1">
-                <div *ngFor="let file of selectedFiles" class="flex items-center justify-between text-xs bg-gray-50 p-2 rounded">
+                <div *ngFor="let file of selectedFiles"
+                  class="flex items-center justify-between text-xs bg-gray-50 p-2 rounded">
                   <span>{{ file.name }}</span>
-                  <button type="button" (click)="removeFile(file)" [disabled]="isUploading" class="text-red-600 hover:text-red-800 disabled:opacity-50 disabled:cursor-not-allowed">
+                  <button type="button" (click)="removeFile(file)" [disabled]="isUploading"
+                    class="text-red-600 hover:text-red-800 disabled:opacity-50 disabled:cursor-not-allowed">
                     <fa-icon [icon]="faTimes" class="w-4 h-4"></fa-icon>
                   </button>
                 </div>
@@ -235,13 +266,18 @@
 
       <!-- Modal Footer -->
       <div class="bg-gray-50 px-6 py-3 flex justify-end gap-3 border-t border-gray-200">
-        <button (click)="closeUploadModal()" [disabled]="isUploading" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        <button (click)="closeUploadModal()" [disabled]="isUploading"
+          class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
           Cancel
         </button>
-        <button (click)="uploadReport()" [disabled]="!isUploadFormValid() || isUploading" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
-          <svg *ngIf="isUploading" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <button (click)="uploadReport()" [disabled]="!isUploadFormValid() || isUploading"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+          <svg *ngIf="isUploading" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+            fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <path class="opacity-75" fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+            </path>
           </svg>
           <span>{{ isUploading ? 'Uploading...' : 'Upload Reports' }}</span>
         </button>
@@ -258,7 +294,9 @@
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
     <!-- Modal panel -->
-    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full" (click)="$event.stopPropagation()">
+    <div
+      class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full"
+      (click)="$event.stopPropagation()">
       <!-- Modal Header -->
       <div class="bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-4">
         <div class="flex items-center justify-between">
@@ -286,7 +324,8 @@
               <div>
                 <p class="text-xs text-gray-500 mb-1">Report Type</p>
                 <div class="flex items-center gap-2">
-                  <div [class]="'w-6 h-6 rounded flex items-center justify-center text-white text-xs ' + getReportTypeClass(currentAnalysisReport.type)">
+                  <div
+                    [class]="'w-6 h-6 rounded flex items-center justify-center text-white text-xs ' + getReportTypeClass(currentAnalysisReport.type)">
                     <fa-icon [icon]="getReportIcon(currentAnalysisReport.type)" class="w-3 h-3"></fa-icon>
                   </div>
                   <p class="text-sm font-medium text-gray-900">{{ currentAnalysisReport.type | titlecase }}</p>
@@ -308,7 +347,8 @@
               <div class="flex-1">
                 <h4 class="text-sm font-semibold text-gray-900 mb-2">AI-Generated Analysis</h4>
                 <div class="prose prose-sm max-w-none">
-                  <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{{ currentAnalysisReport.analysis }}</p>
+                  <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+                    {{ currentAnalysisReport.analysis }}</p>
                 </div>
               </div>
             </div>
@@ -317,10 +357,12 @@
             <div class="mt-6 p-4 bg-gray-50 rounded-lg">
               <div class="flex items-center gap-2 text-xs text-gray-600">
                 <fa-icon [icon]="faClock" class="w-3 h-3"></fa-icon>
-                <span>Analyzed on {{ formatDate(currentAnalysisReport.uploadedAt || currentAnalysisReport.reportDate) }}</span>
+                <span>Analyzed on
+                  {{ formatDate(currentAnalysisReport.uploadedAt || currentAnalysisReport.reportDate) }}</span>
               </div>
               <div class="mt-2 text-xs text-gray-500">
-                <p class="italic">This analysis was generated by AI and should be reviewed by a qualified healthcare professional.</p>
+                <p class="italic">This analysis was generated by AI and should be reviewed by a qualified healthcare
+                  professional.</p>
               </div>
             </div>
           </div>
@@ -337,16 +379,19 @@
       <!-- Modal Footer -->
       <div class="bg-gray-50 px-6 py-4 flex justify-between items-center border-t border-gray-200">
         <div class="flex items-center gap-2">
-          <button (click)="viewReport(currentAnalysisReport!)" class="px-4 py-2 text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors text-sm flex items-center gap-2">
+          <button (click)="viewReport(currentAnalysisReport!)"
+            class="px-4 py-2 text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors text-sm flex items-center gap-2">
             <fa-icon [icon]="faEye" class="w-3 h-3"></fa-icon>
             View Full Report
           </button>
-          <button (click)="downloadReport(currentAnalysisReport!)" class="px-4 py-2 text-green-700 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-colors text-sm flex items-center gap-2">
+          <button (click)="downloadReport(currentAnalysisReport!)"
+            class="px-4 py-2 text-green-700 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-colors text-sm flex items-center gap-2">
             <fa-icon [icon]="faDownload" class="w-3 h-3"></fa-icon>
             Download
           </button>
         </div>
-        <button (click)="closeAiAnalysisModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors text-sm">
+        <button (click)="closeAiAnalysisModal()"
+          class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors text-sm">
           Close
         </button>
       </div>
@@ -356,9 +401,5 @@
 
 
 <!-- Document Viewer Modal -->
-<app-document-viewer
-  [isOpen]="showDocumentViewer"
-  [document]="currentDocument"
-  (closeEvent)="closeDocumentViewer()">
+<app-document-viewer [isOpen]="showDocumentViewer" [document]="currentDocument" (closeEvent)="closeDocumentViewer()">
 </app-document-viewer>
-

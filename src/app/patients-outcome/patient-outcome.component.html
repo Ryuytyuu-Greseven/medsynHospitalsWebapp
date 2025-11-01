@@ -146,7 +146,7 @@
               Health Events
             </div>
           </button>
-          <button (click)="setActiveSection('insights')"
+          <!-- <button (click)="setActiveSection('insights')"
             [class]="'px-6 py-4 font-semibold text-sm transition-all duration-200 border-b-4 whitespace-nowrap -mb-0.5 ' +
                            (activeSection === 'insights' ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
             <div class="flex items-center gap-2">
@@ -157,7 +157,7 @@
               </svg>
               AI Insights
             </div>
-          </button>
+          </button> -->
         </nav>
       </div>
     </div>
@@ -192,11 +192,6 @@
     <!-- Health Events Section -->
     <div *ngIf="activeSection === 'health-events'" class="space-y-6 fade-in">
       <app-health-events  [patientDetails]="patient"></app-health-events>
-    </div>
-
-    <!-- AI Insights Section -->
-    <div *ngIf="activeSection === 'insights'" class="space-y-6 fade-in">
-      <app-ai-insights [aiHealthSummary]="aiHealthSummary"></app-ai-insights>
     </div>
   </div>
 

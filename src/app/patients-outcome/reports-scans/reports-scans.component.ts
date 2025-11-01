@@ -22,6 +22,7 @@ import {
   faPills,
   faRobot,
   faBrain,
+  faSync,
 } from '@fortawesome/free-solid-svg-icons';
 import { CardComponent } from '../../shared/components/card/card.component';
 import {
@@ -81,6 +82,7 @@ export class ReportsScansComponent {
   faPills = faPills;
   faRobot = faRobot;
   faBrain = faBrain;
+  faSync = faSync;
 
   // Modal and upload state
   showUploadModal = false;
@@ -88,6 +90,7 @@ export class ReportsScansComponent {
   newReport: Partial<Report> = {};
   uploadType: string = '';
   isUploading = false;
+  isRefreshing = false;
 
   // Document Viewer State
   showDocumentViewer: boolean = false;
@@ -292,6 +295,36 @@ export class ReportsScansComponent {
     }
   }
 
+  // Refresh reports
+  refreshReports(): void {
+    if (this.isRefreshing) return;
+
+    this.isRefreshing = true;
+    if (this.patientDetails?.healthId) {
+      this.patientService
+        .getPatientReports({
+          healthId: this.patientDetails?.healthId,
+          page: this.page,
+          limit: this.limit,
+        })
+        .subscribe({
+          next: (response: Report[]) => {
+            console.log('Refreshed reports', response);
+            this.currentPatientReports = response;
+            this.isRefreshing = false;
+            this.toastService.success('Success', 'Reports refreshed successfully');
+          },
+          error: (error) => {
+            console.error('Error refreshing reports', error);
+            this.isRefreshing = false;
+            this.toastService.error('Error', 'Failed to refresh reports');
+          }
+        });
+    } else {
+      this.isRefreshing = false;
+    }
+  }
+
   // Upload functions
   uploadReport(): void {
     if (this.isUploadFormValid() && !this.isUploading) {
@@ -345,11 +378,11 @@ export class ReportsScansComponent {
       fileSize: this.formatFileSize(this.selectedFiles[0]?.size || 0),
       uploadedBy: 'Current User', // This should come from auth service
       uploadedAt: new Date(),
-      notes: this.newReport.notes,
+      notes: '',
       analysis: 'AI analysis pending...',
     };
 
-    this.reports.push(report);
+    this.currentPatientReports.unshift(report);
   }
 
   // isUploadFormValid(): boolean {

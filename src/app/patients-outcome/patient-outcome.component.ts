@@ -11,7 +11,6 @@ import { AiHealthSummaryComponent } from './ai-health-summary/ai-health-summary.
 import { ReportsScansComponent } from './reports-scans/reports-scans.component';
 import { MedicationsComponent } from './medications/medications.component';
 import { HealthEventsComponent } from './health-events/health-events.component';
-import { AiInsightsComponent } from './ai-insights/ai-insights.component';
 import { MedicalChatbotComponent } from './medical-chatbot/medical-chatbot.component';
 import { PatientService } from '../core/services/patient.service';
 
@@ -59,7 +58,6 @@ export interface Report {
     ReportsScansComponent,
     MedicationsComponent,
     HealthEventsComponent,
-    AiInsightsComponent,
     MedicalChatbotComponent
   ],
   templateUrl: './patient-outcome.component.html',

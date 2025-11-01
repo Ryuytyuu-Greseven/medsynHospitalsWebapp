@@ -14,6 +14,7 @@ import {
   PublicPatientProfile,
 } from '../../core/interfaces';
 import { ToastService } from '../../core/services';
+import { AiInsightsComponent } from '../ai-insights/ai-insights.component';
 
 export interface AIHealthSummary {
   summary: string;
@@ -48,7 +49,7 @@ export interface MedicalJourneyEvent {
 @Component({
   selector: 'app-ai-health-summary',
   standalone: true,
-  imports: [CommonModule, CardComponent, LoadingComponent],
+  imports: [CommonModule, CardComponent, LoadingComponent, AiInsightsComponent],
   templateUrl: './ai-health-summary.component.html',
   styleUrls: ['./ai-health-summary.component.css'],
 })
