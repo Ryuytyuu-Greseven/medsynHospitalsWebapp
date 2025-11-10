@@ -49,7 +49,7 @@
             </div>
             <div class="text-right">
               <div class="text-xs font-semibold text-gray-600">AI Confidence</div>
-              <div class="text-xl font-bold text-teal-600 mt-0.5">{{ (aiHealthSummary.confidence * 100) | number:'1.0-0' }}%</div>
+              <div class="text-xl font-bold text-teal-600 mt-0.5">{{ (aiHealthSummary.confidence) | number:'1.0-0' }}%</div>
             </div>
             <button (click)="onGenerateAISummary()"
                     class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white text-sm font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-md">
@@ -62,7 +62,9 @@
         </div>
 
         <div class="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg p-4 border-2 border-purple-200">
-          <p class="text-gray-800 leading-relaxed text-sm">{{ aiHealthSummary.summary }}</p>
+          <div class="markdown-content text-gray-800 leading-relaxed text-sm prose prose-sm max-w-none">
+            <markdown [data]="aiHealthSummary.summary"></markdown>
+          </div>
         </div>
 
         <div class="grid grid-cols-3 gap-2 mt-3">
@@ -83,7 +85,7 @@
     </app-card>
 
     <!-- Empty State -->
-    <app-card *ngIf="!aiHealthSummary && !isLoading" class="hover-lift">
+    <app-card *ngIf="!aiHealthSummary?.summary && !isLoading" class="hover-lift">
       <div class="flex flex-col items-center justify-center py-8 px-6 text-center">
         <!-- AI Icon -->
         <div class="w-16 h-16 rounded-full bg-gradient-to-br from-teal-50 to-emerald-100 flex items-center justify-center mb-4 relative">

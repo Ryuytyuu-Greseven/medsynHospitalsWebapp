@@ -25,3 +25,114 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Markdown Content Styling */
+.markdown-content ::ng-deep {
+  color: inherit;
+}
+
+.markdown-content ::ng-deep h1,
+.markdown-content ::ng-deep h2,
+.markdown-content ::ng-deep h3,
+.markdown-content ::ng-deep h4,
+.markdown-content ::ng-deep h5,
+.markdown-content ::ng-deep h6 {
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  color: #1f2937;
+}
+
+.markdown-content ::ng-deep h1 {
+  font-size: 1.5em;
+}
+
+.markdown-content ::ng-deep h2 {
+  font-size: 1.25em;
+}
+
+.markdown-content ::ng-deep h3 {
+  font-size: 1.1em;
+}
+
+.markdown-content ::ng-deep p {
+  margin-bottom: 0.75em;
+  line-height: 1.6;
+}
+
+.markdown-content ::ng-deep ul,
+.markdown-content ::ng-deep ol {
+  margin-bottom: 0.75em;
+  padding-left: 1.5em;
+}
+
+.markdown-content ::ng-deep li {
+  margin-bottom: 0.25em;
+}
+
+.markdown-content ::ng-deep strong {
+  font-weight: 600;
+  color: #374151;
+}
+
+.markdown-content ::ng-deep em {
+  font-style: italic;
+}
+
+.markdown-content ::ng-deep code {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.125em 0.25em;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-family: 'Courier New', monospace;
+}
+
+.markdown-content ::ng-deep pre {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.75em;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 0.75em;
+}
+
+.markdown-content ::ng-deep pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+.markdown-content ::ng-deep blockquote {
+  border-left: 4px solid #9333ea;
+  padding-left: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0.75em;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.markdown-content ::ng-deep a {
+  color: #6366f1;
+  text-decoration: underline;
+}
+
+.markdown-content ::ng-deep a:hover {
+  color: #4f46e5;
+}
+
+.markdown-content ::ng-deep table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75em;
+}
+
+.markdown-content ::ng-deep th,
+.markdown-content ::ng-deep td {
+  border: 1px solid #e5e7eb;
+  padding: 0.5em;
+  text-align: left;
+}
+
+.markdown-content ::ng-deep th {
+  background-color: #f9fafb;
+  font-weight: 600;
+}
+

@@ -6,6 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MarkdownModule } from 'ngx-markdown';
 import { CardComponent } from '../../shared/components/card/card.component';
 import { LoadingComponent } from '../../shared/components/loading/loading.component';
 import { PatientService } from '../../core/services/patient.service';
@@ -49,7 +50,7 @@ export interface MedicalJourneyEvent {
 @Component({
   selector: 'app-ai-health-summary',
   standalone: true,
-  imports: [CommonModule, CardComponent, LoadingComponent, AiInsightsComponent],
+  imports: [CommonModule, MarkdownModule, CardComponent, LoadingComponent, AiInsightsComponent],
   templateUrl: './ai-health-summary.component.html',
   styleUrls: ['./ai-health-summary.component.css'],
 })
@@ -91,12 +92,32 @@ export class AiHealthSummaryComponent {
         healthId: this.patientDetails?.healthId,
       })
       .subscribe({
-        next: (response) => {
+        next: async (response) => {
           this.isLoading = false;
           if (response?.summary) {
+            console.log('Raw summary type:', typeof response.summary);
+            console.log('Raw summary value:', response.summary);
+
+            let summaryValue: any = response.summary;
+
+            // Handle Promise if summary is a Promise
+            if (summaryValue && typeof summaryValue.then === 'function') {
+              summaryValue = await summaryValue;
+            }
+
+            // Check if it's the string "[object Promise]" and handle it
+            const summaryString = String(summaryValue || '');
+            if (summaryString === '[object Promise]') {
+              console.warn('Summary is "[object Promise]" string, this indicates a Promise was stringified');
+              response.summary = '';
+            } else {
+              // Ensure summary is a string
+              response.summary = summaryString.trim();
+            }
+
             this.aiHealthSummary = response;
           }
-          console.log('aiHealthSummary', this.aiHealthSummary);
+          console.log('Processed aiHealthSummary:', this.aiHealthSummary);
         },
         error: (error) => {
           this.isLoading = false;
