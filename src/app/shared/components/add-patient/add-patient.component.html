@@ -80,7 +80,7 @@
           </svg>
           <h4 class="text-green-800 font-bold">Patient Found</h4>
         </div>
-        <p class="text-green-700 text-sm mb-3">{{ lookupResult?.patient?.name }} is already registered in the system.</p>
+        <p class="text-green-700 text-sm mb-3">{{ lookupResult ? lookupResult.patient.name : 'Patient'  }} is already registered in the system.</p>
         <button
           (click)="viewExistingPatient()"
           class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors duration-200"
