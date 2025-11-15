@@ -21,15 +21,15 @@ import { StaffOnboardingComponent } from '../../shared/components/staff-onboardi
 export class StaffComponent implements OnInit {
   staff: PublicStaffProfile[] = [];
   patients: Patient[] = [];
-  activeFilter = 'all';
+  activeFilter = 0;
   showOnboardingModal = false;
 
   staffFilters = [
-    { key: 'all', label: 'All Staff' },
-    { key: 'doctor', label: 'Doctors' },
-    { key: 'nurse', label: 'Nurses' },
-    { key: 'admin', label: 'Admin Staff' },
-    { key: 'pending', label: 'Pending Staff' },
+    { key: 'all', label: 'All Staff', value: 0 },
+    { key: 'doctor', label: 'Doctors', value: 2 },
+    { key: 'nurse', label: 'Nurses', value: 3 },
+    { key: 'admin', label: 'Admin Staff', value: 1 },
+    // { key: 'pending', label: 'Pending Staff' },
   ];
 
   constructor(
@@ -56,10 +56,10 @@ export class StaffComponent implements OnInit {
   }
 
   get filteredStaff(): PublicStaffProfile[] {
-    if (this.activeFilter === 'all') {
+    if (this.activeFilter === 0) {
       return this.staff;
     }
-    return this.staff.filter((s) => s.role === Number(this.activeFilter));
+    return this.staff.filter((s) => s.role === this.activeFilter);
   }
 
   getStaffRole(role: number): string {
@@ -72,7 +72,7 @@ export class StaffComponent implements OnInit {
       : 'NA';
   }
 
-  setActiveFilter(filter: string): void {
+  setActiveFilter(filter: number): void {
     this.activeFilter = filter;
   }
 

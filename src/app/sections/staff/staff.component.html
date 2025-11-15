@@ -21,13 +21,13 @@
     <div class="mb-6">
       <div class="border-b border-gray-200">
         <nav class="-mb-px flex space-x-8">
-          <button *ngFor="let filter of staffFilters" (click)="setActiveFilter(filter.key)"
-            [class]="activeFilter === filter.key ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+          <button *ngFor="let filter of staffFilters" (click)="setActiveFilter(filter.value)"
+            [class]="activeFilter === filter.value ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
             class="whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm">
             {{ filter.label }}
-            <span class="ml-2 bg-gray-100 text-gray-900 py-0.5 px-2.5 rounded-full text-xs">
+            <!-- <span class="ml-2 bg-gray-100 text-gray-900 py-0.5 px-2.5 rounded-full text-xs">
               {{ getStaffCount(filter.key) }}
-            </span>
+            </span> -->
           </button>
         </nav>
       </div>

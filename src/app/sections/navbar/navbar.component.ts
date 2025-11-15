@@ -73,4 +73,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
       .charAt(0)
       .toUpperCase();
   }
+
+  getStaffRole(role: number): string {
+    return role === 1
+      ? 'Admin'
+      : role === 2
+      ? 'Doctor'
+      : role === 3
+      ? 'Nurse'
+      : 'NA';
+  }
 }
