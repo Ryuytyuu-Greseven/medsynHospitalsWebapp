@@ -1,4 +1,9 @@
 /* Component-specific layout styles */
+.card-mid {
+  max-height: 300px;
+  overflow: scroll;
+}
+
 .reports-header {
   display: flex;
   align-items: center;

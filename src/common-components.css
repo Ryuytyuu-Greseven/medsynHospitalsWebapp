@@ -1,0 +1,248 @@
+/* ============================================
+   Common Components - Reusable UI Components
+   ============================================
+   This file contains global reusable component classes
+   that can be used throughout the application.
+
+   USAGE EXAMPLES:
+   ===============
+
+   Basic Card:
+   <div class="card">Content here</div>
+
+   Card with hover effect:
+   <div class="card card-hover-lift">Content here</div>
+
+   Card with custom padding:
+   <div class="card card-padding-lg">Content here</div>
+
+   Card with minimum height:
+   <div class="card card-min-h-300">Content here</div>
+
+   Glass card variant:
+   <div class="card-glass">Content here</div>
+
+   Elevated card variant:
+   <div class="card-elevated">Content here</div>
+
+   Combined modifiers:
+   <div class="card card-hover-lift card-padding-lg card-min-h-300">
+     Content here
+   </div>
+
+   ============================================ */
+
+/* ============================================
+   CARD COMPONENT CLASSES
+   ============================================ */
+
+/* Base Card - Default variant */
+.card {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+/* Card - Glass variant */
+.card-glass {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+/* Card - Elevated variant */
+.card-elevated {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+/* Card - Enterprise variant (larger padding) */
+.card-enterprise {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid #e5e7eb;
+  padding: 2rem;
+  width: 100%;
+}
+
+/* Card Modifiers */
+
+/* No padding */
+.card-no-padding {
+  padding: 0;
+}
+
+/* Small padding */
+.card-padding-sm {
+  padding: 1rem;
+}
+
+/* Medium padding (default) */
+.card-padding-md {
+  padding: 1.5rem;
+}
+
+/* Large padding */
+.card-padding-lg {
+  padding: 2rem;
+}
+
+/* Extra large padding */
+.card-padding-xl {
+  padding: 2.5rem;
+}
+
+/* Hover effects */
+.card-hover {
+  transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.card-hover:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* Card with hover lift effect (matches hover-lift) */
+.card-hover-lift {
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Height fit content */
+.card-h-fit {
+  height: fit-content;
+}
+
+/* Minimum height variants */
+.card-min-h-300 {
+  min-height: 300px;
+}
+
+.card-min-h-400 {
+  min-height: 400px;
+}
+
+.card-min-h-500 {
+  min-height: 500px;
+}
+
+/* Border variants */
+.card-border-none {
+  border: none;
+}
+
+.card-border-thin {
+  border-width: 1px;
+}
+
+.card-border-thick {
+  border-width: 2px;
+}
+
+/* Shadow variants */
+.card-shadow-none {
+  box-shadow: none;
+}
+
+.card-shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.card-shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.card-shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Background variants */
+.card-bg-white {
+  background-color: white;
+}
+
+.card-bg-gray-50 {
+  background-color: #f9fafb;
+}
+
+.card-bg-gray-100 {
+  background-color: #f3f4f6;
+}
+
+/* Rounded corners variants */
+.card-rounded-sm {
+  border-radius: 0.5rem;
+}
+
+.card-rounded-md {
+  border-radius: 0.75rem;
+}
+
+.card-rounded-lg {
+  border-radius: 1rem;
+}
+
+.card-rounded-xl {
+  border-radius: 1.25rem;
+}
+
+.card-rounded-full {
+  border-radius: 9999px;
+}
+
+/* Width variants */
+.card-w-full {
+  width: 100%;
+}
+
+.card-w-auto {
+  width: auto;
+}
+
+/* Combined utility classes for common use cases */
+.card-default {
+  /* Default card with all standard properties */
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+/* Responsive padding */
+@media (max-width: 768px) {
+  .card {
+    padding: 1rem;
+  }
+
+  .card-padding-md {
+    padding: 1rem;
+  }
+
+  .card-padding-lg {
+    padding: 1.5rem;
+  }
+
+  .card-padding-xl {
+    padding: 2rem;
+  }
+}
+

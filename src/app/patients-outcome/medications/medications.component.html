@@ -1,9 +1,9 @@
 <div class="main-grid">
 
 
-    <!-- Medication Insights -->
-    <!-- <div class="mb-6">
-      <app-card class="hover-lift h-fit" [customeClass]="'min-h-[300px]'">
+  <!-- Medication Insights -->
+  <!-- <div class="mb-6">
+      <div class="card card-hover-lift card-h-fit card-min-h-300">
         <div class="flex items-center justify-between mb-3">
           <h3 class="text-lg font-bold text-gray-900">Medication Insights</h3>
           <fa-icon [icon]="faExclamationTriangle" class="w-5 h-5 text-blue-600"></fa-icon>
@@ -29,15 +29,15 @@
             </div>
           </div>
         </div>
-      </app-card>
+      </div>
     </div> -->
 
-      <!-- Left Side - Medications -->
+  <!-- Left Side - Medications -->
   <div class="medications-container">
 
     <!-- Current Medications -->
     <div class="medications-section">
-      <app-card class="hover-lift">
+      <div class="card card-hover-lift card-mid">
         <div class="medications-header">
           <h3 class="medications-title">Current Medications</h3>
           <div class="header-actions">
@@ -87,12 +87,12 @@
             Show {{ medications.length - 8 }} more medications
           </button>
         </div>
-      </app-card>
+      </div>
     </div>
 
     <!-- Previous Medications -->
     <!-- <div class="mb-6">
-      <app-card class="hover-lift">
+      <div class="card card-hover-lift">
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-bold text-gray-900">Previous Medications</h3>
         <div class="flex items-center gap-2">
@@ -107,113 +107,113 @@
         </div>
         <p class="text-gray-500 text-sm">No previous medications</p>
       </div>
-    </app-card>
+    </div>
     </div> -->
   </div>
 
 
-    <!-- Quick Actions -->
-    <div class="section-spacing">
-      <app-card class="hover-lift h-fit" [customeClass]="'min-h-300'">
-        <div class="quick-actions-header">
-          <h3 class="quick-actions-title">Quick Actions</h3>
-          <fa-icon [icon]="faPlus" class="quick-actions-icon"></fa-icon>
-        </div>
+  <!-- Quick Actions -->
+  <div class="section-spacing">
+    <div class="card card-hover-lift card-h-fit card-min-h-300">
+      <div class="quick-actions-header">
+        <h3 class="quick-actions-title">Quick Actions</h3>
+        <fa-icon [icon]="faPlus" class="quick-actions-icon"></fa-icon>
+      </div>
 
-        <div class="quick-actions-list">
-          <button (click)="openImageUpload()" class="action-button action-button-blue">
-            <div class="action-button-content">
-              <fa-icon [icon]="faCamera" class="action-icon" style="color: #2563eb;"></fa-icon>
-              <div class="action-text">
-                <div class="action-title">Scan Prescription</div>
-                <div class="action-subtitle">Upload image or PDF</div>
-              </div>
-            </div>
-          </button>
-
-          <button (click)="openAddMedicationModal()" class="action-button action-button-green">
-            <div class="action-button-content">
-              <fa-icon [icon]="faPills" class="action-icon" style="color: #16a34a;"></fa-icon>
-              <div class="action-text">
-                <div class="action-title">Add Manually</div>
-                <div class="action-subtitle">Enter details manually</div>
-              </div>
-            </div>
-          </button>
-
-          <button (click)="exportMedications()" class="action-button action-button-purple">
-            <div class="action-button-content">
-              <fa-icon [icon]="faDownload" class="action-icon" style="color: #9333ea;"></fa-icon>
-              <div class="action-text">
-                <div class="action-title">Export List</div>
-                <div class="action-subtitle">Download medication list</div>
-              </div>
-            </div>
-          </button>
-        </div>
-      </app-card>
-    </div>
-
-    <!-- Nutrition & Activity -->
-    <div class="section-spacing">
-      <app-card class="hover-lift h-fit" [customeClass]="'min-h-300'">
-        <h3 class="nutrition-header">Daily Nutrition & Activity</h3>
-
-        <div class="nutrition-section">
-          <h4 class="nutrition-section-title">Nutrition Intake</h4>
-          <div class="nutrition-grid">
-            <div class="nutrition-card nutrition-card-orange">
-              <div class="nutrition-value nutrition-value-orange">1,850</div>
-              <div class="nutrition-label nutrition-label-orange">Calories</div>
-            </div>
-
-            <div class="nutrition-card nutrition-card-blue">
-              <div class="nutrition-value nutrition-value-blue">85g</div>
-              <div class="nutrition-label nutrition-label-blue">Protein</div>
-            </div>
-
-            <div class="nutrition-card nutrition-card-yellow">
-              <div class="nutrition-value nutrition-value-yellow">120g</div>
-              <div class="nutrition-label nutrition-label-yellow">Carbs</div>
-            </div>
-
-            <div class="nutrition-card nutrition-card-purple">
-              <div class="nutrition-value nutrition-value-purple">65g</div>
-              <div class="nutrition-label nutrition-label-purple">Fat</div>
+      <div class="quick-actions-list">
+        <button (click)="openImageUpload()" class="action-button action-button-blue">
+          <div class="action-button-content">
+            <fa-icon [icon]="faCamera" class="action-icon" style="color: #2563eb;"></fa-icon>
+            <div class="action-text">
+              <div class="action-title">Scan Prescription</div>
+              <div class="action-subtitle">Upload image or PDF</div>
             </div>
           </div>
-        </div>
+        </button>
 
-        <div>
-          <h4 class="nutrition-section-title">Activity & Burning</h4>
-          <div class="nutrition-grid">
-            <div class="nutrition-card nutrition-card-red">
-              <div class="nutrition-value nutrition-value-red">420</div>
-              <div class="nutrition-label nutrition-label-red">Calories Burned</div>
-            </div>
-
-            <div class="nutrition-card nutrition-card-green">
-              <div class="nutrition-value nutrition-value-green">6,250</div>
-              <div class="nutrition-label nutrition-label-green">Steps</div>
-            </div>
-
-            <div class="nutrition-card nutrition-card-blue">
-              <div class="nutrition-value nutrition-value-blue">3.2</div>
-              <div class="nutrition-label nutrition-label-blue">Miles</div>
-            </div>
-
-            <div class="nutrition-card nutrition-card-purple">
-              <div class="nutrition-value nutrition-value-purple">45</div>
-              <div class="nutrition-label nutrition-label-purple">Active Minutes</div>
+        <button (click)="openAddMedicationModal()" class="action-button action-button-green">
+          <div class="action-button-content">
+            <fa-icon [icon]="faPills" class="action-icon" style="color: #16a34a;"></fa-icon>
+            <div class="action-text">
+              <div class="action-title">Add Manually</div>
+              <div class="action-subtitle">Enter details manually</div>
             </div>
           </div>
-        </div>
-      </app-card>
-    </div>
+        </button>
 
-    <!-- Current Diet -->
-    <div class="section-spacing">
-      <app-card class="hover-lift h-fit" [customeClass]="'min-h-300'">
+        <button (click)="exportMedications()" class="action-button action-button-purple">
+          <div class="action-button-content">
+            <fa-icon [icon]="faDownload" class="action-icon" style="color: #9333ea;"></fa-icon>
+            <div class="action-text">
+              <div class="action-title">Export List</div>
+              <div class="action-subtitle">Download medication list</div>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nutrition & Activity -->
+  <div class="section-spacing">
+    <div class="card card-hover-lift card-h-fit card-min-h-300">
+      <h3 class="nutrition-header">Daily Nutrition & Activity</h3>
+
+      <div class="nutrition-section">
+        <h4 class="nutrition-section-title">Nutrition Intake</h4>
+        <div class="nutrition-grid">
+          <div class="nutrition-card nutrition-card-orange">
+            <div class="nutrition-value nutrition-value-orange">1,850</div>
+            <div class="nutrition-label nutrition-label-orange">Calories</div>
+          </div>
+
+          <div class="nutrition-card nutrition-card-blue">
+            <div class="nutrition-value nutrition-value-blue">85g</div>
+            <div class="nutrition-label nutrition-label-blue">Protein</div>
+          </div>
+
+          <div class="nutrition-card nutrition-card-yellow">
+            <div class="nutrition-value nutrition-value-yellow">120g</div>
+            <div class="nutrition-label nutrition-label-yellow">Carbs</div>
+          </div>
+
+          <div class="nutrition-card nutrition-card-purple">
+            <div class="nutrition-value nutrition-value-purple">65g</div>
+            <div class="nutrition-label nutrition-label-purple">Fat</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="nutrition-section-title">Activity & Burning</h4>
+        <div class="nutrition-grid">
+          <div class="nutrition-card nutrition-card-red">
+            <div class="nutrition-value nutrition-value-red">420</div>
+            <div class="nutrition-label nutrition-label-red">Calories Burned</div>
+          </div>
+
+          <div class="nutrition-card nutrition-card-green">
+            <div class="nutrition-value nutrition-value-green">6,250</div>
+            <div class="nutrition-label nutrition-label-green">Steps</div>
+          </div>
+
+          <div class="nutrition-card nutrition-card-blue">
+            <div class="nutrition-value nutrition-value-blue">3.2</div>
+            <div class="nutrition-label nutrition-label-blue">Miles</div>
+          </div>
+
+          <div class="nutrition-card nutrition-card-purple">
+            <div class="nutrition-value nutrition-value-purple">45</div>
+            <div class="nutrition-label nutrition-label-purple">Active Minutes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Current Diet -->
+  <div class="section-spacing">
+    <div class="card card-hover-lift card-h-fit card-mid">
       <div class="diet-header">
         <h3 class="diet-title">Current Diet Plan</h3>
         <span class="diet-badge">Active plan</span>
@@ -236,8 +236,8 @@
           </div>
         </div>
       </div>
-    </app-card>
     </div>
+  </div>
 
 
 </div>
@@ -271,12 +271,8 @@
         <div class="search-filter-bar">
           <div class="search-input-container">
             <div class="relative">
-              <input
-                type="text"
-                [(ngModel)]="medicationSearchTerm"
-                (input)="filterMedications()"
-                placeholder="Search medications..."
-                class="search-input-full">
+              <input type="text" [(ngModel)]="medicationSearchTerm" (input)="filterMedications()"
+                placeholder="Search medications..." class="search-input-full">
               <fa-icon [icon]="faSearch" class="search-icon-absolute"></fa-icon>
             </div>
           </div>
@@ -314,23 +310,29 @@
                     </span>
                   </div>
                   <div class="medication-details-list">
-                    <p class="medication-detail-item"><span class="medication-detail-label">Dosage:</span> {{ med.dosage }}</p>
-                    <p class="medication-detail-item"><span class="medication-detail-label">Frequency:</span> {{ med.frequency }}</p>
-                    <p class="medication-detail-item"><span class="medication-detail-label">Started:</span> {{ formatDate(med.startDate) }}</p>
-                    <p *ngIf="med.prescribedBy" class="medication-detail-item"><span class="medication-detail-label">Prescribed by:</span> {{ med.prescribedBy }}</p>
+                    <p class="medication-detail-item"><span class="medication-detail-label">Dosage:</span>
+                      {{ med.dosage }}</p>
+                    <p class="medication-detail-item"><span class="medication-detail-label">Frequency:</span>
+                      {{ med.frequency }}</p>
+                    <p class="medication-detail-item"><span class="medication-detail-label">Started:</span>
+                      {{ formatDate(med.startDate) }}</p>
+                    <p *ngIf="med.prescribedBy" class="medication-detail-item"><span
+                        class="medication-detail-label">Prescribed by:</span> {{ med.prescribedBy }}</p>
                     <p *ngIf="med.notes" class="medication-notes">
                       <span class="medication-detail-label">Notes:</span> {{ med.notes }}
                     </p>
                   </div>
                 </div>
                 <div class="medication-actions">
-                  <button (click)="viewPrescription(med)" class="action-icon-btn action-icon-btn-green" title="View Prescription">
+                  <button (click)="viewPrescription(med)" class="action-icon-btn action-icon-btn-green"
+                    title="View Prescription">
                     <fa-icon [icon]="faEye" class="action-icon-size"></fa-icon>
                   </button>
                   <button (click)="editMedication(med)" class="action-icon-btn action-icon-btn-blue" title="Edit">
                     <fa-icon [icon]="faEdit" class="action-icon-size"></fa-icon>
                   </button>
-                  <button (click)="discontinueMedication(med)" class="action-icon-btn action-icon-btn-red" title="Discontinue">
+                  <button (click)="discontinueMedication(med)" class="action-icon-btn action-icon-btn-red"
+                    title="Discontinue">
                     <fa-icon [icon]="faTimes" class="action-icon-size"></fa-icon>
                   </button>
                 </div>
@@ -346,7 +348,8 @@
             Previous Medications ({{ getFilteredMedications('discontinued').length }})
           </h4>
           <div class="medications-grid-modal">
-            <div *ngFor="let med of getFilteredMedications('discontinued')" class="medication-card-modal medication-card-disabled">
+            <div *ngFor="let med of getFilteredMedications('discontinued')"
+              class="medication-card-modal medication-card-disabled">
               <div class="medication-card-header">
                 <div class="medication-card-content">
                   <div class="medication-name-row">
@@ -356,15 +359,18 @@
                     </span>
                   </div>
                   <div class="medication-details-list">
-                    <p class="medication-detail-item"><span class="medication-detail-label">Dosage:</span> {{ med.dosage }}</p>
-                    <p class="medication-detail-item"><span class="medication-detail-label">Duration:</span> {{ formatDate(med.startDate) }} - {{ med.endDate ? formatDate(med.endDate) : 'Ongoing' }}</p>
+                    <p class="medication-detail-item"><span class="medication-detail-label">Dosage:</span>
+                      {{ med.dosage }}</p>
+                    <p class="medication-detail-item"><span class="medication-detail-label">Duration:</span>
+                      {{ formatDate(med.startDate) }} - {{ med.endDate ? formatDate(med.endDate) : 'Ongoing' }}</p>
                     <p *ngIf="med.discontinueReason" class="medication-notes">
                       <span class="medication-detail-label">Reason:</span> {{ med.discontinueReason }}
                     </p>
                   </div>
                 </div>
                 <div class="medication-actions">
-                  <button (click)="viewMedicationHistory(med)" class="action-icon-btn action-icon-btn-gray" title="View History">
+                  <button (click)="viewMedicationHistory(med)" class="action-icon-btn action-icon-btn-gray"
+                    title="View History">
                     <fa-icon [icon]="faHistory" class="action-icon-size"></fa-icon>
                   </button>
                 </div>
@@ -430,15 +436,15 @@
       <div class="modal-body-white px-6 py-4">
         <!-- Upload Area -->
         <div [class]="'upload-area ' + (isUploadingMedication ? 'upload-area-disabled' : '')"
-             (click)="!isUploadingMedication && triggerFileInput()"
-             (dragover)="!isUploadingMedication && onDragOver($event)"
-             (dragleave)="!isUploadingMedication && onDragLeave($event)"
-             (drop)="!isUploadingMedication && onDrop($event)">
+          (click)="!isUploadingMedication && triggerFileInput()"
+          (dragover)="!isUploadingMedication && onDragOver($event)"
+          (dragleave)="!isUploadingMedication && onDragLeave($event)" (drop)="!isUploadingMedication && onDrop($event)">
           <fa-icon [icon]="faCamera" class="upload-icon-large"></fa-icon>
           <p class="upload-title">Upload Prescription Image</p>
           <p class="upload-subtitle">Drag and drop or click to browse</p>
           <p class="upload-hint">Supports JPG, PNG, PDF files up to 10MB</p>
-          <input #fileInput type="file" accept=".jpg,.jpeg,.png,.pdf" class="file-input-hidden" (change)="onFileSelected($event)" [disabled]="isUploadingMedication">
+          <input #fileInput type="file" accept=".jpg,.jpeg,.png,.pdf" class="file-input-hidden"
+            (change)="onFileSelected($event)" [disabled]="isUploadingMedication">
         </div>
 
         <!-- Preview -->
@@ -454,9 +460,7 @@
 
         <!-- AI Processing -->
         <div *ngIf="isProcessingImage" class="mt-4">
-          <app-loading
-            text="AI is analyzing your prescription..."
-            size="md">
+          <app-loading text="AI is analyzing your prescription..." size="md">
           </app-loading>
         </div>
 
@@ -464,10 +468,14 @@
         <div *ngIf="extractedMedicationData" class="extracted-data">
           <h4 class="extracted-data-title">Extracted Information</h4>
           <div class="extracted-data-list">
-            <div class="extracted-data-item"><span class="extracted-data-label">Medication:</span> {{ extractedMedicationData.name }}</div>
-            <div class="extracted-data-item"><span class="extracted-data-label">Dosage:</span> {{ extractedMedicationData.dosage }}</div>
-            <div class="extracted-data-item"><span class="extracted-data-label">Frequency:</span> {{ extractedMedicationData.frequency }}</div>
-            <div *ngIf="extractedMedicationData.instructions" class="extracted-data-item"><span class="extracted-data-label">Instructions:</span> {{ extractedMedicationData.instructions }}</div>
+            <div class="extracted-data-item"><span class="extracted-data-label">Medication:</span>
+              {{ extractedMedicationData.name }}</div>
+            <div class="extracted-data-item"><span class="extracted-data-label">Dosage:</span>
+              {{ extractedMedicationData.dosage }}</div>
+            <div class="extracted-data-item"><span class="extracted-data-label">Frequency:</span>
+              {{ extractedMedicationData.frequency }}</div>
+            <div *ngIf="extractedMedicationData.instructions" class="extracted-data-item"><span
+                class="extracted-data-label">Instructions:</span> {{ extractedMedicationData.instructions }}</div>
           </div>
           <div class="extracted-data-actions">
             <button (click)="confirmExtractedData()" class="extracted-data-btn extracted-data-btn-confirm">
@@ -484,14 +492,19 @@
       <div class="modal-footer">
         <div></div>
         <div class="modal-footer-right">
-          <button (click)="closeImageUploadModal()" [disabled]="isUploadingMedication" class="form-button form-button-cancel">
+          <button (click)="closeImageUploadModal()" [disabled]="isUploadingMedication"
+            class="form-button form-button-cancel">
             Cancel
           </button>
-          <button (click)="processImage()" [disabled]="!uploadedImage || isUploadingMedication" class="form-button form-button-process">
+          <button (click)="processImage()" [disabled]="!uploadedImage || isUploadingMedication"
+            class="form-button form-button-process">
             <!-- Loading Spinner - Keep Tailwind for animation -->
-            <svg *ngIf="isUploadingMedication" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg *ngIf="isUploadingMedication" class="animate-spin h-4 w-4 text-white"
+              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
             </svg>
             <fa-icon *ngIf="!isUploadingMedication" [icon]="faCamera" class="w-4 h-4"></fa-icon>
             <span>{{ isUploadingMedication ? 'Uploading...' : 'Process with AI' }}</span>
@@ -574,7 +587,8 @@
                 <fa-icon [icon]="faCalendarAlt" class="w-4 h-4" style="color: #16a34a;"></fa-icon>
                 Times Per Day
               </label>
-              <input type="number" formControlName="timesPerDay" min="1" max="10" class="form-input" placeholder="e.g., 2">
+              <input type="number" formControlName="timesPerDay" min="1" max="10" class="form-input"
+                placeholder="e.g., 2">
             </div>
 
             <!-- Start Date -->
@@ -601,7 +615,8 @@
                 <fa-icon [icon]="faFileMedical" class="w-4 h-4" style="color: #14b8a6;"></fa-icon>
                 Description
               </label>
-              <textarea formControlName="description" rows="2" class="form-textarea" placeholder="Brief description of the medication and its purpose..."></textarea>
+              <textarea formControlName="description" rows="2" class="form-textarea"
+                placeholder="Brief description of the medication and its purpose..."></textarea>
             </div>
 
             <!-- Instructions -->
@@ -610,7 +625,8 @@
                 <fa-icon [icon]="faFileMedical" class="w-4 h-4" style="color: #f59e0b;"></fa-icon>
                 Special Instructions
               </label>
-              <textarea formControlName="instructions" rows="2" class="form-textarea" placeholder="e.g., Take with food, Take before bedtime, Avoid alcohol..."></textarea>
+              <textarea formControlName="instructions" rows="2" class="form-textarea"
+                placeholder="e.g., Take with food, Take before bedtime, Avoid alcohol..."></textarea>
             </div>
 
             <!-- Side Effects -->
@@ -619,7 +635,8 @@
                 <fa-icon [icon]="faExclamationTriangle" class="w-4 h-4" style="color: #dc2626;"></fa-icon>
                 Potential Side Effects
               </label>
-              <textarea formControlName="sideEffects" rows="2" class="form-textarea" placeholder="e.g., Nausea, dizziness, headache..."></textarea>
+              <textarea formControlName="sideEffects" rows="2" class="form-textarea"
+                placeholder="e.g., Nausea, dizziness, headache..."></textarea>
             </div>
 
             <!-- Drug Interactions -->
@@ -628,7 +645,8 @@
                 <fa-icon [icon]="faExclamationTriangle" class="w-4 h-4" style="color: #ea580c;"></fa-icon>
                 Drug Interactions
               </label>
-              <textarea formControlName="interactions" rows="2" class="form-textarea" placeholder="e.g., Avoid with blood thinners, Do not take with grapefruit..."></textarea>
+              <textarea formControlName="interactions" rows="2" class="form-textarea"
+                placeholder="e.g., Avoid with blood thinners, Do not take with grapefruit..."></textarea>
             </div>
 
             <!-- Notes -->
@@ -637,7 +655,8 @@
                 <fa-icon [icon]="faFileMedical" class="w-4 h-4" style="color: #4b5563;"></fa-icon>
                 Additional Notes
               </label>
-              <textarea formControlName="notes" rows="3" class="form-textarea" placeholder="Any additional notes or observations..."></textarea>
+              <textarea formControlName="notes" rows="3" class="form-textarea"
+                placeholder="Any additional notes or observations..."></textarea>
             </div>
           </div>
         </form>
@@ -650,7 +669,8 @@
           <button type="button" (click)="closeAddMedicationModal()" class="form-button form-button-cancel">
             Cancel
           </button>
-          <button type="button" (click)="addMedication()" [disabled]="!medicationForm.valid" class="form-button form-button-submit">
+          <button type="button" (click)="addMedication()" [disabled]="!medicationForm.valid"
+            class="form-button form-button-submit">
             <fa-icon [icon]="faPlus" class="w-4 h-4"></fa-icon>
             Add Medication
           </button>
@@ -661,9 +681,5 @@
 </div>
 
 <!-- Document Viewer Modal -->
-<app-document-viewer
-  [isOpen]="showDocumentViewer"
-  [document]="currentDocument"
-  (closeEvent)="closeDocumentViewer()">
+<app-document-viewer [isOpen]="showDocumentViewer" [document]="currentDocument" (closeEvent)="closeDocumentViewer()">
 </app-document-viewer>
-

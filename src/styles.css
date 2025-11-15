@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import Common Components */
+@import './common-components.css';
+
 /* Design Tokens - Medsyn Teal-Green Medical Theme */
 :root {
   /* Core Medsyn Colors - Teal & Leaf Green Palette */
