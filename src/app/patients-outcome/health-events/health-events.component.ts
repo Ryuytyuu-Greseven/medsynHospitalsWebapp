@@ -5,6 +5,7 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
+  FormsModule,
 } from '@angular/forms';
 import { CardComponent } from '../../shared/components/card/card.component';
 import { PublicPatientProfile } from '../../core/interfaces';
@@ -33,7 +34,7 @@ export interface HealthEvent {
 @Component({
   selector: 'app-health-events',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, CardComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, CardComponent],
   templateUrl: './health-events.component.html',
   styleUrls: ['./health-events.component.css'],
 })
@@ -51,6 +52,10 @@ export class HealthEventsComponent {
   // Loading states
   isSubmitting = false;
   isDeleting = false;
+
+  // Search events state
+  quickSearchEvents = '';
+  filteredHealthEvents: HealthEvent[] = [];
 
   // Reactive Form
   eventForm!: FormGroup;
@@ -78,9 +83,9 @@ export class HealthEventsComponent {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // if (changes['patientDetails']) {
-    //   this.getPatientEvents();
-    // }
+    if (changes['healthEvents']) {
+      this.filteredHealthEvents = [...this.healthEvents];
+    }
   }
 
   formatDate(date: any): string {
@@ -223,6 +228,7 @@ export class HealthEventsComponent {
         .subscribe((response) => {
           console.log('response', response);
           this.healthEvents = response;
+          this.filteredHealthEvents = [...this.healthEvents];
         });
     }
   }
@@ -340,5 +346,27 @@ export class HealthEventsComponent {
           console.error('Error deleting health event:', error);
         },
       });
+  }
+
+  // ========================== SEARCH FUNCTIONS ==========================
+  onSearchEvents(): void {
+    if (!this.quickSearchEvents.trim()) {
+      this.filteredHealthEvents = [...this.healthEvents];
+      return;
+    }
+
+    const searchTerm = this.quickSearchEvents.toLowerCase().trim();
+    this.filteredHealthEvents = this.healthEvents.filter(
+      (event) =>
+        event.title.toLowerCase().includes(searchTerm) ||
+        event.description?.toLowerCase().includes(searchTerm) ||
+        event.doctor?.toLowerCase().includes(searchTerm) ||
+        event.status?.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  clearSearch(): void {
+    this.quickSearchEvents = '';
+    this.filteredHealthEvents = [...this.healthEvents];
   }
 }

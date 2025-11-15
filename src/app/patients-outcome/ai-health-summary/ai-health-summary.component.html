@@ -25,7 +25,7 @@
     </div> -->
 
     <!-- AI Summary Card -->
-    <app-card *ngIf="aiHealthSummary && !isLoading" class="hover-lift">
+    <app-card *ngIf="aiHealthSummary?.summary && !isLoading" class="hover-lift">
       <div class="ai-summary-card">
         <div class="flex items-start justify-between mb-3">
           <div class="flex items-center gap-2">

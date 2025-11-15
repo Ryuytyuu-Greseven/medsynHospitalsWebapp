@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="main-grid">
 
 
     <!-- Medication Insights -->
@@ -32,196 +32,62 @@
       </app-card>
     </div> -->
 
-    <!-- Quick Actions -->
-    <div class="mb-6">
-      <app-card class="hover-lift h-fit" [customeClass]="'min-h-[300px]'">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-lg font-bold text-gray-900">Quick Actions</h3>
-          <fa-icon [icon]="faPlus" class="w-5 h-5 text-green-600"></fa-icon>
-        </div>
-
-        <div class="space-y-2">
-          <button (click)="openImageUpload()" class="w-full p-2.5 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 transition-colors text-left">
-            <div class="flex items-center gap-3">
-              <fa-icon [icon]="faCamera" class="w-4 h-4 text-blue-600"></fa-icon>
-              <div>
-                <div class="font-medium text-gray-900 text-sm">Scan Prescription</div>
-                <div class="text-xs text-gray-600">Upload image or PDF</div>
-              </div>
-            </div>
-          </button>
-
-          <button (click)="openAddMedicationModal()" class="w-full p-2.5 bg-green-50 hover:bg-green-100 rounded-lg border border-green-200 transition-colors text-left">
-            <div class="flex items-center gap-3">
-              <fa-icon [icon]="faPills" class="w-4 h-4 text-green-600"></fa-icon>
-              <div>
-                <div class="font-medium text-gray-900 text-sm">Add Manually</div>
-                <div class="text-xs text-gray-600">Enter details manually</div>
-              </div>
-            </div>
-          </button>
-
-          <button (click)="exportMedications()" class="w-full p-2.5 bg-purple-50 hover:bg-purple-100 rounded-lg border border-purple-200 transition-colors text-left">
-            <div class="flex items-center gap-3">
-              <fa-icon [icon]="faDownload" class="w-4 h-4 text-purple-600"></fa-icon>
-              <div>
-                <div class="font-medium text-gray-900 text-sm">Export List</div>
-                <div class="text-xs text-gray-600">Download medication list</div>
-              </div>
-            </div>
-          </button>
-        </div>
-      </app-card>
-    </div>
-
-    <!-- Nutrition & Activity -->
-    <!-- <div class="mb-6">
-      <app-card class="hover-lift h-fit" [customeClass]="'min-h-[300px]'">
-        <h3 class="text-lg font-bold text-gray-900 mb-3">Daily Nutrition & Activity</h3>
-
-        <div class="mb-4">
-          <h4 class="text-sm font-semibold text-gray-700 mb-2">Nutrition Intake</h4>
-          <div class="grid grid-cols-4 gap-2">
-
-            <div class="text-center p-2 bg-orange-50 rounded-lg border border-orange-200">
-              <div class="text-lg font-bold text-orange-600">1,850</div>
-              <div class="text-xs text-orange-700">Calories</div>
-            </div>
-
-            <div class="text-center p-2 bg-blue-50 rounded-lg border border-blue-200">
-              <div class="text-lg font-bold text-blue-600">85g</div>
-              <div class="text-xs text-blue-700">Protein</div>
-            </div>
-
-            <div class="text-center p-2 bg-yellow-50 rounded-lg border border-yellow-200">
-              <div class="text-lg font-bold text-yellow-600">120g</div>
-              <div class="text-xs text-yellow-700">Carbs</div>
-            </div>
-
-            <div class="text-center p-2 bg-purple-50 rounded-lg border border-purple-200">
-              <div class="text-lg font-bold text-purple-600">65g</div>
-              <div class="text-xs text-purple-700">Fat</div>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <h4 class="text-sm font-semibold text-gray-700 mb-2">Activity & Burning</h4>
-          <div class="grid grid-cols-4 gap-2">
-            <div class="text-center p-2 bg-red-50 rounded-lg border border-red-200">
-              <div class="text-lg font-bold text-red-600">420</div>
-              <div class="text-xs text-red-700">Calories Burned</div>
-            </div>
-
-            <div class="text-center p-2 bg-green-50 rounded-lg border border-green-200">
-              <div class="text-lg font-bold text-green-600">6,250</div>
-              <div class="text-xs text-green-700">Steps</div>
-            </div>
-
-            <div class="text-center p-2 bg-blue-50 rounded-lg border border-blue-200">
-              <div class="text-lg font-bold text-blue-600">3.2</div>
-              <div class="text-xs text-blue-700">Miles</div>
-            </div>
-
-            <div class="text-center p-2 bg-purple-50 rounded-lg border border-purple-200">
-              <div class="text-lg font-bold text-purple-600">45</div>
-              <div class="text-xs text-purple-700">Active Minutes</div>
-            </div>
-          </div>
-        </div>
-      </app-card>
-    </div> -->
-
-    <!-- Current Diet -->
-    <!-- <div class="mb-6">
-      <app-card class="hover-lift h-fit" [customeClass]="'min-h-[300px]'">
-      <div class="flex items-center justify-between mb-3">
-        <h3 class="text-lg font-bold text-gray-900">Current Diet Plan</h3>
-        <span class="text-xs text-gray-500">Active plan</span>
-      </div>
-
-      <div>
-        <div class="bg-green-50 rounded-lg border border-green-200 p-3">
-          <div class="flex items-center gap-3 mb-2">
-            <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
-              <span class="text-green-600 text-xs">🥗</span>
-            </div>
-            <div>
-              <h4 class="font-bold text-gray-900 text-sm">Diabetes Management Diet</h4>
-              <p class="text-xs text-gray-600">Low-carb, high-protein plan</p>
-            </div>
-          </div>
-          <div class="text-xs text-gray-600">
-            <p>Started: Jan 15, 2024</p>
-            <p>Notes: Focus on blood sugar control</p>
-          </div>
-        </div>
-      </div>
-    </app-card>
-    </div> -->
-
-
-  <!-- Left Side - Medications -->
-  <div class="lg:col-span-2 space-y-6">
+      <!-- Left Side - Medications -->
+  <div class="medications-container">
 
     <!-- Current Medications -->
-    <div class="mb-6">
+    <div class="medications-section">
       <app-card class="hover-lift">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold text-gray-900">Current Medications</h3>
-        <div class="flex items-center gap-3">
-          <!-- Search Input -->
-          <div class="relative">
-            <input
-              type="text"
-              [(ngModel)]="quickSearchTerm"
-              (keyup.enter)="quickSearchMedication()"
-              placeholder="Search medications..."
-              class="pl-9 pr-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent w-48"
-            />
-            <fa-icon [icon]="faSearch" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></fa-icon>
-          </div>
-          <!-- <div class="flex items-center gap-2 border-l border-gray-200 pl-3">
+        <div class="medications-header">
+          <h3 class="medications-title">Current Medications</h3>
+          <div class="header-actions">
+            <!-- Search Input -->
+            <div class="search-container">
+              <input type="text" [(ngModel)]="quickSearchTerm" (keyup.enter)="quickSearchMedication()"
+                placeholder="Search medications..." class="search-input-sm" />
+              <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
+            </div>
+            <!-- <div class="flex items-center gap-2 border-l border-gray-200 pl-3">
             <span class="text-xs text-gray-500">{{ medications.length || 0 }} active</span>
             <button (click)="openMedicationsModal()" class="text-xs text-blue-600 hover:text-blue-800 font-medium">View All</button>
           </div> -->
+          </div>
         </div>
-      </div>
 
-      <!-- Empty State -->
-      <div *ngIf="!medications || medications.length === 0" class="text-center py-6">
-        <div class="w-10 h-10 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-2">
-          <fa-icon [icon]="faPills" class="w-5 h-5 text-gray-400"></fa-icon>
+        <!-- Empty State -->
+        <div *ngIf="!medications || medications.length === 0" class="empty-state">
+          <div class="empty-state-icon-container">
+            <fa-icon [icon]="faPills" class="empty-state-icon"></fa-icon>
+          </div>
+          <p class="empty-state-text">No active medications</p>
         </div>
-        <p class="text-gray-500 text-sm">No active medications</p>
-      </div>
 
-      <!-- Medications Grid Layout -->
-      <div *ngIf="medications && medications.length > 0" class="grid grid-cols-4 gap-4 px-4 md:px-6 xl:px-8">
-        <div *ngFor="let meds of medications; let i = index" class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-sm transition-all relative">
-          <!-- Active Status Indicator -->
-          <div *ngIf="meds.status === 'active'" class="absolute top-2 right-2 w-2 h-2 bg-green-500 rounded-full"></div>
+        <!-- Medications Grid Layout -->
+        <div *ngIf="medications && medications.length > 0" class="medications-grid">
+          <div *ngFor="let meds of medications; let i = index" class="medication-card">
+            <!-- Active Status Indicator -->
+            <div *ngIf="meds.status === 'active'" class="active-indicator"></div>
 
-          <div class="flex flex-col items-center text-center">
-            <h4 class="font-semibold text-gray-900 text-sm mb-2 truncate w-full">{{ meds.name }}</h4>
-            <div class="text-xs text-gray-600 space-y-1">
-              <div class="font-medium">{{ meds.dosage }}</div>
-              <div>{{ meds.frequency }}</div>
-              <div class="mt-2 text-xs text-gray-500">
-                <p>{{ formatDate(meds.startDate) }}</p>
+            <div class="medication-content">
+              <h4 class="medication-name">{{ meds.name }}</h4>
+              <div class="medication-details">
+                <div class="medication-dosage">{{ meds.dosage }}</div>
+                <div>{{ meds.frequency }}</div>
+                <div class="medication-date">
+                  <p>{{ formatDate(meds.startDate) }}</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Show More Button -->
-      <div *ngIf="medications.length > 8" class="text-center pt-3">
-        <button class="text-sm text-blue-600 hover:text-blue-800 font-medium">
-          Show {{ medications.length - 8 }} more medications
-        </button>
-      </div>
-    </app-card>
+        <!-- Show More Button -->
+        <div *ngIf="medications.length > 8" class="show-more-container">
+          <button class="show-more-btn">
+            Show {{ medications.length - 8 }} more medications
+          </button>
+        </div>
+      </app-card>
     </div>
 
     <!-- Previous Medications -->
@@ -245,58 +111,183 @@
     </div> -->
   </div>
 
-  <!-- Right Side - Quick Actions & Insights -->
-  <div class="space-y-6">
 
-  </div>
+    <!-- Quick Actions -->
+    <div class="section-spacing">
+      <app-card class="hover-lift h-fit" [customeClass]="'min-h-300'">
+        <div class="quick-actions-header">
+          <h3 class="quick-actions-title">Quick Actions</h3>
+          <fa-icon [icon]="faPlus" class="quick-actions-icon"></fa-icon>
+        </div>
+
+        <div class="quick-actions-list">
+          <button (click)="openImageUpload()" class="action-button action-button-blue">
+            <div class="action-button-content">
+              <fa-icon [icon]="faCamera" class="action-icon" style="color: #2563eb;"></fa-icon>
+              <div class="action-text">
+                <div class="action-title">Scan Prescription</div>
+                <div class="action-subtitle">Upload image or PDF</div>
+              </div>
+            </div>
+          </button>
+
+          <button (click)="openAddMedicationModal()" class="action-button action-button-green">
+            <div class="action-button-content">
+              <fa-icon [icon]="faPills" class="action-icon" style="color: #16a34a;"></fa-icon>
+              <div class="action-text">
+                <div class="action-title">Add Manually</div>
+                <div class="action-subtitle">Enter details manually</div>
+              </div>
+            </div>
+          </button>
+
+          <button (click)="exportMedications()" class="action-button action-button-purple">
+            <div class="action-button-content">
+              <fa-icon [icon]="faDownload" class="action-icon" style="color: #9333ea;"></fa-icon>
+              <div class="action-text">
+                <div class="action-title">Export List</div>
+                <div class="action-subtitle">Download medication list</div>
+              </div>
+            </div>
+          </button>
+        </div>
+      </app-card>
+    </div>
+
+    <!-- Nutrition & Activity -->
+    <div class="section-spacing">
+      <app-card class="hover-lift h-fit" [customeClass]="'min-h-300'">
+        <h3 class="nutrition-header">Daily Nutrition & Activity</h3>
+
+        <div class="nutrition-section">
+          <h4 class="nutrition-section-title">Nutrition Intake</h4>
+          <div class="nutrition-grid">
+            <div class="nutrition-card nutrition-card-orange">
+              <div class="nutrition-value nutrition-value-orange">1,850</div>
+              <div class="nutrition-label nutrition-label-orange">Calories</div>
+            </div>
+
+            <div class="nutrition-card nutrition-card-blue">
+              <div class="nutrition-value nutrition-value-blue">85g</div>
+              <div class="nutrition-label nutrition-label-blue">Protein</div>
+            </div>
+
+            <div class="nutrition-card nutrition-card-yellow">
+              <div class="nutrition-value nutrition-value-yellow">120g</div>
+              <div class="nutrition-label nutrition-label-yellow">Carbs</div>
+            </div>
+
+            <div class="nutrition-card nutrition-card-purple">
+              <div class="nutrition-value nutrition-value-purple">65g</div>
+              <div class="nutrition-label nutrition-label-purple">Fat</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="nutrition-section-title">Activity & Burning</h4>
+          <div class="nutrition-grid">
+            <div class="nutrition-card nutrition-card-red">
+              <div class="nutrition-value nutrition-value-red">420</div>
+              <div class="nutrition-label nutrition-label-red">Calories Burned</div>
+            </div>
+
+            <div class="nutrition-card nutrition-card-green">
+              <div class="nutrition-value nutrition-value-green">6,250</div>
+              <div class="nutrition-label nutrition-label-green">Steps</div>
+            </div>
+
+            <div class="nutrition-card nutrition-card-blue">
+              <div class="nutrition-value nutrition-value-blue">3.2</div>
+              <div class="nutrition-label nutrition-label-blue">Miles</div>
+            </div>
+
+            <div class="nutrition-card nutrition-card-purple">
+              <div class="nutrition-value nutrition-value-purple">45</div>
+              <div class="nutrition-label nutrition-label-purple">Active Minutes</div>
+            </div>
+          </div>
+        </div>
+      </app-card>
+    </div>
+
+    <!-- Current Diet -->
+    <div class="section-spacing">
+      <app-card class="hover-lift h-fit" [customeClass]="'min-h-300'">
+      <div class="diet-header">
+        <h3 class="diet-title">Current Diet Plan</h3>
+        <span class="diet-badge">Active plan</span>
+      </div>
+
+      <div>
+        <div class="diet-card">
+          <div class="diet-card-header">
+            <div class="diet-icon-container">
+              <span class="diet-icon">🥗</span>
+            </div>
+            <div class="diet-info">
+              <h4 class="diet-name">Diabetes Management Diet</h4>
+              <p class="diet-description">Low-carb, high-protein plan</p>
+            </div>
+          </div>
+          <div class="diet-details">
+            <p>Started: Jan 15, 2024</p>
+            <p>Notes: Focus on blood sugar control</p>
+          </div>
+        </div>
+      </div>
+    </app-card>
+    </div>
+
+
 </div>
 
 <!-- Medications Modal -->
-<div *ngIf="showMedicationsModal" class="fixed inset-0 z-50 overflow-y-auto" (click)="closeMedicationsModal()">
-  <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+<div *ngIf="showMedicationsModal" class="modal-overlay" (click)="closeMedicationsModal()">
+  <div class="modal-container">
     <!-- Background overlay -->
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+    <div class="modal-backdrop"></div>
 
     <!-- Modal panel -->
-    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full" (click)="$event.stopPropagation()">
+    <div class="modal-panel modal-panel-xl" (click)="$event.stopPropagation()">
       <!-- Modal Header -->
-      <div class="bg-white px-6 py-4 border-b border-gray-200">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-              <fa-icon [icon]="faPills" class="w-4 h-4 text-blue-600"></fa-icon>
+      <div class="modal-header">
+        <div class="modal-header-content">
+          <div class="modal-header-left">
+            <div class="modal-icon-container modal-icon-container-blue">
+              <fa-icon [icon]="faPills" class="modal-icon modal-icon-blue"></fa-icon>
             </div>
-            <div>
-              <h3 class="text-lg font-semibold text-gray-900">All Medications</h3>
-              <p class="text-sm text-gray-500">Complete medication history and management</p>
+            <div class="modal-title-group">
+              <h3 class="modal-title">All Medications</h3>
+              <p class="modal-subtitle">Complete medication history and management</p>
             </div>
           </div>
-          <button (click)="closeMedicationsModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+          <button (click)="closeMedicationsModal()" class="modal-close-btn">
             <fa-icon [icon]="faTimes" class="w-6 h-6"></fa-icon>
           </button>
         </div>
 
         <!-- Search and Filter Bar -->
-        <div class="mt-4 flex flex-col sm:flex-row gap-4">
-          <div class="flex-1">
+        <div class="search-filter-bar">
+          <div class="search-input-container">
             <div class="relative">
               <input
                 type="text"
                 [(ngModel)]="medicationSearchTerm"
                 (input)="filterMedications()"
                 placeholder="Search medications..."
-                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-              <fa-icon [icon]="faSearch" class="absolute left-3 top-2.5 h-4 w-4 text-gray-400"></fa-icon>
+                class="search-input-full">
+              <fa-icon [icon]="faSearch" class="search-icon-absolute"></fa-icon>
             </div>
           </div>
-          <div class="flex gap-2">
-            <select [(ngModel)]="selectedStatusFilter" (change)="filterMedications()" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <div class="filter-actions">
+            <select [(ngModel)]="selectedStatusFilter" (change)="filterMedications()" class="filter-select">
               <option value="all">All Status</option>
               <option value="active">Active</option>
               <option value="discontinued">Discontinued</option>
               <option value="paused">Paused</option>
             </select>
-            <button (click)="openImageUpload()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
+            <button (click)="openImageUpload()" class="filter-button">
               <fa-icon [icon]="faCamera" class="w-4 h-4"></fa-icon>
               Scan Prescription
             </button>
@@ -305,42 +296,42 @@
       </div>
 
       <!-- Modal Body -->
-      <div class="bg-gray-50 px-6 py-4 max-h-96 overflow-y-auto">
+      <div class="modal-body">
         <!-- Current Medications Section -->
         <div class="mb-6">
-          <h4 class="text-md font-semibold text-gray-900 mb-3 flex items-center gap-2">
-            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+          <h4 class="medications-section-title">
+            <div class="status-dot status-dot-green"></div>
             Current Medications ({{ getFilteredMedications('active').length }})
           </h4>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div *ngFor="let med of getFilteredMedications('active')" class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-sm transition-all">
-              <div class="flex items-start justify-between">
-                <div class="flex-1">
-                  <div class="flex items-center gap-2 mb-2">
-                    <h5 class="font-semibold text-gray-900">{{ med.name }}</h5>
-                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+          <div class="medications-grid-modal">
+            <div *ngFor="let med of getFilteredMedications('active')" class="medication-card-modal">
+              <div class="medication-card-header">
+                <div class="medication-card-content">
+                  <div class="medication-name-row">
+                    <h5 class="medication-name-modal">{{ med.name }}</h5>
+                    <span class="status-badge status-badge-active">
                       Active
                     </span>
                   </div>
-                  <div class="space-y-1 text-sm text-gray-600">
-                    <p><span class="font-medium">Dosage:</span> {{ med.dosage }}</p>
-                    <p><span class="font-medium">Frequency:</span> {{ med.frequency }}</p>
-                    <p><span class="font-medium">Started:</span> {{ formatDate(med.startDate) }}</p>
-                    <p *ngIf="med.prescribedBy"><span class="font-medium">Prescribed by:</span> {{ med.prescribedBy }}</p>
-                    <p *ngIf="med.notes" class="text-xs text-gray-500 mt-2 p-2 bg-gray-50 rounded">
-                      <span class="font-medium">Notes:</span> {{ med.notes }}
+                  <div class="medication-details-list">
+                    <p class="medication-detail-item"><span class="medication-detail-label">Dosage:</span> {{ med.dosage }}</p>
+                    <p class="medication-detail-item"><span class="medication-detail-label">Frequency:</span> {{ med.frequency }}</p>
+                    <p class="medication-detail-item"><span class="medication-detail-label">Started:</span> {{ formatDate(med.startDate) }}</p>
+                    <p *ngIf="med.prescribedBy" class="medication-detail-item"><span class="medication-detail-label">Prescribed by:</span> {{ med.prescribedBy }}</p>
+                    <p *ngIf="med.notes" class="medication-notes">
+                      <span class="medication-detail-label">Notes:</span> {{ med.notes }}
                     </p>
                   </div>
                 </div>
-                <div class="flex flex-col gap-1 ml-4">
-                  <button (click)="viewPrescription(med)" class="p-1 text-green-600 hover:text-green-800 transition-colors" title="View Prescription">
-                    <fa-icon [icon]="faEye" class="w-4 h-4"></fa-icon>
+                <div class="medication-actions">
+                  <button (click)="viewPrescription(med)" class="action-icon-btn action-icon-btn-green" title="View Prescription">
+                    <fa-icon [icon]="faEye" class="action-icon-size"></fa-icon>
                   </button>
-                  <button (click)="editMedication(med)" class="p-1 text-blue-600 hover:text-blue-800 transition-colors" title="Edit">
-                    <fa-icon [icon]="faEdit" class="w-4 h-4"></fa-icon>
+                  <button (click)="editMedication(med)" class="action-icon-btn action-icon-btn-blue" title="Edit">
+                    <fa-icon [icon]="faEdit" class="action-icon-size"></fa-icon>
                   </button>
-                  <button (click)="discontinueMedication(med)" class="p-1 text-red-600 hover:text-red-800 transition-colors" title="Discontinue">
-                    <fa-icon [icon]="faTimes" class="w-4 h-4"></fa-icon>
+                  <button (click)="discontinueMedication(med)" class="action-icon-btn action-icon-btn-red" title="Discontinue">
+                    <fa-icon [icon]="faTimes" class="action-icon-size"></fa-icon>
                   </button>
                 </div>
               </div>
@@ -350,31 +341,31 @@
 
         <!-- Previous/Discontinued Medications Section -->
         <div *ngIf="getFilteredMedications('discontinued').length > 0">
-          <h4 class="text-md font-semibold text-gray-900 mb-3 flex items-center gap-2">
-            <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+          <h4 class="medications-section-title">
+            <div class="status-dot status-dot-gray"></div>
             Previous Medications ({{ getFilteredMedications('discontinued').length }})
           </h4>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div *ngFor="let med of getFilteredMedications('discontinued')" class="bg-white rounded-lg border border-gray-200 p-4 opacity-75">
-              <div class="flex items-start justify-between">
-                <div class="flex-1">
-                  <div class="flex items-center gap-2 mb-2">
-                    <h5 class="font-semibold text-gray-900">{{ med.name }}</h5>
-                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+          <div class="medications-grid-modal">
+            <div *ngFor="let med of getFilteredMedications('discontinued')" class="medication-card-modal medication-card-disabled">
+              <div class="medication-card-header">
+                <div class="medication-card-content">
+                  <div class="medication-name-row">
+                    <h5 class="medication-name-modal">{{ med.name }}</h5>
+                    <span class="status-badge status-badge-discontinued">
                       Discontinued
                     </span>
                   </div>
-                  <div class="space-y-1 text-sm text-gray-600">
-                    <p><span class="font-medium">Dosage:</span> {{ med.dosage }}</p>
-                    <p><span class="font-medium">Duration:</span> {{ formatDate(med.startDate) }} - {{ med.endDate ? formatDate(med.endDate) : 'Ongoing' }}</p>
-                    <p *ngIf="med.discontinueReason" class="text-xs text-gray-500 mt-2 p-2 bg-gray-50 rounded">
-                      <span class="font-medium">Reason:</span> {{ med.discontinueReason }}
+                  <div class="medication-details-list">
+                    <p class="medication-detail-item"><span class="medication-detail-label">Dosage:</span> {{ med.dosage }}</p>
+                    <p class="medication-detail-item"><span class="medication-detail-label">Duration:</span> {{ formatDate(med.startDate) }} - {{ med.endDate ? formatDate(med.endDate) : 'Ongoing' }}</p>
+                    <p *ngIf="med.discontinueReason" class="medication-notes">
+                      <span class="medication-detail-label">Reason:</span> {{ med.discontinueReason }}
                     </p>
                   </div>
                 </div>
-                <div class="flex flex-col gap-1 ml-4">
-                  <button (click)="viewMedicationHistory(med)" class="p-1 text-gray-600 hover:text-gray-800 transition-colors" title="View History">
-                    <fa-icon [icon]="faHistory" class="w-4 h-4"></fa-icon>
+                <div class="medication-actions">
+                  <button (click)="viewMedicationHistory(med)" class="action-icon-btn action-icon-btn-gray" title="View History">
+                    <fa-icon [icon]="faHistory" class="action-icon-size"></fa-icon>
                   </button>
                 </div>
               </div>
@@ -383,24 +374,24 @@
         </div>
 
         <!-- Empty State -->
-        <div *ngIf="getFilteredMedications('all').length === 0" class="text-center py-8">
-          <div class="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
-            <fa-icon [icon]="faSearch" class="w-8 h-8 text-gray-400"></fa-icon>
+        <div *ngIf="getFilteredMedications('all').length === 0" class="empty-state-modal">
+          <div class="empty-state-icon-large">
+            <fa-icon [icon]="faSearch"></fa-icon>
           </div>
-          <p class="text-gray-500">No medications found matching your search criteria</p>
+          <p class="empty-state-text-modal">No medications found matching your search criteria</p>
         </div>
       </div>
 
       <!-- Modal Footer -->
-      <div class="bg-gray-50 px-6 py-3 flex justify-between items-center border-t border-gray-200">
-        <div class="text-sm text-gray-500">
+      <div class="modal-footer">
+        <div class="modal-footer-info">
           Total: {{ getAllMedications().length }} medications
         </div>
-        <div class="flex gap-3">
-          <button (click)="exportMedications()" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+        <div class="modal-footer-right">
+          <button (click)="exportMedications()" class="modal-footer-button modal-footer-button-secondary">
             Export List
           </button>
-          <button (click)="closeMedicationsModal()" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+          <button (click)="closeMedicationsModal()" class="modal-footer-button modal-footer-button-primary">
             Close
           </button>
         </div>
@@ -410,54 +401,52 @@
 </div>
 
 <!-- Image Upload Modal -->
-<div *ngIf="showImageUploadModal" class="fixed inset-0 z-50 overflow-y-auto" (click)="closeImageUploadModal()">
-  <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+<div *ngIf="showImageUploadModal" class="modal-overlay" (click)="closeImageUploadModal()">
+  <div class="modal-container">
     <!-- Background overlay -->
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+    <div class="modal-backdrop"></div>
 
     <!-- Modal panel -->
-    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" (click)="$event.stopPropagation()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
       <!-- Modal Header -->
-      <div class="bg-white px-6 py-4 border-b border-gray-200">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-              <fa-icon [icon]="faCamera" class="w-4 h-4 text-blue-600"></fa-icon>
+      <div class="modal-header">
+        <div class="modal-header-content">
+          <div class="modal-header-left">
+            <div class="modal-icon-container modal-icon-container-blue">
+              <fa-icon [icon]="faCamera" class="modal-icon modal-icon-blue"></fa-icon>
             </div>
-            <div>
-              <h3 class="text-lg font-semibold text-gray-900">Upload Prescription</h3>
-              <p class="text-sm text-gray-500">AI will automatically extract medication details</p>
+            <div class="modal-title-group">
+              <h3 class="modal-title">Upload Prescription</h3>
+              <p class="modal-subtitle">AI will automatically extract medication details</p>
             </div>
           </div>
-          <button (click)="closeImageUploadModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+          <button (click)="closeImageUploadModal()" class="modal-close-btn">
             <fa-icon [icon]="faTimes" class="w-6 h-6"></fa-icon>
           </button>
         </div>
       </div>
 
       <!-- Modal Body -->
-      <div class="bg-white px-6 py-4">
+      <div class="modal-body-white px-6 py-4">
         <!-- Upload Area -->
-        <div [class]="'border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition-colors ' +
-             (isUploadingMedication ? 'opacity-50 cursor-not-allowed' : 'hover:border-blue-400 cursor-pointer')"
+        <div [class]="'upload-area ' + (isUploadingMedication ? 'upload-area-disabled' : '')"
              (click)="!isUploadingMedication && triggerFileInput()"
              (dragover)="!isUploadingMedication && onDragOver($event)"
              (dragleave)="!isUploadingMedication && onDragLeave($event)"
              (drop)="!isUploadingMedication && onDrop($event)">
-          <fa-icon [icon]="faCamera" class="w-12 h-12 mx-auto text-gray-400 mb-4"></fa-icon>
-          <p class="text-lg font-medium text-gray-700 mb-2">Upload Prescription Image</p>
-          <p class="text-sm text-gray-500 mb-4">Drag and drop or click to browse</p>
-          <p class="text-xs text-gray-400">Supports JPG, PNG, PDF files up to 10MB</p>
-          <input #fileInput type="file" accept=".jpg,.jpeg,.png,.pdf" class="hidden" (change)="onFileSelected($event)" [disabled]="isUploadingMedication">
+          <fa-icon [icon]="faCamera" class="upload-icon-large"></fa-icon>
+          <p class="upload-title">Upload Prescription Image</p>
+          <p class="upload-subtitle">Drag and drop or click to browse</p>
+          <p class="upload-hint">Supports JPG, PNG, PDF files up to 10MB</p>
+          <input #fileInput type="file" accept=".jpg,.jpeg,.png,.pdf" class="file-input-hidden" (change)="onFileSelected($event)" [disabled]="isUploadingMedication">
         </div>
 
         <!-- Preview -->
-        <div *ngIf="uploadedImage" class="mt-4">
-          <h4 class="text-sm font-medium text-gray-700 mb-2">Uploaded Image</h4>
-          <div class="relative">
-            <img [src]="uploadedImage" alt="Prescription preview" class="w-full h-48 object-cover rounded-lg border">
-            <button (click)="removeUploadedImage()" [disabled]="isUploadingMedication"
-                    class="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        <div *ngIf="uploadedImage" class="preview-container">
+          <h4 class="preview-title">Uploaded Image</h4>
+          <div class="preview-image-container">
+            <img [src]="uploadedImage" alt="Prescription preview" class="preview-image">
+            <button (click)="removeUploadedImage()" [disabled]="isUploadingMedication" class="preview-remove-btn">
               <fa-icon [icon]="faTimes" class="w-3 h-3"></fa-icon>
             </button>
           </div>
@@ -472,19 +461,19 @@
         </div>
 
         <!-- Extracted Data Preview -->
-        <div *ngIf="extractedMedicationData" class="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
-          <h4 class="text-sm font-semibold text-green-800 mb-2">Extracted Information</h4>
-          <div class="space-y-2 text-sm">
-            <div><span class="font-medium">Medication:</span> {{ extractedMedicationData.name }}</div>
-            <div><span class="font-medium">Dosage:</span> {{ extractedMedicationData.dosage }}</div>
-            <div><span class="font-medium">Frequency:</span> {{ extractedMedicationData.frequency }}</div>
-            <div *ngIf="extractedMedicationData.instructions"><span class="font-medium">Instructions:</span> {{ extractedMedicationData.instructions }}</div>
+        <div *ngIf="extractedMedicationData" class="extracted-data">
+          <h4 class="extracted-data-title">Extracted Information</h4>
+          <div class="extracted-data-list">
+            <div class="extracted-data-item"><span class="extracted-data-label">Medication:</span> {{ extractedMedicationData.name }}</div>
+            <div class="extracted-data-item"><span class="extracted-data-label">Dosage:</span> {{ extractedMedicationData.dosage }}</div>
+            <div class="extracted-data-item"><span class="extracted-data-label">Frequency:</span> {{ extractedMedicationData.frequency }}</div>
+            <div *ngIf="extractedMedicationData.instructions" class="extracted-data-item"><span class="extracted-data-label">Instructions:</span> {{ extractedMedicationData.instructions }}</div>
           </div>
-          <div class="mt-3 flex gap-2">
-            <button (click)="confirmExtractedData()" class="px-3 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition-colors">
+          <div class="extracted-data-actions">
+            <button (click)="confirmExtractedData()" class="extracted-data-btn extracted-data-btn-confirm">
               Confirm & Add
             </button>
-            <button (click)="editExtractedData()" class="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors">
+            <button (click)="editExtractedData()" class="extracted-data-btn extracted-data-btn-edit">
               Edit Details
             </button>
           </div>
@@ -492,84 +481,82 @@
       </div>
 
       <!-- Modal Footer -->
-      <div class="bg-gray-50 px-6 py-3 flex justify-end gap-3 border-t border-gray-200">
-        <button (click)="closeImageUploadModal()" [disabled]="isUploadingMedication" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-          Cancel
-        </button>
-        <button (click)="processImage()" [disabled]="!uploadedImage || isUploadingMedication" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
-          <!-- Loading Spinner -->
-          <svg *ngIf="isUploadingMedication" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          <fa-icon *ngIf="!isUploadingMedication" [icon]="faCamera" class="w-4 h-4"></fa-icon>
-          <span>{{ isUploadingMedication ? 'Uploading...' : 'Process with AI' }}</span>
-        </button>
+      <div class="modal-footer">
+        <div></div>
+        <div class="modal-footer-right">
+          <button (click)="closeImageUploadModal()" [disabled]="isUploadingMedication" class="form-button form-button-cancel">
+            Cancel
+          </button>
+          <button (click)="processImage()" [disabled]="!uploadedImage || isUploadingMedication" class="form-button form-button-process">
+            <!-- Loading Spinner - Keep Tailwind for animation -->
+            <svg *ngIf="isUploadingMedication" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <fa-icon *ngIf="!isUploadingMedication" [icon]="faCamera" class="w-4 h-4"></fa-icon>
+            <span>{{ isUploadingMedication ? 'Uploading...' : 'Process with AI' }}</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Add Medication Modal -->
-<div *ngIf="showAddMedicationModal" class="fixed inset-0 z-50 overflow-y-auto" (click)="closeAddMedicationModal()">
-  <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+<div *ngIf="showAddMedicationModal" class="modal-overlay" (click)="closeAddMedicationModal()">
+  <div class="modal-container">
     <!-- Background overlay -->
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+    <div class="modal-backdrop"></div>
 
     <!-- Modal panel -->
-    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full" (click)="$event.stopPropagation()">
+    <div class="modal-panel modal-panel-lg" (click)="$event.stopPropagation()">
       <!-- Modal Header -->
-      <div class="bg-white px-6 py-4 border-b border-gray-200">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-              <fa-icon [icon]="faPills" class="w-4 h-4 text-green-600"></fa-icon>
+      <div class="modal-header">
+        <div class="modal-header-content">
+          <div class="modal-header-left">
+            <div class="modal-icon-container modal-icon-container-green">
+              <fa-icon [icon]="faPills" class="modal-icon modal-icon-green"></fa-icon>
             </div>
-            <div>
-              <h3 class="text-lg font-semibold text-gray-900">Add New Medication</h3>
-              <p class="text-sm text-gray-500">Enter medication details and dosage information</p>
+            <div class="modal-title-group">
+              <h3 class="modal-title">Add New Medication</h3>
+              <p class="modal-subtitle">Enter medication details and dosage information</p>
             </div>
           </div>
-          <button (click)="closeAddMedicationModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+          <button (click)="closeAddMedicationModal()" class="modal-close-btn">
             <fa-icon [icon]="faTimes" class="w-6 h-6"></fa-icon>
           </button>
         </div>
       </div>
 
       <!-- Modal Body -->
-      <div class="bg-white px-6 py-4">
+      <div class="modal-body-white px-6 py-4">
         <form [formGroup]="medicationForm" (ngSubmit)="addMedication()">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="form-grid">
             <!-- Medication Name -->
-            <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <fa-icon [icon]="faPills" class="w-4 h-4 mr-2 text-blue-600"></fa-icon>
+            <div class="form-field-full">
+              <label class="form-label form-label-icon">
+                <fa-icon [icon]="faPills" class="w-4 h-4" style="color: #2563eb;"></fa-icon>
                 Medication Name *
               </label>
-              <input type="text" formControlName="name"
-                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                     placeholder="e.g., Metformin, Lisinopril">
+              <input type="text" formControlName="name" class="form-input" placeholder="e.g., Metformin, Lisinopril">
             </div>
 
             <!-- Dosage -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <fa-icon [icon]="faExclamationTriangle" class="w-4 h-4 mr-2 text-orange-600"></fa-icon>
+              <label class="form-label form-label-icon">
+                <fa-icon [icon]="faExclamationTriangle" class="w-4 h-4" style="color: #ea580c;"></fa-icon>
                 Dosage *
               </label>
-              <input type="text" formControlName="dosage"
-                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                     placeholder="e.g., 500mg, 10mg">
+              <input type="text" formControlName="dosage" class="form-input" placeholder="e.g., 500mg, 10mg">
             </div>
 
             <!-- Frequency -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <fa-icon [icon]="faCalendarAlt" class="w-4 h-4 mr-2 text-purple-600"></fa-icon>
+              <label class="form-label form-label-icon">
+                <fa-icon [icon]="faCalendarAlt" class="w-4 h-4" style="color: #9333ea;"></fa-icon>
                 Frequency *
               </label>
-              <select formControlName="frequency"
-                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+              <select formControlName="frequency" class="form-select">
                 <option value="">Select frequency</option>
                 <option value="Once daily">Once daily</option>
                 <option value="Twice daily">Twice daily</option>
@@ -583,103 +570,91 @@
 
             <!-- Times Per Day -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <fa-icon [icon]="faCalendarAlt" class="w-4 h-4 mr-2 text-green-600"></fa-icon>
+              <label class="form-label form-label-icon">
+                <fa-icon [icon]="faCalendarAlt" class="w-4 h-4" style="color: #16a34a;"></fa-icon>
                 Times Per Day
               </label>
-              <input type="number" formControlName="timesPerDay" min="1" max="10"
-                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                     placeholder="e.g., 2">
+              <input type="number" formControlName="timesPerDay" min="1" max="10" class="form-input" placeholder="e.g., 2">
             </div>
 
             <!-- Start Date -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <fa-icon [icon]="faCalendarAlt" class="w-4 h-4 mr-2 text-blue-600"></fa-icon>
+              <label class="form-label form-label-icon">
+                <fa-icon [icon]="faCalendarAlt" class="w-4 h-4" style="color: #2563eb;"></fa-icon>
                 Start Date *
               </label>
-              <input type="date" formControlName="startDate"
-                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+              <input type="date" formControlName="startDate" class="form-input">
             </div>
 
             <!-- Prescribed By -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <fa-icon [icon]="faUserMd" class="w-4 h-4 mr-2 text-indigo-600"></fa-icon>
+              <label class="form-label form-label-icon">
+                <fa-icon [icon]="faUserMd" class="w-4 h-4" style="color: #6366f1;"></fa-icon>
                 Prescribed By
               </label>
-              <input type="text" formControlName="prescribedBy"
-                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                     placeholder="e.g., Dr. Smith">
+              <input type="text" formControlName="prescribedBy" class="form-input" placeholder="e.g., Dr. Smith">
             </div>
 
             <!-- Description -->
-            <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <fa-icon [icon]="faFileMedical" class="w-4 h-4 mr-2 text-teal-600"></fa-icon>
+            <div class="form-field-full">
+              <label class="form-label form-label-icon">
+                <fa-icon [icon]="faFileMedical" class="w-4 h-4" style="color: #14b8a6;"></fa-icon>
                 Description
               </label>
-              <textarea formControlName="description" rows="2"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Brief description of the medication and its purpose..."></textarea>
+              <textarea formControlName="description" rows="2" class="form-textarea" placeholder="Brief description of the medication and its purpose..."></textarea>
             </div>
 
             <!-- Instructions -->
-            <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <fa-icon [icon]="faFileMedical" class="w-4 h-4 mr-2 text-amber-600"></fa-icon>
+            <div class="form-field-full">
+              <label class="form-label form-label-icon">
+                <fa-icon [icon]="faFileMedical" class="w-4 h-4" style="color: #f59e0b;"></fa-icon>
                 Special Instructions
               </label>
-              <textarea formControlName="instructions" rows="2"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="e.g., Take with food, Take before bedtime, Avoid alcohol..."></textarea>
+              <textarea formControlName="instructions" rows="2" class="form-textarea" placeholder="e.g., Take with food, Take before bedtime, Avoid alcohol..."></textarea>
             </div>
 
             <!-- Side Effects -->
-            <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <fa-icon [icon]="faExclamationTriangle" class="w-4 h-4 mr-2 text-red-600"></fa-icon>
+            <div class="form-field-full">
+              <label class="form-label form-label-icon">
+                <fa-icon [icon]="faExclamationTriangle" class="w-4 h-4" style="color: #dc2626;"></fa-icon>
                 Potential Side Effects
               </label>
-              <textarea formControlName="sideEffects" rows="2"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="e.g., Nausea, dizziness, headache..."></textarea>
+              <textarea formControlName="sideEffects" rows="2" class="form-textarea" placeholder="e.g., Nausea, dizziness, headache..."></textarea>
             </div>
 
             <!-- Drug Interactions -->
-            <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <fa-icon [icon]="faExclamationTriangle" class="w-4 h-4 mr-2 text-orange-600"></fa-icon>
+            <div class="form-field-full">
+              <label class="form-label form-label-icon">
+                <fa-icon [icon]="faExclamationTriangle" class="w-4 h-4" style="color: #ea580c;"></fa-icon>
                 Drug Interactions
               </label>
-              <textarea formControlName="interactions" rows="2"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="e.g., Avoid with blood thinners, Do not take with grapefruit..."></textarea>
+              <textarea formControlName="interactions" rows="2" class="form-textarea" placeholder="e.g., Avoid with blood thinners, Do not take with grapefruit..."></textarea>
             </div>
 
             <!-- Notes -->
-            <div class="md:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-2">
-                <fa-icon [icon]="faFileMedical" class="w-4 h-4 mr-2 text-gray-600"></fa-icon>
+            <div class="form-field-full">
+              <label class="form-label form-label-icon">
+                <fa-icon [icon]="faFileMedical" class="w-4 h-4" style="color: #4b5563;"></fa-icon>
                 Additional Notes
               </label>
-              <textarea formControlName="notes" rows="3"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Any additional notes or observations..."></textarea>
+              <textarea formControlName="notes" rows="3" class="form-textarea" placeholder="Any additional notes or observations..."></textarea>
             </div>
           </div>
         </form>
       </div>
 
       <!-- Modal Footer -->
-      <div class="bg-gray-50 px-6 py-3 flex justify-end gap-3 border-t border-gray-200">
-        <button type="button" (click)="closeAddMedicationModal()" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-          Cancel
-        </button>
-        <button type="button" (click)="addMedication()" [disabled]="!medicationForm.valid" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
-          <fa-icon [icon]="faPlus" class="w-4 h-4"></fa-icon>
-          Add Medication
-        </button>
+      <div class="modal-footer">
+        <div></div>
+        <div class="modal-footer-right">
+          <button type="button" (click)="closeAddMedicationModal()" class="form-button form-button-cancel">
+            Cancel
+          </button>
+          <button type="button" (click)="addMedication()" [disabled]="!medicationForm.valid" class="form-button form-button-submit">
+            <fa-icon [icon]="faPlus" class="w-4 h-4"></fa-icon>
+            Add Medication
+          </button>
+        </div>
       </div>
     </div>
   </div>

@@ -4,24 +4,35 @@
   <!-- Left Side - Reports & Scans List -->
   <div class="mb-6">
     <app-card class="hover-lift">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold text-gray-900">Reports & Scans</h3>
-        <div class="flex items-center gap-2">
-          <span class="text-xs text-gray-500">{{ reports.length || 0 }} files</span>
-          <!-- [class.animate-spin]="isRefreshing" -->
+      <div class="reports-header">
+        <h3 class="reports-title">Reports & Scans</h3>
+        <div class="header-actions">
+
+          <!-- Search Input-->
+          <div class="search-container">
+            <input
+              type="text"
+              [(ngModel)]="quickSearchReports"
+              (input)="onSearchReports()"
+              placeholder="Search reports..."
+              class="search-input-sm"
+            />
+            <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
+          </div>
+
+          <span class="file-count">{{ reports.length || 0 }} files</span>
           <button (click)="refreshReports()"
             [disabled]="isRefreshing"
-            class="px-3 py-1.5 bg-teal-600 text-white text-xs rounded-lg hover:bg-teal-700 transition-colors flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-            <fa-icon [icon]="faSync" class="w-3 h-3" [class.animate-spin]="isRefreshing"></fa-icon>
+            class="btn-sm btn-refresh">
+            <fa-icon [icon]="faSync" class="icon-small" [class.spinning]="isRefreshing"></fa-icon>
             <span *ngIf="!isRefreshing">Refresh</span>
             <span *ngIf="isRefreshing">Refreshing...</span>
           </button>
-          <button (click)="openUploadModal()"
-            class="px-3 py-1.5 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-1">
-            <fa-icon [icon]="faCloudUploadAlt" class="w-3 h-3"></fa-icon>
+          <!-- <button (click)="openUploadModal()"
+            class="btn-sm btn-upload">
+            <fa-icon [icon]="faCloudUploadAlt" class="icon-small"></fa-icon>
             Upload
-          </button>
+          </button> -->
         </div>
       </div>
 
@@ -36,7 +47,7 @@
 
       <!-- Reports List -->
       <div class="space-y-3">
-        <div *ngFor="let report of currentPatientReports"
+        <div *ngFor="let report of filteredReports"
           class="bg-white rounded-lg border border-gray-200 p-3 hover:shadow-md transition-all hover-lift">
           <div class="flex items-start gap-3">
             <div

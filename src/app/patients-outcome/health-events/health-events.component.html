@@ -4,19 +4,34 @@
   <!-- Left Side - Health Events History -->
   <div class="mb-6">
     <app-card class="hover-lift">
-      <div class="flex items-center justify-between mb-3">
-        <h3 class="text-lg font-bold text-gray-900">Health Events History</h3>
-        <button (click)="openAddEventModal()"
-          class="px-3 py-1.5 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-1">
-          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-          </svg>
-          Add Event
-        </button>
+      <div class="events-header">
+        <h3 class="events-title">Health Events History</h3>
+        <div class="header-actions">
+          <!-- Search Input -->
+          <div class="search-container">
+            <input
+              type="text"
+              [(ngModel)]="quickSearchEvents"
+              (input)="onSearchEvents()"
+              placeholder="Search events..."
+              class="search-input-sm"
+            />
+            <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+
+          <button (click)="openAddEventModal()" class="btn-sm btn-add">
+            <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Add Event
+          </button>
+        </div>
       </div>
 
       <!-- Empty State -->
-      <div *ngIf="!healthEvents || healthEvents.length === 0" class="text-center py-8">
+      <div *ngIf="!filteredHealthEvents || filteredHealthEvents.length === 0" class="text-center py-8">
         <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
@@ -28,7 +43,7 @@
 
       <!-- Health Events List -->
       <div class="space-y-2">
-        <div *ngFor="let event of healthEvents"
+        <div *ngFor="let event of filteredHealthEvents"
           class="bg-white rounded-lg border border-gray-200 p-3 hover:shadow-md transition-all hover-lift group">
           <div class="flex items-start gap-3">
             <div

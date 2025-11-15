@@ -23,6 +23,7 @@ import {
   faRobot,
   faBrain,
   faSync,
+  faSearch,
 } from '@fortawesome/free-solid-svg-icons';
 import { CardComponent } from '../../shared/components/card/card.component';
 import {
@@ -83,6 +84,7 @@ export class ReportsScansComponent {
   faRobot = faRobot;
   faBrain = faBrain;
   faSync = faSync;
+  faSearch = faSearch;
 
   // Modal and upload state
   showUploadModal = false;
@@ -91,6 +93,10 @@ export class ReportsScansComponent {
   uploadType: string = '';
   isUploading = false;
   isRefreshing = false;
+
+  // reports search state
+  quickSearchReports = '';
+  filteredReports: Report[] = [];
 
   // Document Viewer State
   showDocumentViewer: boolean = false;
@@ -291,6 +297,7 @@ export class ReportsScansComponent {
         .subscribe((response: Report[]) => {
           console.log('response', response);
           this.currentPatientReports = response;
+          this.filteredReports = [...this.currentPatientReports];
         });
     }
   }
@@ -312,13 +319,16 @@ export class ReportsScansComponent {
             console.log('Refreshed reports', response);
             this.currentPatientReports = response;
             this.isRefreshing = false;
-            this.toastService.success('Success', 'Reports refreshed successfully');
+            this.toastService.success(
+              'Success',
+              'Reports refreshed successfully'
+            );
           },
           error: (error) => {
             console.error('Error refreshing reports', error);
             this.isRefreshing = false;
             this.toastService.error('Error', 'Failed to refresh reports');
-          }
+          },
         });
     } else {
       this.isRefreshing = false;
@@ -366,6 +376,18 @@ export class ReportsScansComponent {
       //   report.status = 'analyzed';
       // }, 2000);
     }
+  }
+
+  // ==========================  SEARCH FUNCTIONS ==========================
+
+  onSearchReports(): void {
+    this.filteredReports = this.currentPatientReports.filter((report) =>
+      report.title.toLowerCase().includes(this.quickSearchReports.toLowerCase())
+    );
+  }
+  clearSearch(): void {
+    this.quickSearchReports = '';
+    this.filteredReports = [...this.currentPatientReports];
   }
 
   createNewTempReport(): void {

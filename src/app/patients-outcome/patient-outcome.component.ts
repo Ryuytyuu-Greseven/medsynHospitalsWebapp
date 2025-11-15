@@ -104,7 +104,7 @@ export class PatientOutcomeComponent implements OnInit {
       .getSinglePatient( { patientId: patientId } )
       .subscribe((patient) => {
         console.log('patient', patient);
-        this.patient = patient;
+        this.patient = Object.assign({}, patient);
       });
   }
 
