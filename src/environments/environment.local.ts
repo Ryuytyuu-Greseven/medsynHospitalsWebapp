@@ -2,7 +2,7 @@ export const environment = {
   production: false,
   apiLoginUrl: 'http://localhost:3003/medsyn-business/api',
   apiUrl: 'http://localhost:3005/medsyn-hospitals/api',
-  botApiUrl: 'http://localhost:3001/api',
+  botApiUrl: 'http://localhost:3005/medsyn-hospitals/api',
   appName: 'MedSyn Hospital',
   version: '1.0.0',
   debug: true,

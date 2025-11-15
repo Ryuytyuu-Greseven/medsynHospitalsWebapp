@@ -52,7 +52,7 @@ export class ApiService {
     },
 
     bot: {
-      userQuery: 'medsyn-consumer/api/bot/user-query',
+      userQuery: 'bot/user-query',
     },
   };
 
@@ -245,7 +245,7 @@ export class ApiService {
 
   // ============ CHATBOT ENDPOINTS ============ //
   // general user query
-  public botUserQuery(userQuery: FormData) {
+  public botUserQuery(userQuery: FormData): Observable<any> {
     console.log('userQuery', userQuery.get('query'));
     return this.http
       .post(this.getBotApiUrl(this.endpoints.bot.userQuery), userQuery, {

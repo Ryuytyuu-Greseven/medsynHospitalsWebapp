@@ -10,7 +10,7 @@
       <!-- Unread indicator -->
       <div *ngIf="hasUnreadMessages" class="unread-badge"></div>
     </div>
-    <div class="bot-label">Ask AI</div>
+    <div class="bot-label">AI</div>
   </div>
 
   <!-- Expanded Chat Window -->
@@ -137,11 +137,11 @@
           <div class="file-prev-info">
             <div class="file-prev-name">{{ file.name }}</div>
             <div class="file-prev-size">{{ formatFileSize(file.size) }}</div>
-            <div *ngIf="file.uploadProgress !== undefined && file.uploadProgress < 100" class="file-prev-progress">
+            <!-- <div *ngIf="file.uploadProgress !== undefined && file.uploadProgress < 100" class="file-prev-progress">
               <div class="file-prev-bar" [style.width.%]="file.uploadProgress"></div>
-            </div>
+            </div> -->
           </div>
-          <button (click)="removeFile(file.id)" class="file-prev-remove">
+          <button (click)="removeFile(file)" class="file-prev-remove">
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
@@ -167,7 +167,7 @@
           [disabled]="isBotThinking" />
 
         <button
-          (click)="sendMessage()"
+          (click)="sendUserQuery()"
           [disabled]="!messageInput.trim() && attachedFiles.length === 0 || isBotThinking"
           class="send-btn-mini"
           [class.disabled]="!messageInput.trim() && attachedFiles.length === 0 || isBotThinking">
