@@ -1,0 +1,169 @@
+/* Staff Component Styles */
+
+/* Modal Overlay - Override to ensure proper display */
+.staff-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 9999 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  display: block !important;
+  overflow-y: auto;
+}
+
+/* Modal Backdrop */
+.staff-modal-backdrop {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  z-index: 10000 !important;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Modal Container */
+.staff-modal-container {
+  position: relative !important;
+  z-index: 10001 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 3rem;
+}
+
+/* Modal Panel */
+.staff-modal-panel {
+  position: relative !important;
+  z-index: 10002 !important;
+  background-color: white !important;
+  max-width: 56rem !important;
+  max-height: 90vh !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  overflow: hidden !important;
+  border-radius: 1.25rem !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+              0 10px 20px -5px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid rgba(229, 231, 235, 0.5) !important;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+/* External Close button - positioned outside modal */
+.staff-modal-close-btn-external {
+  position: absolute;
+  top: calc(5vh - 25px);
+  right: calc((100vw - 56rem) / 2 - 25px - 2.5rem);
+  z-index: 10003;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  color: white;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Fallback positioning for smaller screens */
+@media (max-width: 920px) {
+  .staff-modal-close-btn-external {
+    right: 25px;
+  }
+}
+
+.staff-modal-close-btn-external:hover {
+  background-color: white;
+  transform: rotate(90deg) scale(1.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.staff-modal-close-btn-external svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  stroke: #374151;
+  stroke-width: 2.5;
+}
+
+/* Modal Body - No header, full content with padding */
+.staff-modal-body {
+  padding: 1.5rem !important;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: white;
+}
+
+/* Smooth scroll for modal body */
+.staff-modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.staff-modal-body::-webkit-scrollbar-track {
+  background: #f9fafb;
+  border-radius: 4px;
+}
+
+.staff-modal-body::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+.staff-modal-body::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Modal animation */
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .staff-modal-container {
+    padding: 1.5rem;
+  }
+
+  .staff-modal-panel {
+    border-radius: 1rem !important;
+    max-height: 95vh !important;
+  }
+
+  .staff-modal-body {
+    padding: 1.5rem !important;
+    max-height: 95vh;
+  }
+
+  .staff-modal-close-btn-external {
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .staff-modal-close-btn-external svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+

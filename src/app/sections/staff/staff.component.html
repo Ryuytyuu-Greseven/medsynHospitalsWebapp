@@ -35,7 +35,7 @@
 
     <!-- Staff Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <app-card *ngFor="let staff of filteredStaff" class="hover:shadow-lg transition-shadow duration-200">
+      <div *ngFor="let staff of filteredStaff" class="card card-hover-lift cursor-pointer" (click)="viewStaffDetails(staff)">
         <div class="flex items-start justify-between mb-4">
           <div class="flex items-center">
             <div
@@ -79,7 +79,7 @@
           </div>
 
         </div>
-      </app-card>
+      </div>
 
       <!-- EMPTY STATE -->
       <div class="col-span-full">
@@ -123,5 +123,30 @@
     <!-- Staff Onboarding Modal -->
     <app-staff-onboarding [showForm]="showOnboardingModal" (staffAdded)="onStaffAdded($event)"
       (formToggled)="onFormToggled($event)"></app-staff-onboarding>
+  </div>
+</div>
+
+<!-- Staff Details Modal - Outside container to avoid width constraints -->
+<div *ngIf="showStaffDetails && selectedStaff"
+     class="modal-overlay staff-modal-overlay"
+     (click)="closeStaffDetails()">
+
+  <!-- Background overlay -->
+  <div class="modal-backdrop staff-modal-backdrop"></div>
+
+  <div class="modal-container staff-modal-container">
+    <!-- Close button - outside the modal panel -->
+    <button (click)="closeStaffDetails()" class="staff-modal-close-btn-external">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <!-- Modal panel -->
+    <div class="modal-panel modal-panel-lg staff-modal-panel" (click)="$event.stopPropagation()">
+      <div class="staff-modal-body">
+        <app-staff-details [staff]="selectedStaff"></app-staff-details>
+      </div>
+    </div>
   </div>
 </div>

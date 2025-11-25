@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PublicStaffProfile } from '../../core/interfaces';
-import { CardComponent } from '../../shared/components/card/card.component';
 import {
   ToastService,
   StaffService,
@@ -10,19 +9,22 @@ import {
   Patient,
 } from '../../core/services';
 import { StaffOnboardingComponent } from '../../shared/components/staff-onboarding/staff-onboarding.component';
+import { StaffDetailsComponent } from './staff-details/staff-details.component';
 
 @Component({
   selector: 'app-staff',
   standalone: true,
-  imports: [CommonModule, CardComponent, StaffOnboardingComponent],
+  imports: [CommonModule, StaffOnboardingComponent, StaffDetailsComponent],
   templateUrl: './staff.component.html',
-  styles: [],
+  styleUrls: ['./staff.component.css'],
 })
 export class StaffComponent implements OnInit {
   staff: PublicStaffProfile[] = [];
   patients: Patient[] = [];
   activeFilter = 0;
   showOnboardingModal = false;
+  selectedStaff: PublicStaffProfile | null = null;
+  showStaffDetails = false;
 
   staffFilters = [
     { key: 'all', label: 'All Staff', value: 0 },
@@ -129,5 +131,15 @@ export class StaffComponent implements OnInit {
     if (!showForm) {
       this.closeOnboardingModal();
     }
+  }
+
+  viewStaffDetails(staff: PublicStaffProfile): void {
+    this.selectedStaff = staff;
+    this.showStaffDetails = true;
+  }
+
+  closeStaffDetails(): void {
+    this.showStaffDetails = false;
+    this.selectedStaff = null;
   }
 }
