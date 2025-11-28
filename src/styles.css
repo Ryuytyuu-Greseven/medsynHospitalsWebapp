@@ -23,6 +23,10 @@
   --color-navy: 15, 23, 42;             /* Dark navy text */
   --color-ink: 30, 41, 59;              /* Ink text */
   --color-muted: 100, 116, 139;         /* Muted text */
+  --color-white: 255, 255, 255;         /* #FFFFFF - Pure white */
+  --color-info: 59, 130, 246;           /* #3B82F6 - Blue for info cards */
+  --color-nutrition: 249, 115, 22;      /* #F97316 - Orange for nutrition/macro data */
+  --color-metric: 139, 92, 246;         /* #8B5CF6 - Purple for metrics/measurements */
 
   /* Shadows */
   --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1);

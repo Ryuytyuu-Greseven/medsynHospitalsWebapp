@@ -212,29 +212,67 @@
   </div>
 
   <!-- Current Diet -->
-  <div class="section-spacing">
+  <div class="section-spacing" *ngIf="dietPlan as plan">
     <div class="card card-hover-lift card-h-fit card-mid">
       <div class="diet-header">
-        <h3 class="diet-title">Current Diet Plan</h3>
-        <span class="diet-badge">Active plan</span>
+        <div class="diet-title-meta">
+          <h3 class="diet-title">Current Diet Plan</h3>
+          <span class="diet-subtitle">Started {{ plan.startDate | date: 'MMM d, y' }}</span>
+        </div>
+        <div class="diet-header-actions">
+          <!-- <span class="diet-badge" *ngIf="plan.badge">{{ plan.badge }}</span> -->
+          <button class="diet-view-btn" (click)="openDietPlanModal()">View plan</button>
+        </div>
       </div>
 
-      <div>
-        <div class="diet-card">
-          <div class="diet-card-header">
-            <div class="diet-icon-container">
-              <span class="diet-icon">🥗</span>
-            </div>
-            <div class="diet-info">
-              <h4 class="diet-name">Diabetes Management Diet</h4>
-              <p class="diet-description">Low-carb, high-protein plan</p>
-            </div>
+      <div class="diet-card">
+        <div class="diet-card-header">
+          <div class="diet-icon-container">
+            <span class="diet-icon">🥗</span>
           </div>
-          <div class="diet-details">
-            <p>Started: Jan 15, 2024</p>
-            <p>Notes: Focus on blood sugar control</p>
+          <div class="diet-info">
+            <h4 class="diet-name">{{ plan.name }}</h4>
+            <p class="diet-description">{{ plan.description }}</p>
           </div>
         </div>
+
+        <div class="diet-summary-inline">
+          <div class="diet-summary-field">
+            <span class="diet-summary-label">Prescribed by</span>
+            <span class="diet-summary-value">{{ plan.doctor }}</span>
+          </div>
+        </div>
+
+        <div class="diet-targets">
+          <div class="diet-target" *ngFor="let metric of macroStatDefinitions">
+            <span class="diet-target-label">{{ metric.label }}</span>
+            <span class="diet-target-value">{{ plan.dailyTargets[metric.key] }} {{ metric.unit }}</span>
+            <span class="diet-target-subtext">Daily target</span>
+          </div>
+        </div>
+
+        <!-- <div class="diet-week-preview">
+          <div class="diet-week-day" *ngFor="let day of plan.weeklyPlan | slice:0:3">
+            <div class="diet-week-day-header">
+              <span class="diet-week-day-name">{{ day.day }}</span>
+              <span class="diet-week-day-focus">{{ day.focus }}</span>
+            </div>
+            <div class="diet-week-meals">
+              <div class="diet-week-meal" *ngFor="let meal of day.meals | slice:0:2">
+                <span class="diet-week-meal-name">{{ meal.name }}</span>
+                <span class="diet-week-meal-macros">{{ meal.macros.calories }} kcal · {{ meal.macros.protein }}g P ·
+                  {{ meal.macros.carbs }}g C
+                </span>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+        <!-- <div class="diet-actions">
+          <div class="diet-note">
+            <strong>Notes:</strong> {{ plan.notes }}
+          </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -249,7 +287,7 @@
     <div class="modal-backdrop"></div>
 
     <!-- Modal panel -->
-    <div class="modal-panel modal-panel-xl" (click)="$event.stopPropagation()">
+    <div class="modal-panel modal-panel-xl diet-plan-modal" (click)="$event.stopPropagation()">
       <!-- Modal Header -->
       <div class="modal-header">
         <div class="modal-header-content">
@@ -683,3 +721,123 @@
 <!-- Document Viewer Modal -->
 <app-document-viewer [isOpen]="showDocumentViewer" [document]="currentDocument" (closeEvent)="closeDocumentViewer()">
 </app-document-viewer>
+
+<!-- Diet Plan Modal -->
+<div *ngIf="showDietPlanModal && dietPlan as plan" class="modal-overlay" (click)="closeDietPlanModal()">
+  <div class="modal-container">
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-panel modal-panel-xl" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-header-content">
+          <div class="modal-header-left">
+            <div class="modal-icon-container modal-icon-container-green">
+              <span class="diet-icon">🥗</span>
+            </div>
+            <div class="modal-title-group">
+              <h3 class="modal-title">Complete Diet Plan</h3>
+              <p class="modal-subtitle">{{ plan.name }} · {{ plan.doctor }}</p>
+            </div>
+          </div>
+          <button (click)="closeDietPlanModal()" class="modal-close-btn">
+            <fa-icon [icon]="faTimes" class="w-6 h-6"></fa-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="diet-modal-summary">
+          <div>
+            <p class="diet-modal-label">Start · Review</p>
+            <p class="diet-modal-value">{{ plan.startDate | date: 'MMM d, y' }} · {{ plan.reviewDate | date: 'MMM d, y'
+              }}</p>
+          </div>
+          <div>
+            <p class="diet-modal-label">Hydration goal</p>
+            <p class="diet-modal-value">{{ plan.hydrationGoal }}</p>
+          </div>
+          <div>
+            <p class="diet-modal-label">Supplements</p>
+            <p class="diet-modal-value">{{ plan.supplements.join(', ') }}</p>
+          </div>
+        </div>
+
+        <div class="diet-macro-summary">
+          <div class="macro-card" *ngFor="let metric of macroStatDefinitions">
+            <span class="macro-card-label">Weekly {{ metric.label }}</span>
+            <span class="macro-card-value">{{ getWeeklyMacroTotals()[metric.key] }} {{ metric.unit }}</span>
+            <span class="macro-card-sub">Across 7-day plan</span>
+          </div>
+        </div>
+
+        <div class="diet-week-nav">
+          <button class="diet-day-pill" *ngFor="let day of plan.weeklyPlan; let i = index"
+            [class.diet-day-pill-active]="i === selectedDayIndex" (click)="selectDietDay(i)">
+            <span class="pill-day">{{ day.day | slice: 0:3 }}</span>
+            <!-- <span class="pill-focus">{{ day.focus }}</span> -->
+          </button>
+        </div>
+
+        <ng-container *ngIf="getSelectedDayPlan() as selectedDay">
+          <div class="diet-weekly-plan">
+            <div class="diet-day-card">
+              <div class="diet-day-header">
+                <div>
+                  <p class="diet-day-name">{{ selectedDay.day }}</p>
+                  <p class="diet-day-focus">{{ selectedDay.focus }}</p>
+                </div>
+                <ng-container *ngIf="getDayMacroTotals(selectedDay) as dayTotals">
+                  <div class="diet-day-macro-chips">
+                    <span class="diet-macro-chip" *ngFor="let metric of macroStatDefinitions">
+                      <span>{{ metric.label }}</span>
+                      <strong>{{ dayTotals[metric.key] }} {{ metric.unit }}</strong>
+                    </span>
+                  </div>
+                </ng-container>
+              </div>
+
+              <div class="diet-meal-list">
+                <div class="diet-meal-card" *ngFor="let meal of selectedDay.meals">
+                  <div>
+                    <p class="diet-meal-name">{{ meal.name }}</p>
+                    <p class="diet-meal-time">{{ meal.time }}</p>
+                    <p class="diet-meal-foods">{{ meal.foods.join(' • ') }}</p>
+                  </div>
+                  <div class="diet-meal-macros">
+                    <div class="diet-meal-macro">
+                      <span>Calories</span>
+                      <strong>{{ meal.macros.calories }} kcal</strong>
+                    </div>
+                    <div class="diet-meal-macro">
+                      <span>Protein</span>
+                      <strong>{{ meal.macros.protein }} g</strong>
+                    </div>
+                    <div class="diet-meal-macro">
+                      <span>Carbs</span>
+                      <strong>{{ meal.macros.carbs }} g</strong>
+                    </div>
+                    <div class="diet-meal-macro">
+                      <span>Fats</span>
+                      <strong>{{ meal.macros.fat }} g</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="modal-footer">
+        <div class="modal-footer-info">
+          {{ plan.weeklyPlan.length }}-day plan · {{ getTotalMealsScheduled() }} meals scheduled
+        </div>
+        <div class="modal-footer-right">
+          <button class="modal-footer-button modal-footer-button-secondary" (click)="closeDietPlanModal()">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

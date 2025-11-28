@@ -453,10 +453,28 @@
   margin-bottom: 0.75rem;
 }
 
+.diet-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .diet-title {
   font-size: 1.125rem;
   font-weight: bold;
   color: rgb(var(--color-navy));
+}
+
+.diet-title-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.diet-subtitle {
+  font-size: 0.75rem;
+  color: #64748b;
 }
 
 .diet-badge {
@@ -512,6 +530,417 @@
 .diet-details {
   font-size: 0.75rem;
   color: #4b5563;
+}
+
+.diet-summary-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.diet-summary-field {
+  display: flex;
+  gap: 0.35rem;
+  align-items: baseline;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.diet-summary-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+}
+
+.diet-summary-value {
+  font-weight: 600;
+  color: rgb(var(--color-navy));
+}
+
+.diet-targets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.diet-target {
+  background: #fefce8;
+  border: 1px solid #fde68a;
+  border-radius: 0.4rem;
+  padding: 0.55rem;
+}
+
+.diet-target-label {
+  font-size: 0.7rem;
+  color: #a16207;
+}
+
+.diet-target-value {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #854d0e;
+}
+
+.diet-target-subtext {
+  font-size: 0.65rem;
+  color: #a1a1aa;
+}
+
+.diet-week-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.diet-week-nav {
+  display: inline-flex;
+  gap: 5px;
+  margin-bottom: 1rem;
+  /* background: rgb(236 210 210 / 0.69); */
+  background: rgb(var(--color-white));
+  border-radius: 0.75rem;
+  padding: 0.35rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  max-width: 100%;
+}
+
+.diet-week-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.diet-day-pill {
+  color: black;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #d2d2d2a1;
+  cursor: pointer;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 70px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  /* color: rgba(var(--color-primary), 0.7); */
+  font-weight: 500;
+}
+
+.diet-day-pill:hover:not(.diet-day-pill-active) {
+  background: rgba(151, 151, 151, 0.418);
+  /* color: rgb(var(--color-white)); */
+}
+
+.diet-day-pill-active {
+  background: rgb(var(--color-white));
+  color: rgb(var(--color-primary));
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.diet-day-pill .pill-day {
+  font-weight: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+}
+
+.diet-day-pill .pill-focus {
+  font-size: 0.65rem;
+  opacity: 0.8;
+}
+
+.diet-week-day {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  background: #fff;
+}
+
+.diet-week-day-header {
+  margin-bottom: 0.5rem;
+}
+
+.diet-week-day-name {
+  font-weight: 600;
+  color: rgb(var(--color-navy));
+}
+
+.diet-week-day-focus {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.diet-week-meals {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.diet-week-meal-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.diet-week-meal-macros {
+  font-size: 0.75rem;
+  color: #475569;
+}
+
+.diet-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.diet-view-btn {
+  background: rgb(var(--color-navy));
+  color: #fff;
+  border: none;
+  border-radius: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  font-size: 0.8rem;
+}
+
+.diet-view-btn:hover {
+  opacity: 0.9;
+}
+
+.diet-note {
+  font-size: 0.8rem;
+  color: #475569;
+}
+
+.diet-plan-modal {
+  max-height: 75vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.diet-modal-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.diet-modal-summary > div {
+  background: linear-gradient(135deg, rgba(var(--color-info), 0.1), rgba(var(--color-info), 0.05));
+  border: 1px solid rgba(var(--color-info), 0.2);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+
+.diet-modal-label {
+  font-size: 0.7rem;
+  color: rgb(var(--color-info));
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.diet-modal-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgb(var(--color-navy));
+}
+
+.diet-macro-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.macro-card {
+  background: rgb(var(--color-white));
+  border: 2px solid rgba(var(--color-nutrition), 0.3);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.macro-card-label {
+  font-size: 0.7rem;
+  color: rgb(var(--color-nutrition));
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.macro-card-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: rgb(var(--color-navy));
+}
+
+.macro-card-sub {
+  font-size: 0.65rem;
+  color: rgba(var(--color-nutrition), 0.8);
+}
+
+.diet-weekly-plan {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.diet-day-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.diet-day-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .diet-day-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.diet-day-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgb(var(--color-navy));
+}
+
+.diet-day-focus {
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.diet-day-macro-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.diet-macro-chip {
+  background: rgba(var(--color-metric), 0.08);
+  border: 1px solid rgba(var(--color-metric), 0.25);
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.7rem;
+  color: rgba(var(--color-metric), 0.85);
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  font-weight: 600;
+}
+
+.diet-macro-chip strong {
+  color: rgb(var(--color-navy));
+  font-weight: 700;
+}
+
+.diet-meal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.diet-meal-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .diet-meal-card {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.diet-meal-name {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.diet-meal-time {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 0.2rem;
+}
+
+.diet-meal-foods {
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.diet-meal-macros {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .diet-meal-macros {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 26rem;
+    min-width: 0;
+  }
+}
+
+.diet-meal-macro {
+  background: rgba(var(--color-metric), 0.08);
+  border: 1px solid rgba(var(--color-metric), 0.25);
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.diet-meal-macro span {
+  display: block;
+  font-size: 0.65rem;
+  color: rgba(var(--color-metric), 0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.diet-meal-macro strong {
+  display: block;
+  font-size: 0.85rem;
+  color: rgb(var(--color-navy));
+  font-weight: 700;
 }
 
 /* Modal Styles */
@@ -657,14 +1086,14 @@
 }
 
 .modal-body {
-  background-color: #f9fafb;
+  background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 100%);
   padding: 1rem 1.5rem;
-  max-height: 24rem;
+  max-height: 600px;
   overflow-y: auto;
 }
 
 .modal-body-white {
-  background-color: white;
+  background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 100%);
 }
 
 .modal-footer {

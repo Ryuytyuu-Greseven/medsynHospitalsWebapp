@@ -361,6 +361,7 @@ export class MedicalChatbotComponent implements OnInit, OnDestroy {
     }
     console.log('text', text);
     formData.append('query', text);
+    formData.append('patientId', this.patientId?.toString() || '');
 
     this.apiService.botUserQuery(formData).subscribe({
       next: (response) => {
