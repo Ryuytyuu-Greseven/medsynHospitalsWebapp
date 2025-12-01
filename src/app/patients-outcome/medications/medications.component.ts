@@ -23,6 +23,7 @@ import {
   faHistory,
   faExclamationTriangle,
   faCamera,
+  faWandMagicSparkles,
 } from '@fortawesome/free-solid-svg-icons';
 import { LoadingComponent } from '../../shared/components/loading/loading.component';
 import {
@@ -121,15 +122,21 @@ export class MedicationsComponent {
   faHistory = faHistory;
   faExclamationTriangle = faExclamationTriangle;
   faCamera = faCamera;
+  faWandMagicSparkles = faWandMagicSparkles;
 
   // Modal state
   showMedicationsModal = false;
   showAddMedicationModal = false;
   showImageUploadModal = false;
+  showAIDietInstructionsModal = false;
   medicationSearchTerm = '';
   quickSearchTerm = '';
   selectedStatusFilter = 'all';
   filteredMedications: Medication[] = [];
+
+  // AI Diet Plan Instructions
+  aiDietInstructions = '';
+  isGeneratingDietPlan = false;
 
   // New medication form
   newMedication: Partial<Medication> = {};
@@ -151,236 +158,11 @@ export class MedicationsComponent {
   // Diet Plan View
   showDietPlanModal = false;
   selectedDayIndex = 0;
-  dietPlan: DietPlan = {
-    name: 'Diabetes Management Diet',
-    description: 'Low GI plan with high-protein focus',
-    badge: 'Doctor prescribed',
-    doctor: 'Dr. Aasha Menon (Endocrinology)',
-    startDate: new Date('2024-01-15'),
-    reviewDate: new Date('2024-03-15'),
-    notes:
-      'Prioritize low-GI carbs, distribute protein evenly, maintain steady hydration.',
-    dailyTargets: {
-      calories: 1850,
-      protein: 95,
-      carbs: 150,
-      fat: 58,
-    },
-    hydrationGoal: '2.8L water + 1 sugar-free electrolyte daily',
-    supplements: ['Vitamin D3 (Morning)', 'Omega-3 (Evening)'],
-    weeklyPlan: [
-      {
-        day: 'Monday',
-        focus: 'Low GI start & hydration boost',
-        meals: [
-          {
-            name: 'Breakfast',
-            time: '7:30 AM',
-            foods: ['Spinach-mushroom omelette', '1 slice seeded toast'],
-            macros: { calories: 320, protein: 28, carbs: 22, fat: 14 },
-          },
-          {
-            name: 'Lunch',
-            time: '1:00 PM',
-            foods: ['Grilled salmon', 'Quinoa bowl', 'Roasted veggies'],
-            macros: { calories: 460, protein: 38, carbs: 35, fat: 18 },
-          },
-          {
-            name: 'Snack',
-            time: '4:00 PM',
-            foods: ['Greek yogurt', 'Mixed berries'],
-            macros: { calories: 180, protein: 15, carbs: 26, fat: 3 },
-          },
-          {
-            name: 'Dinner',
-            time: '7:30 PM',
-            foods: ['Lentil soup', 'Steamed greens'],
-            macros: { calories: 410, protein: 24, carbs: 48, fat: 10 },
-          },
-        ],
-      },
-      {
-        day: 'Tuesday',
-        focus: 'Fiber-rich lunch swap',
-        meals: [
-          {
-            name: 'Breakfast',
-            time: '7:30 AM',
-            foods: ['Chia seed pudding', 'Almond milk', 'Kiwi slices'],
-            macros: { calories: 300, protein: 16, carbs: 36, fat: 10 },
-          },
-          {
-            name: 'Lunch',
-            time: '12:45 PM',
-            foods: ['Tofu stir fry', 'Brown rice'],
-            macros: { calories: 430, protein: 30, carbs: 48, fat: 12 },
-          },
-          {
-            name: 'Snack',
-            time: '3:30 PM',
-            foods: ['Hummus', 'Carrot sticks'],
-            macros: { calories: 150, protein: 8, carbs: 16, fat: 7 },
-          },
-          {
-            name: 'Dinner',
-            time: '7:15 PM',
-            foods: ['Herbed chicken breast', 'Cauliflower mash'],
-            macros: { calories: 420, protein: 36, carbs: 18, fat: 16 },
-          },
-        ],
-      },
-      {
-        day: 'Wednesday',
-        focus: 'Carb cycling (lighter dinner)',
-        meals: [
-          {
-            name: 'Breakfast',
-            time: '7:45 AM',
-            foods: ['Steel-cut oats', 'Walnuts', 'Blueberries'],
-            macros: { calories: 310, protein: 18, carbs: 42, fat: 9 },
-          },
-          {
-            name: 'Lunch',
-            time: '1:15 PM',
-            foods: ['Turkey lettuce wraps', 'Avocado'],
-            macros: { calories: 390, protein: 34, carbs: 22, fat: 16 },
-          },
-          {
-            name: 'Snack',
-            time: '4:15 PM',
-            foods: ['Apple slices', 'Peanut butter'],
-            macros: { calories: 210, protein: 8, carbs: 28, fat: 9 },
-          },
-          {
-            name: 'Dinner',
-            time: '7:00 PM',
-            foods: ['Zucchini noodles', 'Pesto shrimp'],
-            macros: { calories: 360, protein: 32, carbs: 20, fat: 14 },
-          },
-        ],
-      },
-      {
-        day: 'Thursday',
-        focus: 'Higher protein dinner',
-        meals: [
-          {
-            name: 'Breakfast',
-            time: '7:15 AM',
-            foods: ['Buckwheat pancakes', 'Cottage cheese'],
-            macros: { calories: 340, protein: 22, carbs: 40, fat: 9 },
-          },
-          {
-            name: 'Lunch',
-            time: '12:30 PM',
-            foods: ['Chickpea bowl', 'Roasted pumpkin'],
-            macros: { calories: 420, protein: 24, carbs: 52, fat: 11 },
-          },
-          {
-            name: 'Snack',
-            time: '4:30 PM',
-            foods: ['Roasted almonds', 'Green tea'],
-            macros: { calories: 190, protein: 7, carbs: 9, fat: 15 },
-          },
-          {
-            name: 'Dinner',
-            time: '8:00 PM',
-            foods: ['Baked cod', 'Asparagus', 'Wild rice'],
-            macros: { calories: 430, protein: 36, carbs: 32, fat: 14 },
-          },
-        ],
-      },
-      {
-        day: 'Friday',
-        focus: 'Mediterranean balance',
-        meals: [
-          {
-            name: 'Breakfast',
-            time: '7:20 AM',
-            foods: ['Avocado toast', 'Poached egg'],
-            macros: { calories: 330, protein: 17, carbs: 28, fat: 16 },
-          },
-          {
-            name: 'Lunch',
-            time: '1:10 PM',
-            foods: ['Grilled halloumi salad', 'Farro'],
-            macros: { calories: 450, protein: 26, carbs: 46, fat: 18 },
-          },
-          {
-            name: 'Snack',
-            time: '4:00 PM',
-            foods: ['Protein smoothie', 'Spinach', 'Banana'],
-            macros: { calories: 220, protein: 20, carbs: 26, fat: 5 },
-          },
-          {
-            name: 'Dinner',
-            time: '7:45 PM',
-            foods: ['Stuffed bell peppers', 'Turkey mince'],
-            macros: { calories: 410, protein: 34, carbs: 38, fat: 12 },
-          },
-        ],
-      },
-      {
-        day: 'Saturday',
-        focus: 'Flex carb day (post-activity)',
-        meals: [
-          {
-            name: 'Breakfast',
-            time: '8:00 AM',
-            foods: ['Veggie frittata', 'Orange slices'],
-            macros: { calories: 340, protein: 24, carbs: 30, fat: 12 },
-          },
-          {
-            name: 'Lunch',
-            time: '1:30 PM',
-            foods: ['Grilled prawn bowl', 'Sweet potato'],
-            macros: { calories: 470, protein: 34, carbs: 50, fat: 15 },
-          },
-          {
-            name: 'Snack',
-            time: '4:30 PM',
-            foods: ['Edamame', 'Sea salt'],
-            macros: { calories: 190, protein: 16, carbs: 14, fat: 7 },
-          },
-          {
-            name: 'Dinner',
-            time: '8:15 PM',
-            foods: ['Whole wheat pasta', 'Turkey meatballs'],
-            macros: { calories: 480, protein: 32, carbs: 58, fat: 14 },
-          },
-        ],
-      },
-      {
-        day: 'Sunday',
-        focus: 'Reset & lighter carbs',
-        meals: [
-          {
-            name: 'Breakfast',
-            time: '8:30 AM',
-            foods: ['Protein waffles', 'Berry compote'],
-            macros: { calories: 320, protein: 22, carbs: 36, fat: 9 },
-          },
-          {
-            name: 'Lunch',
-            time: '1:00 PM',
-            foods: ['Miso glazed tofu', 'Steamed greens'],
-            macros: { calories: 400, protein: 30, carbs: 28, fat: 14 },
-          },
-          {
-            name: 'Snack',
-            time: '4:15 PM',
-            foods: ['Celery sticks', 'Almond butter'],
-            macros: { calories: 150, protein: 6, carbs: 10, fat: 9 },
-          },
-          {
-            name: 'Dinner',
-            time: '7:30 PM',
-            foods: ['Chicken soup', 'Quinoa pilaf'],
-            macros: { calories: 380, protein: 28, carbs: 34, fat: 11 },
-          },
-        ],
-      },
-    ],
-  };
+
+  // Diet Plan State
+  inactiveDietPlans: DietPlan[] = [];
+  dietPlan: DietPlan = {} as DietPlan;
+  currentViewedDietPlan: DietPlan = {} as DietPlan;
 
   macroStatDefinitions: { key: MacroKey; label: string; unit: string }[] = [
     { key: 'calories', label: 'Calories', unit: 'kcal' },
@@ -413,6 +195,7 @@ export class MedicationsComponent {
   }
   ngOnInit(): void {
     this.getPatientMedications();
+    this.getPatientDietPlan();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -826,12 +609,14 @@ export class MedicationsComponent {
     this.currentDocument = null;
   }
 
-  openDietPlanModal(): void {
+  openDietPlanModal(plan:any): void {
+    this.currentViewedDietPlan = plan;
     this.showDietPlanModal = true;
   }
 
   closeDietPlanModal(): void {
     this.showDietPlanModal = false;
+    this.currentViewedDietPlan = {} as DietPlan;
   }
 
   getDayMacroTotals(dayPlan: DietDayPlan): DietMacroTotals {
@@ -862,23 +647,29 @@ export class MedicationsComponent {
   }
 
   getTotalMealsScheduled(): number {
-    return this.dietPlan.weeklyPlan.reduce(
-      (count, day) => count + day.meals.length,
-      0
-    );
+    const plan = this.currentViewedDietPlan;
+    return plan.weeklyPlan.reduce((count, day) => count + day.meals.length, 0);
+  }
+
+  viewInactivePlan(plan: any): void {
+    this.currentViewedDietPlan = plan;
+    this.selectedDayIndex = 0;
+    this.showDietPlanModal = true;
+  }
+
+  activateDietPlan(plan: DietPlan, startDate: Date): void {
+    console.log('Activating diet plan:', plan.name, 'from', startDate);
+    // TODO: Implement activation logic - API call to activate plan
   }
 
   selectDietDay(index: number): void {
-    if (
-      index >= 0 &&
-      index < (this.dietPlan.weeklyPlan?.length || 0)
-    ) {
+    if (index >= 0 && index < (this.currentViewedDietPlan.weeklyPlan?.length || 0)) {
       this.selectedDayIndex = index;
     }
   }
 
   getSelectedDayPlan(): DietDayPlan | null {
-    const totalDays = this.dietPlan.weeklyPlan?.length || 0;
+    const totalDays = this.currentViewedDietPlan.weeklyPlan?.length || 0;
     if (totalDays === 0) {
       return null;
     }
@@ -887,6 +678,187 @@ export class MedicationsComponent {
       this.selectedDayIndex = 0;
     }
 
-    return this.dietPlan.weeklyPlan[this.selectedDayIndex];
+    return this.currentViewedDietPlan.weeklyPlan[this.selectedDayIndex];
+  }
+
+  // ========================== DIET PLAN API CALLS ========================== //
+
+  // Open AI diet instructions modal
+  openAIDietInstructionsModal(): void {
+    this.aiDietInstructions = '';
+    this.showAIDietInstructionsModal = true;
+  }
+
+  closeAIDietInstructionsModal(): void {
+    this.showAIDietInstructionsModal = false;
+    this.aiDietInstructions = '';
+    this.isGeneratingDietPlan = false;
+  }
+
+  // Generate AI diet plan with instructions
+  submitDietPlanGeneration(): void {
+    if (!this.aiDietInstructions.trim()) {
+      this.toastService.show(
+        'warning',
+        'Missing Instructions',
+        'Please provide instructions for the AI diet plan'
+      );
+      return;
+    }
+
+    this.isGeneratingDietPlan = true;
+    const patientId = this.patientDetails?.healthId;
+
+    this.toastService.show(
+      'info',
+      'AI Generation',
+      'Generating AI diet plan...'
+    );
+
+    this.patientService
+      .generateAIDietPlan({
+        healthId: patientId!,
+        query: this.aiDietInstructions,
+      })
+      .subscribe({
+        next: (dietPlan) => {
+          this.toastService.show(
+            'success',
+            'Success',
+            'Diet plan generated successfully!'
+          );
+          this.closeAIDietInstructionsModal();
+          this.getPatientDietPlan(); // Refresh the diet plan
+        },
+        error: (error) => {
+          this.toastService.show(
+            'error',
+            'Error',
+            'Failed to generate diet plan'
+          );
+          console.error('Error generating diet plan:', error);
+          this.isGeneratingDietPlan = false;
+        },
+      });
+  }
+
+  getPatientDietPlan(): void {
+    if (this.patientDetails?.healthId) {
+      this.patientService
+        .getPatientDietPlan({
+          healthId: this.patientDetails?.healthId,
+        })
+        .subscribe({
+          next: (dietPlan) => {
+            this.inactiveDietPlans = [];
+            this.dietPlan = {} as any;
+
+            // Optimise these for loops by using a single loop
+            dietPlan.forEach((plan: any) => {
+              if (plan.status === 1) {
+                this.dietPlan = this.processDietPlan(plan);
+              } else {
+                this.inactiveDietPlans.push(this.processDietPlan(plan));
+              }
+            });
+            console.log('processedPlans', this.inactiveDietPlans);
+            // this.toastService.show(
+            //   'success',
+            //   'Success',
+            //   'Diet plan fetched successfully!'
+            // );
+          },
+        });
+    }
+  }
+
+  processDietPlan(plan: any): any {
+    let processedPlan = {};
+    if (plan?.status) {
+      const dayTake = {
+        day: '',
+        focus: '',
+        meals: [
+          {
+            name: 'Breakfast',
+            time: '7:30 AM',
+            foods: [],
+            macros: { calories: 0, protein: 0, carbs: 0, fat: 0 },
+          },
+          {
+            name: 'Lunch',
+            time: '12:45 PM',
+            foods: [],
+            macros: { calories: 0, protein: 0, carbs: 0, fat: 0 },
+          },
+          {
+            name: 'Snack',
+            time: '3:30 PM',
+            foods: [],
+            macros: { calories: 0, protein: 0, carbs: 0, fat: 0 },
+          },
+          {
+            name: 'Dinner',
+            time: '7:15 PM',
+            foods: [],
+            macros: { calories: 0, protein: 0, carbs: 0, fat: 0 },
+          },
+        ],
+      };
+
+      let weekPlan: any = {
+        monday: this.cloneDayTake(dayTake),
+        tuesday: this.cloneDayTake(dayTake),
+        wednesday: this.cloneDayTake(dayTake),
+        thursday: this.cloneDayTake(dayTake),
+        friday: this.cloneDayTake(dayTake),
+        saturday: this.cloneDayTake(dayTake),
+        sunday: this.cloneDayTake(dayTake),
+      };
+
+      plan.plans?.forEach((singleMeal: any) => {
+        const day = singleMeal.day as string;
+        let index = 0;
+
+        if (singleMeal?.type === 'breakfast') {
+          index = 0;
+        } else if (singleMeal?.type === 'lunch') {
+          index = 1;
+        } else if (singleMeal?.type === 'snack') {
+          index = 2;
+        } else if (singleMeal?.type === 'dinner') {
+          index = 3;
+        }
+
+        console.log(`day: ${day}, index: ${index}`);
+        weekPlan[day].day = day;
+        weekPlan[day].meals[index].foods = singleMeal?.foodItems;
+        weekPlan[day].meals[index].macros = {
+          calories: 0,
+          protein: 0,
+          carbs: 0,
+          fat: 0,
+        };
+      });
+
+      processedPlan = {
+        name: plan.name,
+        description: plan.description,
+        startDate: plan.startDate,
+        notes: plan.notes,
+        weeklyPlan: Object.values(weekPlan),
+        dailyTargets: {
+          calories: 1850,
+          protein: 95,
+          carbs: 150,
+          fat: 58,
+        },
+      };
+    }
+    return processedPlan;
+  }
+
+  cloneDayTake(dayTake: any): any {
+    return JSON.parse(JSON.stringify(dayTake));
   }
 }

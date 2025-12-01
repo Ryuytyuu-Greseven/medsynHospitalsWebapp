@@ -49,10 +49,12 @@ export class ApiService {
       getMedications: 'patients/health-medications/{healthId}/{page}/{limit}/{search}',
       uploadMedications: 'patients/health-medications/add-new',
       updateMedication: 'patients/health-medications/update/{healthId}',
+      getDietPlan: 'patients/health-medications/fetch-diet-plan',
     },
 
     bot: {
       userQuery: 'bot/user-query',
+      generateDietPlan: 'bot/generate-diet-plan',
     },
   };
 

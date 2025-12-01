@@ -277,4 +277,46 @@ export class PatientService {
       )
     );
   }
+
+  // ========================== DIET PLAN API CALLS ========================== //
+  /** Generate AI diet plan */
+  generateAIDietPlan(payload: {
+    healthId: string;
+    query: string;
+  }): Observable<any> {
+    return this.apiService
+      .sendPostRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.bot.generateDietPlan,
+        payload
+      )
+      .pipe(
+        map((response: { success: boolean; data: any }) => {
+          if (response?.success) {
+            return response.data;
+          } else {
+            throw new Error('Failed to generate diet plan');
+          }
+        }),
+        catchError(this.apiService.handleError.bind(this))
+      );
+  }
+
+  /** Get patient diet plan */
+  getPatientDietPlan(payload: { healthId: string }): Observable<any> {
+    return this.apiService
+      .sendPostRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.patient.getDietPlan,
+        payload
+      )
+      .pipe(
+        map((response: { success: boolean; data: any }) => {
+          if (response?.success) {
+            return response.data;
+          } else {
+            throw new Error('Failed to fetch patient diet plan');
+          }
+        }),
+        catchError(this.apiService.handleError.bind(this))
+      );
+  }
 }

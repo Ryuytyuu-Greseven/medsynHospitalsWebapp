@@ -33,82 +33,113 @@
     </div> -->
 
   <!-- Left Side - Medications -->
-  <div class="medications-container">
+ <div class="medications-container">
 
-    <!-- Current Medications -->
-    <div class="medications-section">
-      <div class="card card-hover-lift card-mid">
-        <div class="medications-header">
-          <h3 class="medications-title">Current Medications</h3>
-          <div class="header-actions">
-            <!-- Search Input -->
-            <div class="search-container">
-              <input type="text" [(ngModel)]="quickSearchTerm" (keyup.enter)="quickSearchMedication()"
-                placeholder="Search medications..." class="search-input-sm" />
-              <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
-            </div>
-            <!-- <div class="flex items-center gap-2 border-l border-gray-200 pl-3">
-            <span class="text-xs text-gray-500">{{ medications.length || 0 }} active</span>
-            <button (click)="openMedicationsModal()" class="text-xs text-blue-600 hover:text-blue-800 font-medium">View All</button>
-          </div> -->
-          </div>
+   <!-- Current Medications -->
+   <div class="section-spacing">
+     <div class="card card-hover-lift card-h-fit card-mid">
+       <div class="meds-modern-header">
+         <div class="meds-header-left">
+           <div class="meds-title-group">
+             <h3 class="meds-main-title">Current Medications</h3>
+             <!-- <span class="meds-count-badge">{{ medications.length || 0 }}</span> -->
+           </div>
+         </div>
+         <div class="meds-header-actions">
+           <div class="meds-search-wrapper">
+             <fa-icon [icon]="faSearch" class="meds-search-icon"></fa-icon>
+             <input type="text" [(ngModel)]="quickSearchTerm" (keyup.enter)="quickSearchMedication()"
+               placeholder="Search..." class="meds-search-input" />
+           </div>
+           <button class="diet-view-btn" (click)="openMedicationsModal()">
+             <span>View All</span>
+           </button>
+         </div>
+       </div>
+
+       <!-- Empty State -->
+       <div *ngIf="!medications || medications.length === 0" class="meds-empty-state">
+         <div class="meds-empty-icon">
+           <fa-icon [icon]="faPills"></fa-icon>
+         </div>
+         <p class="meds-empty-text">No active medications</p>
+       </div>
+
+       <!-- Medications Grid Layout -->
+       <div *ngIf="medications && medications.length > 0" class="meds-modern-grid">
+         <div *ngFor="let meds of medications; let i = index" class="meds-modern-card">
+           <div class="meds-card-top">
+             <div class="meds-pill-icon">{{ meds.name | titlecase }}</div>
+             <!-- <div class="meds-status-dot active"></div> -->
+           </div>
+
+           <!-- <div class="meds-card-body">
+             <h4 class="meds-drug-name">💊 {{ meds.name }}</h4>
+           </div> -->
+
+           <div class="meds-card-divider"></div>
+
+           <div class="meds-card-footer">
+             <div class="meds-meta-item">
+               <span class="meds-meta-label">{{meds.dosage.slice(0,15)}}</span>
+               <span class="meds-meta-value">{{ meds.frequency }}</span>
+             </div>
+             <div class="meds-meta-item">
+               <span class="meds-meta-label">Since</span>
+               <span class="meds-meta-value">{{ formatDate(meds.startDate) }}</span>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+
+
+  <!-- Current Diet -->
+  <div class="section-spacing" *ngIf="dietPlan as plan">
+    <div class="card card-hover-lift card-h-fit card-mid">
+      <div class="diet-header">
+        <div class="diet-title-meta">
+          <h3 class="diet-title">Current Diet Plan</h3>
+          <span class="diet-subtitle">Started {{ plan.startDate | date: 'MMM d, y' }}</span>
         </div>
-
-        <!-- Empty State -->
-        <div *ngIf="!medications || medications.length === 0" class="empty-state">
-          <div class="empty-state-icon-container">
-            <fa-icon [icon]="faPills" class="empty-state-icon"></fa-icon>
-          </div>
-          <p class="empty-state-text">No active medications</p>
-        </div>
-
-        <!-- Medications Grid Layout -->
-        <div *ngIf="medications && medications.length > 0" class="medications-grid">
-          <div *ngFor="let meds of medications; let i = index" class="medication-card">
-            <!-- Active Status Indicator -->
-            <div *ngIf="meds.status === 'active'" class="active-indicator"></div>
-
-            <div class="medication-content">
-              <h4 class="medication-name">{{ meds.name }}</h4>
-              <div class="medication-details">
-                <div class="medication-dosage">{{ meds.dosage }}</div>
-                <div>{{ meds.frequency }}</div>
-                <div class="medication-date">
-                  <p>{{ formatDate(meds.startDate) }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Show More Button -->
-        <div *ngIf="medications.length > 8" class="show-more-container">
-          <button class="show-more-btn">
-            Show {{ medications.length - 8 }} more medications
+        <div class="diet-header-actions">
+          <button class="ai-spark-btn" (click)="openAIDietInstructionsModal()">
+            <fa-icon [icon]="faWandMagicSparkles" class="ai-spark-icon"></fa-icon>
+            <span>AI Generate</span>
           </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Previous Medications -->
-    <!-- <div class="mb-6">
-      <div class="card card-hover-lift">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold text-gray-900">Previous Medications</h3>
-        <div class="flex items-center gap-2">
-          <span class="text-xs text-gray-500">0 discontinued</span>
-          <button class="text-xs text-blue-600 hover:text-blue-800 font-medium">View All</button>
+          <button class="diet-view-btn" (click)="openDietPlanModal(dietPlan)">View plan</button>
         </div>
       </div>
 
-      <div class="text-center py-6">
-        <div class="w-10 h-10 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-2">
-          <fa-icon [icon]="faCheckCircle" class="w-5 h-5 text-gray-400"></fa-icon>
+      <div class="diet-card">
+        <div class="diet-card-header">
+          <div class="diet-icon-container">
+            <span class="diet-icon">🥗</span>
+          </div>
+          <div class="diet-info">
+            <h4 class="diet-name">{{ plan.name }}</h4>
+            <p class="diet-description">{{ plan.description }}</p>
+          </div>
         </div>
-        <p class="text-gray-500 text-sm">No previous medications</p>
+
+        <div class="diet-summary-inline">
+          <div class="diet-summary-field">
+            <span class="diet-summary-label">Prescribed by</span>
+            <span class="diet-summary-value">{{ plan.doctor }}</span>
+          </div>
+        </div>
+
+        <div class="diet-targets">
+          <div class="diet-target" *ngFor="let metric of macroStatDefinitions">
+            <span class="diet-target-label">{{ metric?.label }}</span>
+            <span class="diet-target-value">{{ plan?.dailyTargets?.[metric.key] }} {{ metric?.unit }}</span>
+            <span class="diet-target-subtext">Daily target</span>
+          </div>
+        </div>
       </div>
     </div>
-    </div> -->
   </div>
 
 
@@ -155,7 +186,7 @@
   </div>
 
   <!-- Nutrition & Activity -->
-  <div class="section-spacing">
+  <!-- <div class="section-spacing">
     <div class="card card-hover-lift card-h-fit card-min-h-300">
       <h3 class="nutrition-header">Daily Nutrition & Activity</h3>
 
@@ -209,70 +240,23 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <!-- Current Diet -->
-  <div class="section-spacing" *ngIf="dietPlan as plan">
+  <!-- Inactive Diet Plans -->
+  <div class="section-spacing" *ngIf="inactiveDietPlans && inactiveDietPlans.length > 0">
     <div class="card card-hover-lift card-h-fit card-mid">
-      <div class="diet-header">
-        <div class="diet-title-meta">
-          <h3 class="diet-title">Current Diet Plan</h3>
-          <span class="diet-subtitle">Started {{ plan.startDate | date: 'MMM d, y' }}</span>
-        </div>
-        <div class="diet-header-actions">
-          <!-- <span class="diet-badge" *ngIf="plan.badge">{{ plan.badge }}</span> -->
-          <button class="diet-view-btn" (click)="openDietPlanModal()">View plan</button>
-        </div>
-      </div>
-
-      <div class="diet-card">
-        <div class="diet-card-header">
-          <div class="diet-icon-container">
-            <span class="diet-icon">🥗</span>
-          </div>
-          <div class="diet-info">
-            <h4 class="diet-name">{{ plan.name }}</h4>
-            <p class="diet-description">{{ plan.description }}</p>
-          </div>
-        </div>
-
-        <div class="diet-summary-inline">
-          <div class="diet-summary-field">
-            <span class="diet-summary-label">Prescribed by</span>
-            <span class="diet-summary-value">{{ plan.doctor }}</span>
-          </div>
-        </div>
-
-        <div class="diet-targets">
-          <div class="diet-target" *ngFor="let metric of macroStatDefinitions">
-            <span class="diet-target-label">{{ metric.label }}</span>
-            <span class="diet-target-value">{{ plan.dailyTargets[metric.key] }} {{ metric.unit }}</span>
-            <span class="diet-target-subtext">Daily target</span>
-          </div>
-        </div>
-
-        <!-- <div class="diet-week-preview">
-          <div class="diet-week-day" *ngFor="let day of plan.weeklyPlan | slice:0:3">
-            <div class="diet-week-day-header">
-              <span class="diet-week-day-name">{{ day.day }}</span>
-              <span class="diet-week-day-focus">{{ day.focus }}</span>
-            </div>
-            <div class="diet-week-meals">
-              <div class="diet-week-meal" *ngFor="let meal of day.meals | slice:0:2">
-                <span class="diet-week-meal-name">{{ meal.name }}</span>
-                <span class="diet-week-meal-macros">{{ meal.macros.calories }} kcal · {{ meal.macros.protein }}g P ·
-                  {{ meal.macros.carbs }}g C
-                </span>
-              </div>
+      <h3 class="inactive-plans-title">Previous Diet Plans</h3>
+      <div class="inactive-plans-list">
+        <div *ngFor="let plan of inactiveDietPlans; let i = index" class="inactive-plan-card">
+          <div class="inactive-plan-content">
+            <div class="inactive-plan-icon">📋</div>
+            <div class="inactive-plan-info">
+              <h4 class="inactive-plan-name">{{ plan.name }}</h4>
+              <p class="inactive-plan-meta">{{ plan.doctor }} · {{ plan.startDate | date: 'MMM y' }}</p>
             </div>
           </div>
-        </div> -->
-
-        <!-- <div class="diet-actions">
-          <div class="diet-note">
-            <strong>Notes:</strong> {{ plan.notes }}
-          </div>
-        </div> -->
+          <button class="inactive-plan-view-btn" (click)="viewInactivePlan(plan)">View</button>
+        </div>
       </div>
     </div>
   </div>
@@ -723,7 +707,7 @@
 </app-document-viewer>
 
 <!-- Diet Plan Modal -->
-<div *ngIf="showDietPlanModal && dietPlan as plan" class="modal-overlay" (click)="closeDietPlanModal()">
+<div *ngIf="showDietPlanModal && currentViewedDietPlan as plan" class="modal-overlay" (click)="closeDietPlanModal()">
   <div class="modal-container">
     <div class="modal-backdrop"></div>
 
@@ -735,8 +719,8 @@
               <span class="diet-icon">🥗</span>
             </div>
             <div class="modal-title-group">
-              <h3 class="modal-title">Complete Diet Plan</h3>
-              <p class="modal-subtitle">{{ plan.name }} · {{ plan.doctor }}</p>
+              <h3 class="modal-title">{{ plan.name }}</h3>
+              <p class="modal-subtitle">Complete Diet Plan</p>
             </div>
           </div>
           <button (click)="closeDietPlanModal()" class="modal-close-btn">
@@ -746,7 +730,7 @@
       </div>
 
       <div class="modal-body">
-        <div class="diet-modal-summary">
+        <!-- <div class="diet-modal-summary">
           <div>
             <p class="diet-modal-label">Start · Review</p>
             <p class="diet-modal-value">{{ plan.startDate | date: 'MMM d, y' }} · {{ plan.reviewDate | date: 'MMM d, y'
@@ -760,15 +744,15 @@
             <p class="diet-modal-label">Supplements</p>
             <p class="diet-modal-value">{{ plan.supplements.join(', ') }}</p>
           </div>
-        </div>
+        </div> -->
 
-        <div class="diet-macro-summary">
+        <!-- <div class="diet-macro-summary">
           <div class="macro-card" *ngFor="let metric of macroStatDefinitions">
             <span class="macro-card-label">Weekly {{ metric.label }}</span>
             <span class="macro-card-value">{{ getWeeklyMacroTotals()[metric.key] }} {{ metric.unit }}</span>
             <span class="macro-card-sub">Across 7-day plan</span>
           </div>
-        </div>
+        </div> -->
 
         <div class="diet-week-nav">
           <button class="diet-day-pill" *ngFor="let day of plan.weeklyPlan; let i = index"
@@ -783,8 +767,8 @@
             <div class="diet-day-card">
               <div class="diet-day-header">
                 <div>
-                  <p class="diet-day-name">{{ selectedDay.day }}</p>
-                  <p class="diet-day-focus">{{ selectedDay.focus }}</p>
+                  <p class="diet-day-name">{{ selectedDay.day | titlecase }}</p>
+                  <!-- <p class="diet-day-focus">{{ selectedDay.focus }}</p> -->
                 </div>
                 <ng-container *ngIf="getDayMacroTotals(selectedDay) as dayTotals">
                   <div class="diet-day-macro-chips">
@@ -835,6 +819,95 @@
         <div class="modal-footer-right">
           <button class="modal-footer-button modal-footer-button-secondary" (click)="closeDietPlanModal()">
             Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI Diet Plan Instructions Modal -->
+<div *ngIf="showAIDietInstructionsModal" class="modal-overlay" (click)="closeAIDietInstructionsModal()">
+  <div class="modal-container">
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-panel modal-panel-md ai-modal-panel" (click)="$event.stopPropagation()">
+      <div class="modal-header ai-modal-header">
+        <div class="modal-header-content">
+          <div class="modal-header-left">
+            <div class="modal-icon-container ai-icon-container">
+              <fa-icon [icon]="faWandMagicSparkles" class="ai-modal-icon"></fa-icon>
+            </div>
+            <div class="modal-title-group">
+              <h3 class="modal-title">AI Diet Plan Generation</h3>
+              <p class="modal-subtitle">Provide instructions for the AI to generate a personalized diet plan</p>
+            </div>
+          </div>
+          <button (click)="closeAIDietInstructionsModal()" class="modal-close-btn" [disabled]="isGeneratingDietPlan">
+            <fa-icon [icon]="faTimes" class="w-6 h-6"></fa-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-body ai-modal-body">
+        <div class="ai-instructions-form">
+          <label class="ai-label">
+            <span class="ai-label-text">Doctor's Instructions</span>
+            <span class="ai-label-hint">Describe patient's dietary needs, restrictions, goals, or any specific requirements</span>
+          </label>
+          <textarea
+            [(ngModel)]="aiDietInstructions"
+            placeholder="Example: Create a low-carb diet plan for a diabetic patient with hypertension. Focus on high-fiber foods, limit sodium intake, and include heart-healthy fats. Patient is vegetarian and allergic to nuts."
+            class="ai-textarea"
+            rows="8"
+            [disabled]="isGeneratingDietPlan"
+          ></textarea>
+
+          <div class="ai-examples">
+            <p class="ai-examples-title">Suggested prompts:</p>
+            <div class="ai-example-chips">
+              <button
+                class="ai-example-chip"
+                (click)="aiDietInstructions = 'Create a balanced diet plan for weight management with focus on portion control'"
+                [disabled]="isGeneratingDietPlan">
+                Weight Management
+              </button>
+              <button
+                class="ai-example-chip"
+                (click)="aiDietInstructions = 'Design a low-sodium, heart-healthy diet for a patient with cardiovascular concerns'"
+                [disabled]="isGeneratingDietPlan">
+                Heart Health
+              </button>
+              <button
+                class="ai-example-chip"
+                (click)="aiDietInstructions = 'Generate a diabetic-friendly diet plan with low glycemic index foods'"
+                [disabled]="isGeneratingDietPlan">
+                Diabetes Care
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer ai-modal-footer">
+        <div class="modal-footer-info">
+          <fa-icon [icon]="faWandMagicSparkles" class="ai-footer-icon"></fa-icon>
+          <span>AI-powered personalized diet plan</span>
+        </div>
+        <div class="modal-footer-right">
+          <button
+            class="modal-footer-button modal-footer-button-secondary"
+            (click)="closeAIDietInstructionsModal()"
+            [disabled]="isGeneratingDietPlan">
+            Cancel
+          </button>
+          <button
+            class="modal-footer-button modal-footer-button-primary ai-generate-btn"
+            (click)="submitDietPlanGeneration()"
+            [disabled]="isGeneratingDietPlan || !aiDietInstructions.trim()">
+            <fa-icon [icon]="faWandMagicSparkles" *ngIf="!isGeneratingDietPlan"></fa-icon>
+            <span *ngIf="!isGeneratingDietPlan">Generate Diet</span>
+            <span *ngIf="isGeneratingDietPlan">Generating...</span>
           </button>
         </div>
       </div>
