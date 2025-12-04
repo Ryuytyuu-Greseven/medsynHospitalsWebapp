@@ -1,0 +1,284 @@
+.treatment-plan-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .section-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.section-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgb(var(--color-muted));
+  margin-bottom: 0.25rem;
+}
+
+.section-helper {
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba(var(--color-navy), 0.65);
+}
+
+.section-action {
+  min-width: 160px;
+}
+
+.discipline-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  background: rgba(241, 245, 249, 0.8);
+  border-radius: 999px;
+  padding: 0.5rem;
+}
+
+.filter-pill {
+  border-radius: 999px;
+  border: 1px solid transparent;
+  padding: 0.5rem 1.25rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background: transparent;
+  color: rgba(var(--color-navy), 0.6);
+  transition: all 0.2s ease;
+}
+
+.filter-pill-active {
+  background: #ffffff;
+  border-color: rgba(var(--color-primary), 0.35);
+  color: rgb(var(--color-primary));
+  box-shadow: var(--shadow-sm);
+}
+
+.intervention-table {
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 1.25rem;
+  overflow: auto;
+  background: white;
+  max-height: 400px;
+  min-height: 200px;
+}
+
+.intervention-table-head {
+  display: none;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
+  gap: 1rem;
+  padding: 0.85rem 1.5rem;
+  background: rgba(249, 250, 251, 0.9);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: rgba(var(--color-muted), 0.9);
+}
+
+@media (min-width: 1024px) {
+  .intervention-table-head {
+    display: grid;
+  }
+}
+
+.intervention-rows {
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.intervention-row {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+.intervention-row:last-of-type {
+  border-bottom: none;
+}
+
+@media (min-width: 1024px) {
+  .intervention-row {
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
+    align-items: center;
+  }
+}
+
+.intervention-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.intervention-title-block {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.intervention-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgb(var(--color-navy));
+}
+
+.intervention-description {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  color: rgba(var(--color-navy), 0.6);
+}
+
+.intervention-location {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(var(--color-navy), 0.65);
+  background: rgba(241, 245, 249, 0.8);
+  border-radius: 999px;
+  padding: 0.25rem 0.8rem;
+  width: fit-content;
+}
+
+.intervention-discipline,
+.intervention-frequency,
+.intervention-schedule,
+.intervention-owner {
+  font-size: 0.85rem;
+  color: rgba(var(--color-navy), 0.75);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.intervention-frequency strong,
+.intervention-schedule strong,
+.intervention-owner strong {
+  color: rgb(var(--color-navy));
+  font-size: 0.95rem;
+}
+
+.intervention-status {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.icon-button {
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  border-radius: 999px;
+  background: white;
+  padding: 0.35rem;
+  cursor: pointer;
+  color: rgba(var(--color-navy), 0.6);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.icon-button:hover {
+  border-color: rgba(var(--color-primary), 0.5);
+  color: rgb(var(--color-primary));
+}
+
+.icon-button-svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.status-pill {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid transparent;
+}
+
+.status-pill-info {
+  background: rgba(59, 130, 246, 0.12);
+  color: rgba(59, 130, 246, 1);
+  border-color: rgba(59, 130, 246, 0.35);
+}
+
+.status-pill-success {
+  background: rgba(var(--color-success), 0.15);
+  color: rgba(var(--color-success), 1);
+  border-color: rgba(var(--color-success), 0.4);
+}
+
+.status-pill-dark {
+  background: rgb(var(--color-navy));
+  color: white;
+  border-color: rgb(var(--color-navy));
+}
+
+.status-pill-muted {
+  background: rgba(226, 232, 240, 0.8);
+  color: rgba(var(--color-navy), 0.6);
+  border-color: rgba(226, 232, 240, 1);
+}
+
+.status-pill-warning {
+  background: rgba(var(--color-warning), 0.15);
+  color: rgba(var(--color-warning), 1);
+  border-color: rgba(var(--color-warning), 0.4);
+}
+
+.menu-wrapper {
+  position: relative;
+}
+
+.menu-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.4rem);
+  width: 180px;
+  background: white;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-lg);
+  z-index: 10;
+  padding: 0.35rem;
+}
+
+.menu-item {
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  color: rgba(var(--color-navy), 0.75);
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background: rgba(241, 245, 249, 0.8);
+}
+
+.menu-item-danger {
+  color: rgba(239, 68, 68, 1);
+}
+
+.menu-item-danger:hover {
+  background: rgba(254, 226, 226, 0.8);
+}
+
+.table-empty-state {
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: rgba(var(--color-navy), 0.55);
+}
+

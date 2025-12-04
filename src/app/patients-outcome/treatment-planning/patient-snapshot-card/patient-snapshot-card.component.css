@@ -1,0 +1,130 @@
+.snapshot-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.snapshot-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .snapshot-header {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+}
+
+.section-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgb(var(--color-muted));
+  margin-bottom: 0.2rem;
+}
+
+.snapshot-title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: rgb(var(--color-navy));
+}
+
+.snapshot-subtitle {
+  margin: 0.2rem 0 0;
+  font-size: 0.95rem;
+  color: rgba(var(--color-navy), 0.65);
+}
+
+.snapshot-mrn {
+  text-align: right;
+  font-size: 0.9rem;
+  color: rgba(var(--color-navy), 0.6);
+}
+
+.snapshot-mrn strong {
+  display: block;
+  font-size: 1.15rem;
+  color: rgb(var(--color-navy));
+}
+
+.snapshot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.snapshot-tile {
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: rgba(248, 250, 252, 0.8);
+}
+
+.snapshot-tile-label {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgba(var(--color-muted), 0.9);
+}
+
+.snapshot-tile-value {
+  margin: 0.35rem 0 0;
+  font-weight: 600;
+  color: rgb(var(--color-navy));
+}
+
+.snapshot-tile-meta {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  color: rgba(var(--color-navy), 0.6);
+}
+
+.snapshot-precautions {
+  border-top: 1px solid rgba(226, 232, 240, 0.9);
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.precaution-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.precaution-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+  border: 1px solid transparent;
+}
+
+.precaution-critical {
+  background: rgba(239, 68, 68, 0.1);
+  color: rgba(239, 68, 68, 1);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.precaution-warning {
+  background: rgba(var(--color-warning), 0.15);
+  color: rgba(var(--color-warning), 1);
+  border-color: rgba(var(--color-warning), 0.5);
+}
+
+.precaution-info {
+  background: rgba(59, 130, 246, 0.12);
+  color: rgba(59, 130, 246, 1);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+

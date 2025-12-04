@@ -50,6 +50,13 @@ export class ApiService {
       uploadMedications: 'patients/health-medications/add-new',
       updateMedication: 'patients/health-medications/update/{healthId}',
       getDietPlan: 'patients/health-medications/fetch-diet-plan',
+
+      therapy: {
+        addTherapy: 'patients/health-therapy/add-new',
+        getTherapySessions: 'patients/health-therapy/sessions',
+        addGoal: 'patients/health-therapy/goals/add-new',
+        getGoals: 'patients/health-therapy/goals',
+      }
     },
 
     bot: {

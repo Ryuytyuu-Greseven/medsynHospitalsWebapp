@@ -1,0 +1,63 @@
+<section class="card schedule-card">
+  <div class="section-header">
+    <div>
+      <p class="section-eyebrow">Schedule overview</p>
+      <p class="section-helper">
+        Snapshot of the next 7 days across disciplines
+      </p>
+    </div>
+    <button
+      type="button"
+      (click)="viewFullSchedule.emit()"
+      class="btn btn-ghost"
+    >
+      View full schedule
+    </button>
+  </div>
+
+  <div class="schedule-calendar">
+    <article
+      *ngFor="let day of weekWindow; trackBy: trackByWeekDay"
+      class="calendar-cell"
+      [class.calendar-cell-empty]="!day.total"
+    >
+      <header class="calendar-cell-head">
+        <div>
+          <p class="calendar-day">{{ day.label }}</p>
+          <p class="calendar-date">{{ day.dateLabel }}</p>
+        </div>
+        <span class="calendar-total" [class.calendar-total-muted]="!day.total">
+          {{ day.total }}
+        </span>
+      </header>
+
+      <ng-container *ngIf="day.total; else emptyState">
+        <!-- <div class="calendar-bar" role="presentation">
+          <span
+            *ngFor="let discipline of day.breakdown"
+            class="calendar-bar-segment"
+            [ngClass]="discipline.className"
+            [style.flex]="discipline.value"
+          ></span>
+        </div> -->
+
+        <ul class="calendar-legend">
+          <li *ngFor="let discipline of day.breakdown">
+            <span
+              class="legend-dot"
+              [ngClass]="discipline.className"
+              aria-hidden="true"
+            ></span>
+            <span class="legend-label">{{ discipline.label }}</span>
+            <strong>{{ discipline.value }}</strong>
+          </li>
+        </ul>
+      </ng-container>
+    </article>
+  </div>
+</section>
+
+<ng-template #emptyState>
+  <p class="calendar-empty-text">No sessions</p>
+</ng-template>
+

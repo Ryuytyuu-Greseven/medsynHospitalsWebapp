@@ -1,0 +1,93 @@
+<section class="card treatment-plan-card">
+  <div class="section-header">
+    <div>
+      <p class="section-eyebrow">Treatment plan</p>
+      <p class="section-helper">Sessions coordinated across disciplines</p>
+    </div>
+    <button type="button" (click)="addIntervention.emit()" class="btn-primary section-action">
+      + Add Session
+    </button>
+  </div>
+
+  <div class="discipline-filter">
+    <button *ngFor="let discipline of disciplines" type="button" (click)="onFilterSelect(discipline)"
+      class="filter-pill" [ngClass]="{ 'filter-pill-active': discipline === activeFilter }">
+      {{ discipline === 'PT' ? 'Physiotherapy' : discipline === 'OT' ? 'Occupational therapy' : discipline === 'ST' ? 'Speech' : discipline }}
+    </button>
+  </div>
+
+  <div class="intervention-table">
+    <div class="intervention-table-head">
+      <span>Session</span>
+      <span>Discipline</span>
+      <span>Frequency</span>
+      <span>Schedule</span>
+      <!-- <span>Owner</span> -->
+      <span>Status</span>
+    </div>
+
+    <div class="intervention-rows">
+      <article *ngFor="let intervention of visibleInterventions; trackBy: trackById" class="intervention-row">
+        <div class="intervention-main">
+          <div class="intervention-title-block">
+            <div>
+              <p class="intervention-title">{{ intervention.name }}</p>
+              <p class="intervention-description">{{ intervention.desc }}</p>
+            </div>
+          </div>
+          <span class="intervention-location">Location: {{ intervention.loc }}</span>
+        </div>
+
+        <div class="intervention-discipline">
+          {{ intervention.type === 'PT' ? 'Physiotherapy' : intervention.type === 'OT' ? 'Occupational therapy' : intervention.type === 'ST' ? 'Speech therapy' : intervention.type }}
+        </div>
+
+        <div class="intervention-frequency">
+          <strong>{{ intervention.onWeek }}/week</strong>
+          <span>{{ intervention.duration }} min session</span>
+        </div>
+
+        <div class="intervention-schedule">
+          <strong>{{ intervention.sDate | date:'MMM d' }} → {{ intervention.eDate | date:'MMM d' }}</strong>
+          <span>~{{ getDurationWeeks(intervention) }} weeks</span>
+        </div>
+
+        <!-- <div class="intervention-owner">
+          <strong>{{ intervention.owner }}</strong>
+          <span>Lead therapist</span>
+        </div> -->
+
+        <div class="intervention-status">
+          <span class="status-pill" [ngClass]="getStatusClass(intervention.status)">
+            {{ intervention.status }}
+          </span>
+          <div class="menu-wrapper">
+            <button type="button" class="icon-button" (click)="toggleMenu(intervention.sessionId)" aria-haspopup="menu"
+              [attr.aria-expanded]="menuOpenFor === intervention.sessionId">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon-button-svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zm6-2a2 2 0 100 4 2 2 0 000-4zm6 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </button>
+
+            <div *ngIf="menuOpenFor === intervention.sessionId" class="menu-dropdown">
+              <button type="button" (click)="editIntervention.emit(intervention); closeMenu()" class="menu-item">
+                Edit
+              </button>
+              <button type="button" (click)="duplicateIntervention.emit(intervention); closeMenu()" class="menu-item">
+                Duplicate
+              </button>
+              <button type="button" (click)="archiveIntervention.emit(intervention); closeMenu()"
+                class="menu-item menu-item-danger">
+                Archive
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div *ngIf="!visibleInterventions.length" class="table-empty-state">
+        No sessions for this discipline. Add one to build out the plan.
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,214 @@
+<div class="treatment-page">
+  <!-- <header class="treatment-header">
+    <div class="treatment-header-content">
+      <div class="treatment-header-copy">
+        <h1 class="treatment-header-title">Treatment Planning</h1>
+        <p class="treatment-header-subtitle">For physiatrists & rehab therapists</p>
+      </div>
+
+      <div class="treatment-header-controls">
+        <div class="status-select-wrapper">
+          <select class="status-select" [ngModel]="planStatus" (ngModelChange)="handlePlanStatusChange($event)">
+            <option value="active">Active plan</option>
+            <option value="draft">Draft</option>
+            <option value="completed">Completed</option>
+          </select>
+          <svg class="status-select-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+        <div class="header-actions">
+          <button type="button" (click)="handleDiscardChanges()" class="btn btn-ghost treatment-action-btn">
+            Discard changes
+          </button>
+          <button type="button" (click)="handleSavePlan()" class="btn-primary treatment-action-btn">
+            Save Plan
+          </button>
+        </div>
+      </div>
+    </div>
+  </header> -->
+
+  <main class="treatment-body">
+    <div class="treatment-content">
+      <app-treatment-plan-section [interventions]="interventions" [activeFilter]="activeDisciplineFilter"
+        (filterChange)="activeDisciplineFilter = $event" (addIntervention)="openInterventionModal()"
+        (editIntervention)="openInterventionModal($event)" (duplicateIntervention)="handleDuplicate($event)"
+        (archiveIntervention)="handleArchive($event)"></app-treatment-plan-section>
+      <div class="plan-goals-grid">
+
+        <app-goals-section [goals]="goals" [activeTab]="activeGoalTab" (tabChange)="activeGoalTab = $event"
+          (addGoal)="openGoalModal()" (editGoal)="openGoalModal($event)"></app-goals-section>
+
+        <app-schedule-overview-card [schedule]="scheduleOverview" (viewFullSchedule)="handleFullSchedule()">
+        </app-schedule-overview-card>
+      </div>
+
+    </div>
+
+    <!-- <div class="assistant-panel">
+      <app-ai-suggestions-panel [goalSuggestions]="goalSuggestions" [interventionSuggestions]="interventionSuggestions"
+        (acceptGoal)="acceptGoalSuggestion($event)" (dismissGoal)="dismissGoalSuggestion($event)"
+        (acceptIntervention)="acceptInterventionSuggestion($event)"
+        (dismissIntervention)="dismissInterventionSuggestion($event)"></app-ai-suggestions-panel>
+    </div> -->
+  </main>
+</div>
+
+<div *ngIf="goalModalOpen" class="treatment-modal-overlay" (click)="closeGoalModal()">
+  <div class="modal-backdrop"></div>
+  <div class="treatment-modal-shell" (click)="$event.stopPropagation()">
+    <form class="modal-enterprise treatment-modal-panel" [formGroup]="goalForm">
+      <div class="treatment-modal-header">
+        <div>
+          <h2 class="treatment-modal-title">
+            {{ editingGoalId ? 'Edit goal' : 'Add new goal' }}
+          </h2>
+          <p class="treatment-modal-subtitle">Define measurable outcomes with clear timelines</p>
+        </div>
+        <button type="button" (click)="closeGoalModal()" class="modal-close-button">
+          ✕
+        </button>
+      </div>
+
+      <div class="treatment-modal-grid">
+        <label class="form-label form-field-span-2">
+          Goal title
+          <input type="text" formControlName="title" class="form-input" placeholder="e.g. 10-pound weight loss"
+            [class.input-invalid]="goalForm.get('title')?.invalid && goalForm.get('title')?.touched" />
+        </label>
+
+        <label class="form-label">
+          Goal type
+          <select formControlName="type" class="form-input">
+            <option value="short-term">Short-term</option>
+            <option value="long-term">Long-term</option>
+          </select>
+        </label>
+
+        <label class="form-label">
+          Target date
+          <input type="date" formControlName="targetDate" class="form-input" />
+        </label>
+
+        <label class="form-label">
+          Status
+          <select formControlName="status" class="form-input">
+            <option value="planned">Planned</option>
+            <option value="completed">Completed</option>
+            <option value="in-progress">In progress</option>
+            <option value="achieved">Achieved</option>
+            <option value="on-hold">On hold</option>
+          </select>
+        </label>
+
+        <label class="form-label form-field-span-2">
+          Description / notes
+          <textarea formControlName="description" rows="4" class="form-input"
+            [class.input-invalid]="goalForm.get('description')?.invalid && goalForm.get('description')?.touched"></textarea>
+        </label>
+      </div>
+
+      <div class="treatment-modal-actions">
+        <button type="button" (click)="closeGoalModal()" class="btn btn-ghost">
+          Cancel
+        </button>
+        <button type="submit" class="btn-primary" (click)="submitGoal()">
+          {{ editingGoalId ? 'Update goal' : 'Add goal' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="interventionModalOpen" class="treatment-modal-overlay" (click)="closeInterventionModal()">
+  <div class="modal-backdrop"></div>
+  <div class="treatment-modal-shell" (click)="$event.stopPropagation()">
+    <form class="modal-enterprise treatment-modal-panel" [formGroup]="interventionForm">
+      <div class="treatment-modal-header">
+        <div>
+          <h2 class="treatment-modal-title">
+            {{ editingInterventionId ? 'Edit Session' : 'Add Session' }}
+          </h2>
+          <p class="treatment-modal-subtitle">Configure cadence, discipline, and location</p>
+        </div>
+        <button type="button" (click)="closeInterventionModal()" class="modal-close-button">
+          ✕
+        </button>
+      </div>
+
+      <div class="treatment-modal-grid">
+        <label class="form-label form-field-span-2">
+          Session name
+          <input type="text" formControlName="name" class="form-input" placeholder="e.g. Speech therapy" />
+        </label>
+
+        <label class="form-label">
+          Discipline
+          <select formControlName="discipline" class="form-input">
+            <option value="Physiatry">Physiatry</option>
+            <option value="PT">Physical therapy</option>
+            <option value="OT">Occupational therapy</option>
+            <option value="ST">Speech therapy</option>
+            <option value="Nursing">Nursing</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+
+        <label class="form-label">
+          Weekly Sessions
+          <input type="number" formControlName="frequency" class="form-input" placeholder="e.g. 3" />
+        </label>
+
+        <label class="form-label">
+          Session duration (minutes)
+          <input type="number" formControlName="durationMinutes" class="form-input" min="10" />
+        </label>
+
+        <label class="form-label">
+          Start date
+          <input type="date" formControlName="startDate" class="form-input" />
+        </label>
+
+        <label class="form-label">
+          End date
+          <input type="date" formControlName="endDate" class="form-input" />
+        </label>
+
+        <label class="form-label">
+          Location
+          <input type="text" formControlName="location" class="form-input" />
+        </label>
+
+        <!-- <label class="form-label">
+          Assigned therapist / owner
+          <input type="text" formControlName="owner" class="form-input" />
+        </label> -->
+
+        <label class="form-label">
+          Status
+          <select formControlName="status" class="form-input">
+            <option value="planned">Planned</option>
+            <option value="ongoing">Ongoing</option>
+            <option value="completed">Completed</option>
+            <option value="archived">Archived</option>
+          </select>
+        </label>
+
+        <label class="form-label form-field-span-2">
+          Description
+          <textarea formControlName="description" rows="4" class="form-input"></textarea>
+        </label>
+      </div>
+
+      <div class="treatment-modal-actions">
+        <button type="button" (click)="closeInterventionModal()" class="btn btn-ghost">
+          Cancel
+        </button>
+        <button type="submit" class="btn-primary" (click)="submitIntervention()">
+          {{ editingInterventionId ? 'Update Session' : 'Add Session' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

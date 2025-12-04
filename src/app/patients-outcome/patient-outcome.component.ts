@@ -13,6 +13,7 @@ import { MedicationsComponent } from './medications/medications.component';
 import { HealthEventsComponent } from './health-events/health-events.component';
 import { MedicalChatbotComponent } from './medical-chatbot/medical-chatbot.component';
 import { PatientService } from '../core/services/patient.service';
+import { TreatmentPlanningComponent } from './treatment-planning/treatment-planning.component';
 
 // Extended interfaces for the Digital Time Machine
 
@@ -44,6 +45,17 @@ export interface Report {
   thumbnail?: string;
 }
 
+export enum PatientOutcomeSection {
+  Overview = 'overview',
+  Timeline = 'timeline',
+  Reports = 'reports',
+  Medications = 'medications',
+  HealthEvents = 'health-events',
+  Insights = 'insights',
+  TreatmentPlanning = 'treatment-planning'
+}
+
+
 @Component({
   selector: 'app-patient-outcome',
   standalone: true,
@@ -51,14 +63,13 @@ export interface Report {
     CommonModule,
     FormsModule,
     RouterModule,
-    CardComponent,
-    ButtonComponent,
     MedicalTimelineComponent,
     AiHealthSummaryComponent,
     ReportsScansComponent,
     MedicationsComponent,
     HealthEventsComponent,
-    MedicalChatbotComponent
+    MedicalChatbotComponent,
+    TreatmentPlanningComponent,
   ],
   templateUrl: './patient-outcome.component.html',
   styleUrls: ['./patient-outcome.component.css']
@@ -76,7 +87,8 @@ export class PatientOutcomeComponent implements OnInit {
   reports: Report[] = [];
 
   // UI State
-  activeSection: 'overview' | 'timeline' | 'reports' | 'medications' | 'health-events' | 'insights' = 'overview';
+  readonly PatientOutcomeSection = PatientOutcomeSection;
+  activeSection: PatientOutcomeSection = PatientOutcomeSection.Overview;
   showAIModal = false;
   selectedEvent: MedicalJourneyEvent | null = null;
 
@@ -367,7 +379,7 @@ export class PatientOutcomeComponent implements OnInit {
   }
 
   // UI Methods
-  setActiveSection(section: 'overview' | 'timeline' | 'reports' | 'medications' | 'health-events' | 'insights'): void {
+  setActiveSection(section: PatientOutcomeSection): void {
     this.activeSection = section;
   }
 

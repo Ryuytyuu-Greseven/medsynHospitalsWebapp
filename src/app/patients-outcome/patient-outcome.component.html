@@ -87,9 +87,10 @@
       <!-- Main Navigation Bar -->
       <div class="bg-white rounded-xl mt-4">
         <nav class="flex gap-1 overflow-x-auto border-b-2 border-gray-200">
-          <button (click)="setActiveSection('overview')"
+
+          <button (click)="setActiveSection(PatientOutcomeSection.Overview)"
             [class]="'px-6 py-4 font-semibold text-sm transition-all duration-200 border-b-4 whitespace-nowrap -mb-0.5 ' +
-                           (activeSection === 'overview' ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
+                           (activeSection === PatientOutcomeSection.Overview ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
             <div class="flex items-center gap-2">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -99,9 +100,24 @@
               Overview
             </div>
           </button>
-          <button (click)="setActiveSection('timeline')"
+
+          <!-- Treatment Planning Section -->
+          <button (click)="setActiveSection(PatientOutcomeSection.TreatmentPlanning)"
             [class]="'px-6 py-4 font-semibold text-sm transition-all duration-200 border-b-4 whitespace-nowrap -mb-0.5 ' +
-                           (activeSection === 'timeline' ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
+                 (activeSection === PatientOutcomeSection.TreatmentPlanning ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
+                </path>
+              </svg>
+              Treatment Planning
+            </div>
+          </button>
+
+          <button (click)="setActiveSection(PatientOutcomeSection.Timeline)"
+            [class]="'px-6 py-4 font-semibold text-sm transition-all duration-200 border-b-4 whitespace-nowrap -mb-0.5 ' +
+                           (activeSection === PatientOutcomeSection.Timeline ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
             <div class="flex items-center gap-2">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -110,9 +126,10 @@
               Timeline
             </div>
           </button>
-          <button (click)="setActiveSection('reports')"
+
+          <button (click)="setActiveSection(PatientOutcomeSection.Reports)"
             [class]="'px-6 py-4 font-semibold text-sm transition-all duration-200 border-b-4 whitespace-nowrap -mb-0.5 ' +
-                           (activeSection === 'reports' ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
+                           (activeSection === PatientOutcomeSection.Reports ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
             <div class="flex items-center gap-2">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -122,9 +139,10 @@
               Reports & Scans
             </div>
           </button>
-          <button (click)="setActiveSection('medications')"
+
+          <button (click)="setActiveSection(PatientOutcomeSection.Medications)"
             [class]="'px-6 py-4 font-semibold text-sm transition-all duration-200 border-b-4 whitespace-nowrap -mb-0.5 ' +
-                           (activeSection === 'medications' ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
+                           (activeSection === PatientOutcomeSection.Medications ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
             <div class="flex items-center gap-2">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -134,9 +152,10 @@
               Medications
             </div>
           </button>
-          <button (click)="setActiveSection('health-events')"
+
+          <button (click)="setActiveSection(PatientOutcomeSection.HealthEvents)"
             [class]="'px-6 py-4 font-semibold text-sm transition-all duration-200 border-b-4 whitespace-nowrap -mb-0.5 ' +
-                           (activeSection === 'health-events' ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
+                           (activeSection === PatientOutcomeSection.HealthEvents ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
             <div class="flex items-center gap-2">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -146,6 +165,7 @@
               Health Events
             </div>
           </button>
+
           <!-- <button (click)="setActiveSection('insights')"
             [class]="'px-6 py-4 font-semibold text-sm transition-all duration-200 border-b-4 whitespace-nowrap -mb-0.5 ' +
                            (activeSection === 'insights' ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
@@ -166,32 +186,37 @@
   <!-- Main Content -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
     <!-- Overview Section -->
-    <div *ngIf="activeSection === 'overview'" class="space-y-6 fade-in">
-      <app-ai-health-summary [patientDetails]="patient" [patientStats]="patientStats"
-        [stabilityScore]="stabilityScore" [activeMedicationsCount]="activeMedicationsCount"
-        [medicalJourney]="medicalJourney" (generateAISummary)="generateAISummary()">
+    <div *ngIf="activeSection === PatientOutcomeSection.Overview" class="space-y-6 fade-in">
+      <app-ai-health-summary [patientDetails]="patient" [patientStats]="patientStats" [stabilityScore]="stabilityScore"
+        [activeMedicationsCount]="activeMedicationsCount" [medicalJourney]="medicalJourney"
+        (generateAISummary)="generateAISummary()">
       </app-ai-health-summary>
     </div>
 
     <!-- Timeline Section -->
-    <div *ngIf="activeSection === 'timeline'" class="space-y-6 fade-in">
+    <div *ngIf="activeSection === PatientOutcomeSection.Timeline" class="space-y-6 fade-in">
       <app-medical-timeline [medicalJourney]="medicalJourney" (eventSelected)="selectEvent($event)">
       </app-medical-timeline>
     </div>
 
     <!-- Reports Section -->
-    <div *ngIf="activeSection === 'reports'" class="space-y-6 fade-in">
+    <div *ngIf="activeSection === PatientOutcomeSection.Reports" class="space-y-6 fade-in">
       <app-reports-scans [patientDetails]="patient"></app-reports-scans>
     </div>
 
     <!-- Medications Section -->
-    <div *ngIf="activeSection === 'medications'" class="space-y-6 fade-in">
+    <div *ngIf="activeSection === PatientOutcomeSection.Medications" class="space-y-6 fade-in">
       <app-medications [medications]="medications" [patientDetails]="patient"></app-medications>
     </div>
 
     <!-- Health Events Section -->
-    <div *ngIf="activeSection === 'health-events'" class="space-y-6 fade-in">
-      <app-health-events  [patientDetails]="patient"></app-health-events>
+    <div *ngIf="activeSection === PatientOutcomeSection.HealthEvents" class="space-y-6 fade-in">
+      <app-health-events [patientDetails]="patient"></app-health-events>
+    </div>
+
+    <!-- Treatment Planning Section -->
+    <div *ngIf="activeSection === PatientOutcomeSection.TreatmentPlanning" class="space-y-6 fade-in">
+      <app-treatment-planning [patientDetails]="patient"></app-treatment-planning>
     </div>
   </div>
 

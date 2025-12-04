@@ -1,0 +1,115 @@
+<aside class="card ai-panel">
+  <div class="panel-header">
+    <p class="panel-eyebrow">Medsyn AI suggestions</p>
+    <p class="panel-subtitle">Review and incorporate AI-assisted goals or interventions</p>
+  </div>
+
+  <div class="panel-section">
+    <div class="panel-section-header">
+      <h3 class="panel-section-title">Suggested goals</h3>
+      <span class="panel-count">{{ goalSuggestions.length }}</span>
+    </div>
+
+    <div class="suggestion-list" *ngIf="goalSuggestions.length; else noGoalSuggestions">
+      <article
+        *ngFor="let suggestion of goalSuggestions"
+        class="suggestion-card"
+      >
+        <div class="suggestion-card-header">
+          <div>
+            <p class="suggestion-card-title">{{ suggestion.text }}</p>
+            <p class="suggestion-card-note">{{ suggestion.rationale }}</p>
+          </div>
+          <span class="suggestion-chip">AI</span>
+        </div>
+        <div class="suggestion-meta">
+          <span class="suggestion-tag">Type: {{ suggestion.type === 'short-term' ? 'Short-term' : 'Long-term' }}</span>
+          <span class="suggestion-tag">Discipline: {{ suggestion.discipline }}</span>
+          <span
+            *ngFor="let tag of suggestion.tags"
+            class="suggestion-tag suggestion-tag-accent"
+          >
+            {{ tag }}
+          </span>
+        </div>
+        <div class="suggestion-actions">
+          <button
+            type="button"
+            (click)="acceptGoal.emit(suggestion)"
+            class="btn-primary suggestion-btn"
+          >
+            Accept
+          </button>
+          <button
+            type="button"
+            (click)="dismissGoal.emit(suggestion)"
+            class="btn btn-ghost suggestion-btn"
+          >
+            Dismiss
+          </button>
+        </div>
+      </article>
+    </div>
+    <ng-template #noGoalSuggestions>
+      <div class="suggestion-empty">
+        AI has no additional goal suggestions right now.
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="panel-section panel-section-divider">
+    <div class="panel-section-header">
+      <h3 class="panel-section-title">Suggested interventions</h3>
+      <span class="panel-count">{{ interventionSuggestions.length }}</span>
+    </div>
+
+    <div class="suggestion-list" *ngIf="interventionSuggestions.length; else noInterventionSuggestions">
+      <article
+        *ngFor="let suggestion of interventionSuggestions"
+        class="suggestion-card"
+      >
+        <div class="suggestion-card-header">
+          <div>
+            <p class="suggestion-card-title">{{ suggestion.name }}</p>
+            <p class="suggestion-card-note">Linked to: {{ suggestion.linkedGoal }}</p>
+          </div>
+          <span class="suggestion-chip">AI</span>
+        </div>
+        <div class="suggestion-details">
+          {{ suggestion.frequency }} · {{ suggestion.durationMinutes }} min · {{ suggestion.discipline }}
+        </div>
+        <div class="suggestion-meta">
+          <span
+            *ngFor="let tag of suggestion.tags"
+            class="suggestion-tag suggestion-tag-info"
+          >
+            {{ tag }}
+          </span>
+        </div>
+        <div class="suggestion-actions">
+          <button
+            type="button"
+            (click)="acceptIntervention.emit(suggestion)"
+            class="btn-primary suggestion-btn"
+          >
+            Add to plan
+          </button>
+          <button
+            type="button"
+            (click)="dismissIntervention.emit(suggestion)"
+            class="btn btn-ghost suggestion-btn"
+          >
+            Ignore
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <ng-template #noInterventionSuggestions>
+      <div class="suggestion-empty">
+        AI has no additional interventions right now.
+      </div>
+    </ng-template>
+  </div>
+</aside>
+

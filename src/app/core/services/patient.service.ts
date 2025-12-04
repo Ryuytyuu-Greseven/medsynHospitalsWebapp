@@ -319,4 +319,86 @@ export class PatientService {
         catchError(this.apiService.handleError.bind(this))
       );
   }
+
+  // ========================== THERAPY SCHEDULING API CALLS ========================== //
+  /** Submit therapy scheduling */
+  submitTherapyScheduling(payload: any): Observable<any> {
+    return this.apiService
+      .sendPostRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.patient.therapy.addTherapy,
+        payload
+      )
+      .pipe(
+        map((response: { success: boolean; data: any }) => {
+          if (response?.success) {
+            return response.data;
+          } else {
+            throw new Error('Failed to add therapy');
+          }
+        })
+      );
+  }
+
+  /** Get therapy scheduling */
+  getTherapyScheduling(payload: {
+    healthId: string;
+    page?: number;
+    limit?: number;
+  }): Observable<any> {
+    return this.apiService
+      .sendPostRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.patient.therapy.getTherapySessions,
+        payload
+      )
+      .pipe(
+        map((response: { success: boolean; data: any }) => {
+          if (response?.success) {
+            return response.data;
+          } else {
+            throw new Error('Failed to get therapies');
+          }
+        })
+      );
+  }
+
+  // ========================== GOALS SCHEDULING API CALLS ========================== //
+  /** Submit therapy goal */
+  submitTherapyGoal(payload: any): Observable<any> {
+    return this.apiService
+      .sendPostRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.patient.therapy.addGoal,
+        payload
+      )
+      .pipe(
+        map((response: { success: boolean; data: any }) => {
+          if (response?.success) {
+            return response.data;
+          } else {
+            throw new Error('Failed to add goal');
+          }
+        })
+      );
+  }
+
+  /** Get therapy goals */
+  getTherapyGoals(payload: {
+    healthId: string;
+    page?: number;
+    limit?: number;
+  }): Observable<any> {
+    return this.apiService
+      .sendPostRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.patient.therapy.getGoals,
+        payload
+      )
+      .pipe(
+        map((response: { success: boolean; data: any }) => {
+          if (response?.success) {
+            return response.data;
+          } else {
+            throw new Error('Failed to get goals');
+          }
+        })
+      );
+  }
 }

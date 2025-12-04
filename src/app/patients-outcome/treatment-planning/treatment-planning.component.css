@@ -1,0 +1,253 @@
+.treatment-page {
+  min-height: 100vh;
+  padding-bottom: 3rem;
+}
+
+.treatment-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+}
+
+.treatment-header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .treatment-header-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.treatment-header-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.treatment-header-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: rgb(var(--color-navy));
+}
+
+.treatment-header-subtitle {
+  font-size: 0.95rem;
+  color: rgb(var(--color-muted));
+}
+
+.treatment-header-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.patient-identifier {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgb(var(--color-ink));
+  box-shadow: var(--shadow-sm);
+}
+
+.status-select-wrapper {
+  position: relative;
+  min-width: 190px;
+}
+
+.status-select {
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--color-accent), 0.35);
+  background: rgba(var(--color-accent), 0.12);
+  color: rgb(var(--color-accent));
+  font-weight: 600;
+  padding: 0.55rem 2.4rem 0.55rem 1.1rem;
+  font-size: 0.9rem;
+  appearance: none;
+}
+
+.status-select:focus {
+  outline: 2px solid rgba(var(--color-accent), 0.35);
+  border-color: rgba(var(--color-accent), 0.45);
+}
+
+.status-select-icon {
+  position: absolute;
+  right: 0.9rem;
+  top: 50%;
+  width: 1rem;
+  height: 1rem;
+  color: rgb(var(--color-accent));
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.treatment-action-btn {
+  min-width: 140px;
+  text-transform: none;
+}
+
+.treatment-body {
+  max-width: 1200px;
+  margin: 0;
+  /* padding: 0 1.5rem 3rem; */
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  /* .treatment-body {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    align-items: start;
+  } */
+}
+
+.treatment-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.plan-goals-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .plan-goals-grid {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 2fr);
+    align-items: start;
+  }
+}
+
+.assistant-panel {
+  position: static;
+}
+
+@media (min-width: 1024px) {
+  .assistant-panel {
+    position: sticky;
+    top: 6rem;
+  }
+}
+
+.treatment-modal-panel {
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  z-index: 70;
+}
+
+.treatment-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .treatment-modal-overlay {
+    padding: 2rem;
+  }
+}
+
+.treatment-modal-shell {
+  position: relative;
+  z-index: 70;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.treatment-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.treatment-modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgb(var(--color-navy));
+  margin: 0;
+}
+
+.treatment-modal-subtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
+  color: rgb(var(--color-muted));
+}
+
+.modal-close-button {
+  border: none;
+  background: transparent;
+  color: rgb(var(--color-muted));
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.modal-close-button:hover {
+  color: rgb(var(--color-navy));
+}
+
+.treatment-modal-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .treatment-modal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .form-field-span-2 {
+    grid-column: span 2;
+  }
+}
+
+.input-invalid {
+  border-color: rgba(239, 68, 68, 0.9) !important;
+}
+
+.treatment-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .treatment-modal-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+

@@ -1,0 +1,53 @@
+<section class="card snapshot-card">
+  <div class="snapshot-header">
+    <div>
+      <p class="section-eyebrow">Patient snapshot</p>
+      <h2 class="snapshot-title">{{ patient.name }}</h2>
+      <p class="snapshot-subtitle">Age {{ patient.age }} · {{ patient.sex }}</p>
+    </div>
+    <div class="snapshot-mrn">
+      <span>MRN</span>
+      <strong>{{ patient.mrn }}</strong>
+    </div>
+  </div>
+
+  <div class="snapshot-grid">
+    <div class="snapshot-tile">
+      <p class="snapshot-tile-label">Primary diagnosis</p>
+      <p class="snapshot-tile-value">{{ patient.diagnosis }}</p>
+    </div>
+    <div class="snapshot-tile">
+      <p class="snapshot-tile-label">Current rehab level</p>
+      <p class="snapshot-tile-value">{{ patient.rehabLevel }}</p>
+      <span class="snapshot-tile-meta">{{ patient.rehabUnit }}</span>
+    </div>
+
+    <div class="snapshot-tile">
+      <p class="snapshot-tile-label">Admission date</p>
+      <p class="snapshot-tile-value">{{ patient.admissionDate | date:'MMM d, y' }}</p>
+    </div>
+    <div class="snapshot-tile">
+      <p class="snapshot-tile-label">Comorbidities</p>
+      <p class="snapshot-tile-value" *ngIf="patient.comorbidities?.length; else noComorbidities">
+        {{ patient.comorbidities.join(', ') }}
+      </p>
+      <ng-template #noComorbidities>
+        <p class="snapshot-tile-meta">No additional comorbidities documented.</p>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="snapshot-precautions">
+    <p class="snapshot-tile-label">Key precautions</p>
+    <div class="precaution-list">
+      <span
+        *ngFor="let precaution of patient.precautions"
+        class="precaution-tag"
+        [ngClass]="getPrecautionClass(precaution.level)"
+      >
+        {{ precaution.label }}
+      </span>
+    </div>
+  </div>
+</section>
+
