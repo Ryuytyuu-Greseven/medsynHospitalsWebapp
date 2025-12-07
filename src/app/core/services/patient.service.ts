@@ -361,6 +361,28 @@ export class PatientService {
       );
   }
 
+  /** Get therapy calendar of next week */
+  getTherapyCalendar(payload: {
+    healthId: string;
+    stDate?: string;
+    etDate?: string;
+  }): Observable<any> {
+    return this.apiService
+      .sendPostRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.patient.therapy.getCalendar,
+        payload
+      )
+      .pipe(
+        map((response: { success: boolean; data: any }) => {
+          if (response?.success) {
+            return response.data;
+          } else {
+            throw new Error('Failed to get therapies');
+          }
+        })
+      );
+  }
+
   // ========================== GOALS SCHEDULING API CALLS ========================== //
   /** Submit therapy goal */
   submitTherapyGoal(payload: any): Observable<any> {

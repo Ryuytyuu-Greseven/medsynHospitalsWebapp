@@ -95,6 +95,7 @@ export class TreatmentPlanningComponent {
     ) {
       this.getInterventions();
       this.getGoals();
+      this.getNextWeekSchedules();
     }
   }
 
@@ -319,6 +320,17 @@ export class TreatmentPlanningComponent {
         .subscribe((sessionsData: any) => {
           this.interventions = sessionsData;
           console.log('Interventions', sessionsData);
+        });
+    }
+  }
+
+  getNextWeekSchedules(): void {
+    if (this.patientDetails?.healthId) {
+      this.patientService
+        .getTherapyCalendar({ healthId: this.patientDetails.healthId })
+        .subscribe((calendarData: any) => {
+          // this.interventions = sessionsData;
+          console.log('Next week schedules', calendarData);
         });
     }
   }
