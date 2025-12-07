@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faEllipsisVertical, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Discipline, Intervention, InterventionStatus } from '../treatment-planning.types';
 
 type DisciplineFilter = Discipline | 'All';
@@ -7,7 +10,7 @@ type DisciplineFilter = Discipline | 'All';
 @Component({
   selector: 'app-treatment-plan-section',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, FontAwesomeModule],
   templateUrl: './treatment-plan-section.component.html',
   styleUrls: ['./treatment-plan-section.component.css']
 })
@@ -22,6 +25,9 @@ export class TreatmentPlanSectionComponent {
   @Output() archiveIntervention = new EventEmitter<Intervention>();
 
   menuOpenFor: string | null = null;
+  searchTerm = '';
+  readonly faSearch = faMagnifyingGlass;
+  readonly faEllipsis = faEllipsisVertical;
 
   readonly disciplines: DisciplineFilter[] = ['All', 'Physiatry', 'PT', 'OT', 'ST', 'Nursing', 'Other'];
 
@@ -62,10 +68,15 @@ export class TreatmentPlanSectionComponent {
   }
 
   get visibleInterventions(): Intervention[] {
-    if (this.activeFilter === 'All') {
-      return this.interventions;
-    }
-    return this.interventions.filter(intervention => intervention.type === this.activeFilter);
+    const normalizedQuery = this.searchTerm.trim().toLowerCase();
+
+    return this.interventions
+      .filter((intervention) =>
+        this.activeFilter === 'All' ? true : intervention.type === this.activeFilter,
+      )
+      .filter((intervention) =>
+        normalizedQuery ? this.matchesSearch(intervention, normalizedQuery) : true,
+      );
   }
 
   getDurationWeeks(intervention: Intervention): string {
@@ -85,6 +96,20 @@ export class TreatmentPlanSectionComponent {
 
   trackById(_: number, intervention: Intervention): string {
     return intervention.sessionId;
+  }
+
+  private matchesSearch(intervention: Intervention, query: string): boolean {
+    const searchableFields = [
+      intervention.name,
+      intervention.desc,
+      intervention.type,
+      intervention.loc,
+      intervention.status,
+    ];
+
+    return searchableFields.some((field) =>
+      (field ?? '').toString().toLowerCase().includes(query),
+    );
   }
 }
 

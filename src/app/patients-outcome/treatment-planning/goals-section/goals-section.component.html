@@ -6,13 +6,9 @@
     </div>
 
     <div class="search-container" role="search">
-      <input type="search" class="search-input" placeholder="Search goals" aria-label="Search goals"
-        autocomplete="off" [(ngModel)]="searchTerm" />
-      <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" fill="none" viewBox="0 0 24 24"
-        stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" />
-      </svg>
+      <input type="search" class="search-input" placeholder="Search goals" aria-label="Search goals" autocomplete="off"
+        [(ngModel)]="searchTerm" />
+      <fa-icon [icon]="faSearch" class="search-icon" aria-hidden="true"></fa-icon>
     </div>
 
     <button type="button" (click)="addGoal.emit()" class="btn-primary goals-add-button">
@@ -38,20 +34,26 @@
           <p class="goal-description">{{ goal.desc }}</p>
         </div>
         <div class="goal-actions" role="group" aria-label="Goal actions">
-          <button type="button" aria-label="Edit goal" (click)="editGoal.emit(goal)" class="goal-action-button">
-            <fa-icon [icon]="faPenToSquare" aria-hidden="true"></fa-icon>
-            <span>Edit</span>
-          </button>
-          <button type="button" aria-label="Delete goal" (click)="deleteGoal.emit(goal)"
-            class="goal-action-button goal-action-delete">
-            <fa-icon [icon]="faTrashCan" aria-hidden="true"></fa-icon>
-            <span>Delete</span>
-          </button>
-          <button type="button" aria-label="Reactivate goal" (click)="reactivateGoal.emit(goal)"
-            class="goal-action-button goal-action-reactivate">
-            <fa-icon [icon]="faRotateLeft" aria-hidden="true"></fa-icon>
-            <span>Reactivate</span>
-          </button>
+          <ng-container *ngIf="['planned', 'archived', 'onhold', 'ongoing'].includes(goal.status)">
+            <button type="button" aria-label="Edit goal" (click)="editGoal.emit(goal)" class="goal-action-button">
+              <fa-icon [icon]="faPenToSquare" aria-hidden="true"></fa-icon>
+              <!-- <span>Edit</span> -->
+            </button>
+          </ng-container>
+          <ng-container>
+            <button type="button" aria-label="Delete goal" (click)="deleteGoal.emit(goal)"
+              class="goal-action-button goal-action-delete">
+              <fa-icon [icon]="faTrashCan" aria-hidden="true"></fa-icon>
+              <!-- <span>Delete</span> -->
+            </button>
+          </ng-container>
+          <ng-container *ngIf="goal.status === 'onhold'">
+            <button type="button" aria-label="Reactivate goal" (click)="reactivateGoal.emit(goal)"
+              class="goal-action-button goal-action-reactivate">
+              <fa-icon [icon]="faRotateLeft" aria-hidden="true"></fa-icon>
+              <!-- <span>Reactivate</span> -->
+            </button>
+          </ng-container>
         </div>
       </div>
       <div class="goal-meta">
@@ -62,7 +64,7 @@
         <div class="goal-meta-item">
           <span class="goal-meta-label">Status</span>
           <span class="goal-status" [ngClass]="getStatusClass(goal.status)">
-            {{ goal?.status }}
+            {{ getStatusLabel(goal.status) }}
           </span>
         </div>
       </div>

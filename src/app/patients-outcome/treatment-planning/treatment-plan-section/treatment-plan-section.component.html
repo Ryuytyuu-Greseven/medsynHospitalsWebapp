@@ -4,9 +4,16 @@
       <p class="section-eyebrow">Treatment plan</p>
       <p class="section-helper">Sessions coordinated across disciplines</p>
     </div>
-    <button type="button" (click)="addIntervention.emit()" class="btn-primary section-action">
-      + Add Session
-    </button>
+    <div class="section-actions">
+      <div class="plan-search-container" role="search">
+        <input type="search" class="plan-search-input" placeholder="Search sessions" aria-label="Search sessions"
+          autocomplete="off" [(ngModel)]="searchTerm" />
+        <fa-icon [icon]="faSearch" class="plan-search-icon" aria-hidden="true"></fa-icon>
+      </div>
+      <button type="button" (click)="addIntervention.emit()" class="btn-primary section-action">
+        + Add Session
+      </button>
+    </div>
   </div>
 
   <div class="discipline-filter">
@@ -64,9 +71,7 @@
           <div class="menu-wrapper">
             <button type="button" class="icon-button" (click)="toggleMenu(intervention.sessionId)" aria-haspopup="menu"
               [attr.aria-expanded]="menuOpenFor === intervention.sessionId">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon-button-svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zm6-2a2 2 0 100 4 2 2 0 000-4zm6 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
+              <fa-icon [icon]="faEllipsis" aria-hidden="true"></fa-icon>
             </button>
 
             <div *ngIf="menuOpenFor === intervention.sessionId" class="menu-dropdown">

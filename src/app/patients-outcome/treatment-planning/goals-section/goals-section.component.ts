@@ -2,7 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faPenToSquare, faTrashCan, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import {
+  faMagnifyingGlass,
+  faPenToSquare,
+  faTrashCan,
+  faRotateLeft,
+} from '@fortawesome/free-solid-svg-icons';
 import { Goal, GoalStatus, GoalType } from '../treatment-planning.types';
 
 @Component({
@@ -23,6 +28,7 @@ export class GoalsSectionComponent {
   @Output() reactivateGoal = new EventEmitter<Goal>();
 
   searchTerm = '';
+  readonly faSearch = faMagnifyingGlass;
   readonly faPenToSquare = faPenToSquare;
   readonly faTrashCan = faTrashCan;
   readonly faRotateLeft = faRotateLeft;
@@ -46,10 +52,10 @@ export class GoalsSectionComponent {
       case 'completed':
         updatedStatus = this.statusStyles.completed;
         break;
-      case 'on going':
+      case 'ongoing':
         updatedStatus = this.statusStyles.ongoing;
         break;
-      case 'on hold':
+      case 'onhold':
         updatedStatus = this.statusStyles.onhold;
         break;
       case 'achieved':
@@ -59,6 +65,21 @@ export class GoalsSectionComponent {
         return this.statusStyles.planned;
     }
     return updatedStatus;
+  }
+
+  getStatusLabel(status: GoalStatus): string {
+    switch (status) {
+      case 'completed':
+        return 'Completed';
+      case 'ongoing':
+        return 'On going';
+      case 'achieved':
+        return 'Achieved';
+      case 'onhold':
+        return 'On hold';
+      default:
+        return 'Planned';
+    }
   }
 
   onTabSelect(tab: GoalType): void {
@@ -72,7 +93,9 @@ export class GoalsSectionComponent {
 
     return this.goals
       .filter((goal) => goal.goalType === this.activeTab)
-      .filter((goal) => (normalizedQuery ? this.matchesSearch(goal, normalizedQuery) : true));
+      .filter((goal) =>
+        normalizedQuery ? this.matchesSearch(goal, normalizedQuery) : true
+      );
   }
 
   countGoals(tab: GoalType): number {
@@ -92,7 +115,7 @@ export class GoalsSectionComponent {
       goal.tDate,
     ];
     return searchableFields.some((field) =>
-      (field ?? '').toString().toLowerCase().includes(query),
+      (field ?? '').toString().toLowerCase().includes(query)
     );
   }
 }
