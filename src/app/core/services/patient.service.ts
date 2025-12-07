@@ -383,6 +383,24 @@ export class PatientService {
       );
   }
 
+  /** Add visiting session */
+  submitVisitingSession(payload: any): Observable<any> {
+    return this.apiService
+      .sendPostRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.patient.therapy.addVisitingSession,
+        payload
+      )
+      .pipe(
+        map((response: { success: boolean; data: any }) => {
+          if (response?.success) {
+            return response.data;
+          } else {
+            throw new Error('Failed to add visiting session');
+          }
+        })
+      );
+  }
+
   // ========================== GOALS SCHEDULING API CALLS ========================== //
   /** Submit therapy goal */
   submitTherapyGoal(payload: any): Observable<any> {

@@ -57,6 +57,7 @@ export class ApiService {
         getCalendar: 'patients/health-therapy/get/therapy-calendar',
         addGoal: 'patients/health-therapy/goals/add-new',
         getGoals: 'patients/health-therapy/goals',
+        addVisitingSession: 'patients/health-therapy/visiting-sessions/add-new',
       }
     },
 

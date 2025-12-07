@@ -78,6 +78,10 @@
               <button type="button" (click)="editIntervention.emit(intervention); closeMenu()" class="menu-item">
                 Edit
               </button>
+              <button type="button" (click)="sessionLogger.emit(intervention); closeMenu()"
+                class="menu-item">
+                Plan Session
+              </button>
               <button type="button" (click)="duplicateIntervention.emit(intervention); closeMenu()" class="menu-item">
                 Duplicate
               </button>

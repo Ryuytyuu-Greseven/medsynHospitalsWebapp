@@ -41,6 +41,12 @@ export interface Goal {
   goalType: GoalType;
 }
 
+export interface InterventionVisit {
+  visitId: string;
+  vDate: string;
+  summary: string;
+}
+
 export interface Intervention {
   sessionId: string;
   name: string;
@@ -52,6 +58,7 @@ export interface Intervention {
   eDate: string;
   loc: string;
   status: InterventionStatus;
+  visits?: InterventionVisit[];
 }
 
 export interface ScheduleOverviewDay {

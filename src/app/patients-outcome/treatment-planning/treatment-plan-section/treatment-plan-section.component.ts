@@ -23,6 +23,7 @@ export class TreatmentPlanSectionComponent {
   @Output() editIntervention = new EventEmitter<Intervention>();
   @Output() duplicateIntervention = new EventEmitter<Intervention>();
   @Output() archiveIntervention = new EventEmitter<Intervention>();
+  @Output() sessionLogger = new EventEmitter<Intervention>();
 
   menuOpenFor: string | null = null;
   searchTerm = '';
