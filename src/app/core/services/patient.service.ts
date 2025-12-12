@@ -339,6 +339,27 @@ export class PatientService {
       );
   }
 
+  /** Update therapy scheduling */
+  updateTherapyScheduling(payload: any): Observable<any> {
+    return this.apiService
+      .sendPostRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.patient.therapy.updateTherapy.replace(
+          '{sessionId}',
+          payload.sessionId
+        ),
+        payload
+      )
+      .pipe(
+        map((response: { success: boolean; data: any }) => {
+          if (response?.success) {
+            return response.data;
+          } else {
+            throw new Error('Failed to update therapy');
+          }
+        })
+      );
+  }
+
   /** Get therapy scheduling */
   getTherapyScheduling(payload: {
     healthId: string;
@@ -396,6 +417,24 @@ export class PatientService {
             return response.data;
           } else {
             throw new Error('Failed to add visiting session');
+          }
+        })
+      );
+  }
+
+  /** Update visiting session */
+  updateVisitingSession(payload: any): Observable<any> {
+    return this.apiService
+      .sendPostRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.patient.therapy.updateVisitingSession,
+        payload
+      )
+      .pipe(
+        map((response: { success: boolean; data: any }) => {
+          if (response?.success) {
+            return response;
+          } else {
+            throw new Error('Failed to updated visiting session');
           }
         })
       );

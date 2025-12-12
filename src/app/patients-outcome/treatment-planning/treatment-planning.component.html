@@ -129,7 +129,7 @@
       <div class="treatment-modal-header">
         <div>
           <h2 class="treatment-modal-title">
-            {{ editingInterventionId ? 'Edit Session' : 'Add Session' }}
+            {{ activeIntervention?.sessionId ? 'Edit Session' : 'Add Session' }}
           </h2>
           <p class="treatment-modal-subtitle">Configure cadence, discipline, and location</p>
         </div>
@@ -206,10 +206,14 @@
         <button type="button" (click)="closeInterventionModal()" class="btn btn-ghost">
           Cancel
         </button>
-        <button type="submit" class="btn-primary" (click)="submitIntervention()">
-          {{ editingInterventionId ? 'Update Session' : 'Add Session' }}
+        <button type="submit" class="btn-primary" (click)="submitIntervention()" *ngIf="!activeIntervention?.sessionId">
+          {{ 'Add Session' }}
+        </button>
+        <button type="submit" class="btn-primary" (click)="updateIntervention()" *ngIf="activeIntervention?.sessionId">
+          {{ 'Update Session' }}
         </button>
       </div>
+
     </form>
   </div>
 </div>
@@ -222,7 +226,7 @@
       <div class="treatment-modal-header">
         <div>
           <h2 class="treatment-modal-title">
-            {{ editingInterventionId ? 'Plan Session Visits' : 'Add Session Visits' }}
+            {{ activeVisit?.visitId ? 'Edit Session Visits' : 'Add Session Visits' }}
           </h2>
           <p class="treatment-modal-subtitle">Capture attended sessions and queue upcoming visits</p>
         </div>
@@ -239,13 +243,14 @@
       <div class="visit-modal-form-container" *ngIf="loggerFormOpen">
         <div class="visit-modal-section">
           <div class="visit-modal-section-header">
-            <p class="visit-modal-eyebrow">Add new session entry</p>
+            <p class="visit-modal-eyebrow">{{ activeVisit?.visitId ? 'Edit session entry' : 'Add new session entry' }}
+            </p>
             <div class="visit-action-icons">
               <button type="button" (click)="toggleLoggerForm()" class="visit-action-icon visit-action-cancel"
                 title="Cancel">
                 <fa-icon [icon]="faXmark"></fa-icon>
               </button>
-              <button type="submit" (click)="submitVisitingSession()" class="visit-action-icon visit-action-save"
+              <button type="submit" (click)="submitVisit()" class="visit-action-icon visit-action-save"
                 title="Save visit">
                 <fa-icon [icon]="faCheck"></fa-icon>
               </button>
@@ -257,10 +262,12 @@
               <span>Visit date</span>
               <input type="date" formControlName="visitDate" />
             </label>
-            <label>
-              <span>Next visit</span>
-              <input type="date" formControlName="nextVisitDate" />
-            </label>
+            <ng-container *ngIf="!activeVisit?.visitId">
+              <label>
+                <span>Next visit</span>
+                <input type="date" formControlName="nextVisitDate" />
+              </label>
+            </ng-container>
             <label class="visit-modal-summary">
               <span>Summary note</span>
               <textarea rows="3" formControlName="summary" placeholder="Key observations or plan"></textarea>
@@ -269,18 +276,38 @@
         </div>
       </div>
 
-
       <div class="visit-modal-history" *ngIf="activeIntervention?.visits?.length">
         <p class="visit-modal-history-title">Existing logs</p>
         <div class="visit-modal-history-list">
           <article class="visit-modal-history-card" *ngFor="let visit of activeIntervention?.visits">
-            <div class="visit-modal-history-row">
-              <strong>{{ visit.vDate | date:'MMM d, y' }}</strong>
+            <div class="visit-modal-history-header">
+              <div class="visit-modal-history-row">
+                <strong>{{ visit.vDate | date:'MMM d, y' }}</strong>
+              </div>
+              <div class="visit-actions" role="group" aria-label="Visit actions" *ngIf="!activeVisit?.visitId">
+                <button type="button" aria-label="Edit visit" (click)="editVisit(visit)" class="visit-action-button">
+                  <fa-icon [icon]="faPenToSquare" aria-hidden="true"></fa-icon>
+                </button>
+                <button type="button" aria-label="Delete visit" (click)="deleteVisit(visit)"
+                  class="visit-action-button visit-action-delete">
+                  <fa-icon [icon]="faTrashCan" aria-hidden="true"></fa-icon>
+                </button>
+              </div>
             </div>
-            <p>{{ visit.summary ?? 'No summary' }}</p>
+            <p>{{ visit.summary || 'No summary' }}</p>
           </article>
         </div>
       </div>
+      <ng-container *ngIf="!activeIntervention?.visits?.length && !loggerFormOpen">
+        <div class="visit-modal-history">
+          <div class="visit-empty-state">
+            <p class="visit-empty-icon">📅</p>
+            <p class="visit-empty-title">No Sessions Planned</p>
+            <p class="visit-empty-message">Add a session entry to start tracking visits and progress.</p>
+          </div>
+        </div>
+      </ng-container>
+
     </div>
 
 

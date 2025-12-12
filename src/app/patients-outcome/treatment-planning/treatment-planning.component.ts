@@ -9,7 +9,12 @@ import {
   FormArray,
 } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck,
+  faXmark,
+  faPenToSquare,
+  faTrashCan,
+} from '@fortawesome/free-solid-svg-icons';
 import { GoalsSectionComponent } from './goals-section/goals-section.component';
 import { ScheduleOverviewCardComponent } from './schedule-overview-card/schedule-overview-card.component';
 import { TreatmentPlanSectionComponent } from './treatment-plan-section/treatment-plan-section.component';
@@ -77,17 +82,19 @@ export class TreatmentPlanningComponent {
 
   interventionForm!: FormGroup;
   interventionModalOpen = false;
-  editingInterventionId: string | null = null;
   activeIntervention: Intervention | null = null;
 
   // session logger
   sessionLoggerModalOpen = false;
   loggerFormOpen = false;
   sessionLoggerForm!: FormGroup;
+  activeVisit: InterventionVisit | null = null;
 
   // FontAwesome icons
   readonly faCheck = faCheck;
   readonly faXmark = faXmark;
+  readonly faPenToSquare = faPenToSquare;
+  readonly faTrashCan = faTrashCan;
 
   constructor(
     private fb: FormBuilder,
@@ -131,9 +138,6 @@ export class TreatmentPlanningComponent {
       endDate: ['', Validators.required],
       location: ['Therapy room', Validators.required],
       status: ['planned' as InterventionStatus, Validators.required],
-      visitDate: [this.todayISO(), Validators.required],
-      nextVisitDate: [''],
-      summary: ['', Validators.required],
     });
 
     this.sessionLoggerForm = this.fb.group({
@@ -167,24 +171,73 @@ export class TreatmentPlanningComponent {
 
   openInterventionModal(intervention?: Intervention): void {
     this.interventionModalOpen = true;
-    this.editingInterventionId = intervention?.sessionId ?? null;
+    this.activeIntervention = intervention ?? null;
     this.interventionForm.reset({
       name: intervention?.name ?? '',
       discipline: intervention?.type ?? 'PT',
       description: intervention?.desc ?? '',
       frequency: intervention?.onWeek ?? 1,
       durationMinutes: intervention?.duration ?? 45,
-      startDate: intervention?.sDate ?? this.todayISO(),
-      endDate: intervention?.eDate ?? this.plusDaysISO(30),
+      startDate: intervention?.sDate
+        ? new Date(intervention.sDate).toISOString().split('T')[0]
+        : this.todayISO(),
+      endDate: intervention?.sDate
+        ? new Date(intervention.eDate).toISOString().split('T')[0]
+        : this.plusDaysISO(30),
       location: intervention?.loc ?? 'Therapy room',
-      status: intervention?.status ?? 'planned',
+      status: this.convertStatus(intervention?.status ?? 'Planned'),
     });
+  }
+
+  // conver status to intervention status
+  convertStatus(status: string): InterventionStatus {
+    let updatedStatus = 'planned' as InterventionStatus;
+    switch (status.toLowerCase()) {
+      case 'planned':
+        updatedStatus = 'planned';
+        break;
+      case 'on hold':
+        updatedStatus = 'onhold';
+        break;
+      case 'archived':
+        updatedStatus = 'archived';
+        break;
+      case 'completed':
+        updatedStatus = 'completed';
+        break;
+      case 'on going':
+        updatedStatus = 'ongoing';
+        break;
+    }
+    return updatedStatus;
+  }
+
+  // conver status to intervention status
+  convertStatusFE(status: string): string {
+    let updatedStatus = 'planned' as string;
+    switch (status.toLowerCase()) {
+      case 'planned':
+        updatedStatus = 'Planned';
+        break;
+      case 'onhold':
+        updatedStatus = 'On Hold';
+        break;
+      case 'archived':
+        updatedStatus = 'Archived';
+        break;
+      case 'completed':
+        updatedStatus = 'Completed';
+        break;
+      case 'ongoing':
+        updatedStatus = 'On Going';
+        break;
+    }
+    return updatedStatus;
   }
 
   closeInterventionModal(): void {
     this.interventionModalOpen = false;
     this.interventionForm.reset();
-    this.editingInterventionId = null;
     this.activeIntervention = null;
   }
 
@@ -193,27 +246,28 @@ export class TreatmentPlanningComponent {
     if (!intervention) return;
     console.log('Opening session logger modal for intervention', intervention);
     this.sessionLoggerModalOpen = true;
-    this.editingInterventionId = intervention?.sessionId ?? null;
     this.activeIntervention = intervention;
   }
 
   closeSessionLoggerModal(): void {
     this.sessionLoggerModalOpen = false;
-    this.editingInterventionId = null;
     this.activeIntervention = null;
   }
 
   // Session logger form
   toggleLoggerForm(): void {
+    this.activeVisit = null;
     this.loggerFormOpen = !this.loggerFormOpen;
     this.sessionLoggerForm.reset({
       visitDate: this.todayISO(),
+      summary: '',
     });
   }
 
   closeLoggerForm(): void {
     this.loggerFormOpen = false;
-    this.editingInterventionId = null;
+    this.activeVisit = null;
+    this.activeIntervention = null;
     this.sessionLoggerForm.reset();
   }
 
@@ -398,31 +452,8 @@ export class TreatmentPlanningComponent {
     }
 
     const value = this.interventionForm.value;
-
-    if (this.editingInterventionId) {
-      this.interventions = this.interventions.map((session) =>
-        session.sessionId === this.editingInterventionId
-          ? {
-              ...session,
-              name: value.name,
-              type: value.discipline,
-              desc: value.description,
-              onWeek: value.frequency,
-              duration: value.durationMinutes,
-              sDate: value.startDate,
-              eDate: value.endDate,
-              loc: value.location,
-              status: value.status,
-            }
-          : session
-      );
-      this.toastService.success('Success', 'Session updated');
-      this.closeInterventionModal();
-      return;
-    }
-
     if (!this.patientDetails?.healthId) {
-      this.toastService.error('Error', 'Missing patient identifier');
+      this.toastService.error('Error', 'Missing patient details');
       return;
     }
 
@@ -465,7 +496,78 @@ export class TreatmentPlanningComponent {
       });
   }
 
+  // Update therapy scheduleing
+  updateIntervention(): void {
+    if (this.interventionForm.invalid) {
+      this.interventionForm.markAllAsTouched();
+      return;
+    }
+
+    if (!this.patientDetails?.healthId || !this.activeIntervention?.sessionId) {
+      this.toastService.error('Error', 'Missing patient details');
+      return;
+    }
+
+    const value = this.interventionForm.value;
+
+    const payload = {
+      healthId: this.patientDetails.healthId,
+      sessionId: this.activeIntervention.sessionId,
+      name: value.name,
+      desc: value.description,
+      type: value.discipline,
+      onWeek: value.frequency,
+      duration: value.durationMinutes,
+      sDate: value.startDate,
+      eDate: value.endDate,
+      loc: value.location,
+      status: value.status,
+    };
+
+    this.patientService
+      .updateTherapyScheduling(payload)
+      .subscribe((newSession: any) => {
+        if (newSession?.updatedBy) {
+          if (this.activeIntervention?.sessionId) {
+            this.interventions = this.interventions.map((session) =>
+              session.sessionId === payload.sessionId
+                ? {
+                    ...session,
+                    name: value.name,
+                    type: value.discipline,
+                    desc: value.description,
+                    onWeek: value.frequency,
+                    duration: value.durationMinutes,
+                    sDate: value.startDate,
+                    eDate: value.endDate,
+                    loc: value.location,
+                    status: this.convertStatusFE(
+                      value.status
+                    ) as InterventionStatus,
+                    updatedBy: newSession.updatedBy,
+                  }
+                : session
+            );
+            this.toastService.success('Success', 'Therapy updated');
+          }
+          this.closeInterventionModal();
+          // this.getInterventions();
+        } else {
+          this.toastService.error('Error', 'Failed to update therapy');
+        }
+      });
+  }
+
   // Visiting sessions
+  submitVisit(){
+    if(this.activeVisit?.visitId){
+      this.updateVisitingSession();
+    } else {
+      this.submitVisitingSession();
+    }
+  }
+
+  // Visiting sessions Add
   submitVisitingSession(): void {
     if (this.sessionLoggerForm.invalid) {
       this.sessionLoggerForm.markAllAsTouched();
@@ -474,7 +576,7 @@ export class TreatmentPlanningComponent {
 
     const value = this.sessionLoggerForm.value;
     if (!this.patientDetails?.healthId || !this.activeIntervention?.sessionId) {
-      this.toastService.error('Error', 'Missing patient identifier');
+      this.toastService.error('Error', 'Missing patient details');
       return;
     }
 
@@ -499,11 +601,96 @@ export class TreatmentPlanningComponent {
             };
           });
           this.activeIntervention?.visits?.unshift(...visits);
-          this.closeLoggerForm();
+          this.toggleLoggerForm();
         } else {
           this.toastService.error('Error', 'Failed to add session');
         }
       });
+  }
+
+  // Visiting sessions Updates
+  updateVisitingSession(): void {
+    if (this.sessionLoggerForm.invalid) {
+      this.sessionLoggerForm.markAllAsTouched();
+      return;
+    }
+
+    const value = this.sessionLoggerForm.value;
+    if (
+      !this.patientDetails?.healthId ||
+      !this.activeIntervention?.sessionId ||
+      !this.activeVisit?.visitId
+    ) {
+      this.toastService.error('Error', 'Missing session details');
+      return;
+    }
+
+    const payload = {
+      healthId: this.patientDetails.healthId,
+      sessionId: this.activeIntervention.sessionId,
+      summary: value.summary,
+      vDate: value.visitDate,
+      visitId: this.activeVisit.visitId,
+    };
+
+    this.patientService
+      .updateVisitingSession(payload)
+      .subscribe((updatedVisit: any) => {
+        if (updatedVisit?.success) {
+          this.toastService.success('Success', 'Session updated successfully');
+          if (this.activeIntervention?.visits) {
+            this.activeIntervention.visits =
+              this.activeIntervention?.visits?.map((visit) =>
+                visit.visitId === this.activeVisit?.visitId
+                  ? {
+                      ...visit,
+                      summary: value.summary,
+                      vDate: value.visitDate,
+                    }
+                  : visit
+              );
+          }
+          this.toggleLoggerForm();
+        } else {
+          this.toastService.error('Error', 'Failed to update session');
+        }
+      });
+  }
+
+  // Edit visit
+  editVisit(visit: any): void {
+    this.activeVisit = visit;
+    this.loggerFormOpen = true;
+    this.sessionLoggerForm
+      .get('visitDate')
+      ?.removeValidators(Validators.required);
+    this.sessionLoggerForm.patchValue({
+      visitDate: visit.vDate
+        ? new Date(visit.vDate).toISOString().split('T')[0]
+        : this.todayISO(),
+      nextVisitDate: '',
+      summary: visit.summary ?? '',
+    });
+  }
+
+  // Delete visit
+  deleteVisit(visit: any): void {
+    if (!this.patientDetails?.healthId || !visit.visitId) {
+      this.toastService.error('Error', 'Missing required information');
+      return;
+    }
+
+    // TODO: Implement delete API call
+    // For now, just remove from local array
+    if (this.activeIntervention?.visits) {
+      const index = this.activeIntervention.visits.findIndex(
+        (v) => v.visitId === visit.visitId
+      );
+      if (index > -1) {
+        this.activeIntervention.visits.splice(index, 1);
+        this.toastService.success('Success', 'Visit deleted successfully');
+      }
+    }
   }
 
   // fetch goals

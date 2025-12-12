@@ -49,6 +49,7 @@ export interface InterventionVisit {
 
 export interface Intervention {
   sessionId: string;
+  healthId?: string;
   name: string;
   type: Discipline;
   desc: string;

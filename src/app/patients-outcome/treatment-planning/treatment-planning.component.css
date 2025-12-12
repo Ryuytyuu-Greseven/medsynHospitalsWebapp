@@ -310,6 +310,7 @@
   border-radius: 1.25rem;
   padding: 1.25rem;
   box-shadow: var(--shadow-sm);
+  min-height: 400px;
 }
 
 .visit-modal-history-title {
@@ -336,6 +337,13 @@
   background: rgba(248, 250, 252, 0.85);
 }
 
+.visit-modal-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .visit-modal-history-row {
   display: flex;
   justify-content: space-between;
@@ -347,6 +355,70 @@
   margin: 0.35rem 0 0;
   font-size: 0.85rem;
   color: rgba(var(--color-navy), 0.65);
+}
+
+.visit-actions {
+  display: flex;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.visit-action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.35rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: #fff;
+  color: rgba(var(--color-navy), 0.7);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.visit-action-button:hover {
+  border-color: rgba(var(--color-primary), 0.8);
+  background: rgba(var(--color-primary), 0.08);
+  color: rgba(var(--color-primary), 1);
+}
+
+.visit-action-delete:hover {
+  border-color: rgba(var(--color-warning), 0.8);
+  background: rgba(var(--color-warning), 0.15);
+  color: rgba(var(--color-warning), 1);
+}
+
+.visit-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 350px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.visit-empty-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+.visit-empty-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: rgba(var(--color-navy), 0.85);
+}
+
+.visit-empty-message {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(var(--color-navy), 0.55);
+  max-width: 320px;
+  line-height: 1.5;
 }
 
 .visit-modal-array {
@@ -365,7 +437,7 @@
   .visit-modal-single {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .visit-modal-single .visit-modal-summary {
     grid-column: 1 / -1;
   }
