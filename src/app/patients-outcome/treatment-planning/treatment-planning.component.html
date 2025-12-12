@@ -63,7 +63,7 @@
       <div class="treatment-modal-header">
         <div>
           <h2 class="treatment-modal-title">
-            {{ editingGoalId ? 'Edit goal' : 'Add new goal' }}
+            {{ activeGoal?.goalId ? 'Edit goal' : 'Add new goal' }}
           </h2>
           <p class="treatment-modal-subtitle">Define measurable outcomes with clear timelines</p>
         </div>
@@ -97,7 +97,7 @@
           <select formControlName="status" class="form-input">
             <option value="planned">Planned</option>
             <option value="completed">Completed</option>
-            <option value="in-progress">In progress</option>
+            <option value="ongoing">In progress</option>
             <option value="achieved">Achieved</option>
             <option value="on-hold">On hold</option>
           </select>
@@ -115,7 +115,7 @@
           Cancel
         </button>
         <button type="submit" class="btn-primary" (click)="submitGoal()">
-          {{ editingGoalId ? 'Update goal' : 'Add goal' }}
+          {{ activeGoal?.goalId ? 'Update goal' : 'Add goal' }}
         </button>
       </div>
     </form>

@@ -28,7 +28,7 @@ export interface HealthEvent {
   //   | 'followup';
   start: Date;
   doctor?: string;
-  status?: 'scheduled' | 'completed' | 'cancelled' | 'in-progress';
+  status?: 'scheduled' | 'completed' | 'cancelled' | 'ongoing';
 }
 
 @Component({
@@ -131,7 +131,7 @@ export class HealthEventsComponent {
       scheduled: 'bg-blue-100 text-blue-800',
       completed: 'bg-green-100 text-green-800',
       cancelled: 'bg-red-100 text-red-800',
-      'in-progress': 'bg-yellow-100 text-yellow-800',
+      'ongoing': 'bg-yellow-100 text-yellow-800',
     };
     return classes[status] || 'bg-gray-100 text-gray-800';
   }

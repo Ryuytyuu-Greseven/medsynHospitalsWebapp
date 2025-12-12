@@ -41,8 +41,8 @@
             <div class="flex-1 min-w-0">
               <div class="flex flex-wrap items-center gap-3">
                 <h2 class="text-xl font-bold text-gray-900">{{ patient.name }}</h2>
-                <span class="text-sm text-gray-600">{{ patient.age }}y, {{ patient.gender }}</span>
-                <span class="text-xs text-gray-500">ID: #{{ patient.id }}</span>
+                <span class="text-sm text-gray-600">{{ patientAge(patient.dateOfBirth) }}y, {{ patient.gender | titlecase }}</span>
+                <!-- <span class="text-xs text-gray-500">ID: #{{ patient.id }}</span> -->
                 <span
                   [class]="'inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border ' + admissionStatusClass">
                   {{ admissionStatus }}

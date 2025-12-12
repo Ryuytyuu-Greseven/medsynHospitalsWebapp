@@ -7,7 +7,7 @@
 
     <div class="search-container" role="search">
       <input type="search" class="search-input" placeholder="Search goals" aria-label="Search goals" autocomplete="off"
-        [(ngModel)]="searchTerm" />
+        [(ngModel)]="searchTerm" (input)="onSearch()"/>
       <fa-icon [icon]="faSearch" class="search-icon" aria-hidden="true"></fa-icon>
     </div>
 

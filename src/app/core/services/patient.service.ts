@@ -459,6 +459,24 @@ export class PatientService {
       );
   }
 
+  /** Update therapy goal */
+  updateTherapyGoal(payload: any): Observable<any> {
+    return this.apiService
+      .sendPostRequest<{ success: boolean; data: any }>(
+        this.apiService.endpoints.patient.therapy.updateGoal,
+        payload
+      )
+      .pipe(
+        map((response: { success: boolean; data: any }) => {
+          if (response?.success) {
+            return response;
+          } else {
+            throw new Error('Failed to update goal');
+          }
+        })
+      );
+  }
+
   /** Get therapy goals */
   getTherapyGoals(payload: {
     healthId: string;

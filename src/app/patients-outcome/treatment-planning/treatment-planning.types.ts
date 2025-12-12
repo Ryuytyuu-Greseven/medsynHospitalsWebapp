@@ -36,7 +36,6 @@ export interface Goal {
   name: string;
   desc: string;
   tDate: string;
-  discipline: Discipline;
   status: GoalStatus;
   goalType: GoalType;
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
@@ -33,6 +33,9 @@ export class GoalsSectionComponent {
   readonly faTrashCan = faTrashCan;
   readonly faRotateLeft = faRotateLeft;
 
+  // goals list
+  filteredGoals: Goal[]= [];
+
   readonly tabs: { id: GoalType; label: string }[] = [
     { id: 'short-term', label: 'Short-term goals' },
     { id: 'long-term', label: 'Long-term goals' },
@@ -45,6 +48,18 @@ export class GoalsSectionComponent {
     achieved: 'goal-status-muted',
     onhold: 'goal-status-warning',
   };
+
+  ngOnInit(): void {
+    this.searchTerm = '';
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['goals']) {
+      this.searchTerm = '';
+      this.goals = changes['goals'].currentValue;
+      this.filteredGoals = this.goalsFilter();
+    }
+  }
 
   getStatusClass(status: string): string {
     let updatedStatus = '';
@@ -84,11 +99,13 @@ export class GoalsSectionComponent {
 
   onTabSelect(tab: GoalType): void {
     if (tab !== this.activeTab) {
+      this.activeTab = tab;
+      this.filteredGoals = this.goalsFilter();
       this.tabChange.emit(tab);
     }
   }
 
-  get filteredGoals(): Goal[] {
+  goalsFilter(): Goal[] {
     const normalizedQuery = this.searchTerm.trim().toLowerCase();
 
     return this.goals
@@ -96,6 +113,10 @@ export class GoalsSectionComponent {
       .filter((goal) =>
         normalizedQuery ? this.matchesSearch(goal, normalizedQuery) : true
       );
+  }
+
+  onSearch(){
+    this.filteredGoals = this.goalsFilter();
   }
 
   countGoals(tab: GoalType): number {
@@ -111,7 +132,6 @@ export class GoalsSectionComponent {
       goal.name,
       goal.desc,
       goal.status,
-      goal.discipline,
       goal.tDate,
     ];
     return searchableFields.some((field) =>

@@ -4,6 +4,7 @@
   gap: 1.5rem;
   min-height: 400px;
   max-height: 600px;
+  overflow: auto;
 }
 
 .goals-card-header {

@@ -78,7 +78,7 @@ export class TreatmentPlanningComponent {
 
   goalForm!: FormGroup;
   goalModalOpen = false;
-  editingGoalId: string | null = null;
+  activeGoal: Goal | null = null;
 
   interventionForm!: FormGroup;
   interventionModalOpen = false;
@@ -153,20 +153,22 @@ export class TreatmentPlanningComponent {
 
   openGoalModal(goal?: Goal): void {
     this.goalModalOpen = true;
-    this.editingGoalId = goal?.goalId ?? null;
+    this.activeGoal = goal ?? null;
     this.goalForm.reset({
       title: goal?.name ?? '',
       type: goal?.goalType ?? this.activeGoalTab,
-      targetDate: goal ? goal.tDate : this.getDefaultTargetDate(),
+      targetDate: goal?.tDate
+        ? new Date(goal.tDate).toISOString().split('T')[0]
+        : this.todayISO(),
       description: goal?.desc ?? '',
-      status: goal?.status ?? 'planned',
+      status: this.convertStatus(goal?.status ?? 'Planned'),
     });
   }
 
   closeGoalModal(): void {
     this.goalModalOpen = false;
     this.goalForm.reset();
-    this.editingGoalId = null;
+    this.activeGoal = null;
   }
 
   openInterventionModal(intervention?: Intervention): void {
@@ -559,8 +561,8 @@ export class TreatmentPlanningComponent {
   }
 
   // Visiting sessions
-  submitVisit(){
-    if(this.activeVisit?.visitId){
+  submitVisit() {
+    if (this.activeVisit?.visitId) {
       this.updateVisitingSession();
     } else {
       this.submitVisitingSession();
@@ -705,8 +707,17 @@ export class TreatmentPlanningComponent {
     }
   }
 
+  // Goals Flow
+  submitGoal() {
+    if (this.activeGoal?.goalId) {
+      this.updateGoal();
+    } else {
+      this.addNewGoal();
+    }
+  }
+
   // Goals scheduleing API
-  submitGoal(): void {
+  addNewGoal(): void {
     if (this.goalForm.invalid || !this.patientDetails?.healthId) {
       this.goalForm.markAllAsTouched();
       return;
@@ -727,10 +738,61 @@ export class TreatmentPlanningComponent {
       .subscribe((newSession: any) => {
         if (newSession?.goalId) {
           this.toastService.success('Success', 'Goal added successfully');
-          this.goals.unshift(newSession);
+          this.goals.unshift({
+            ...newSession,
+            goalType: value.type,
+          });
+          this.goals = [...this.goals];
           this.closeGoalModal();
         } else {
           this.toastService.error('Error', 'Failed to add goal');
+        }
+      });
+  }
+
+  // Goals Update Flow
+  updateGoal(): void {
+    if (
+      this.goalForm.invalid ||
+      !this.patientDetails?.healthId ||
+      !this.activeGoal?.goalId
+    ) {
+      this.goalForm.markAllAsTouched();
+      return;
+    }
+
+    const value = this.goalForm.value;
+    const payload = {
+      goalId: this.activeGoal?.goalId ?? '',
+      healthId: this.patientDetails?.healthId ?? '',
+      name: value.title,
+      desc: value.description,
+      goalType: value.type,
+      tDate: value.targetDate,
+      status: value.status,
+    };
+
+    this.patientService
+      .updateTherapyGoal(payload)
+      .subscribe((newSession: any) => {
+        if (newSession?.success) {
+          this.toastService.success('Success', 'Goal updated successfully');
+          this.goals = this.goals.map((goal) =>
+            goal.goalId === this.activeGoal?.goalId
+              ? {
+                  ...goal,
+                  name: value.title,
+                  goalType: value.type,
+                  updatedBy: newSession.data.updatedBy,
+                  desc: value.description,
+                  tDate: value.targetDate,
+                  status: value.status,
+                }
+              : goal
+          );
+          this.closeGoalModal();
+        } else {
+          this.toastService.error('Error', 'Failed to update goal');
         }
       });
   }
