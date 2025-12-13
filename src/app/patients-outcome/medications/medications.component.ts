@@ -132,6 +132,7 @@ export class MedicationsComponent {
   medicationSearchTerm = '';
   quickSearchTerm = '';
   selectedStatusFilter = 'all';
+  selectedMedicationTab: 'active' | 'discontinued' = 'active';
   filteredMedications: Medication[] = [];
 
   // AI Diet Plan Instructions
@@ -173,17 +174,17 @@ export class MedicationsComponent {
 
   // Sample discontinued medications for demo
   discontinuedMedications: Medication[] = [
-    {
-      id: 101,
-      name: 'Aspirin',
-      dosage: '81mg',
-      frequency: 'Once daily',
-      startDate: new Date('2023-06-01'),
-      endDate: new Date('2024-01-15'),
-      status: 'discontinued',
-      prescribedBy: 'Dr. Smith',
-      discontinueReason: 'Switched to alternative medication',
-    },
+    // {
+    //   id: 101,
+    //   name: 'Aspirin',
+    //   dosage: '81mg',
+    //   frequency: 'Once daily',
+    //   startDate: new Date('2023-06-01'),
+    //   endDate: new Date('2024-01-15'),
+    //   status: 'discontinued',
+    //   prescribedBy: 'Dr. Smith',
+    //   discontinueReason: 'Switched to alternative medication',
+    // },
   ];
 
   constructor(
@@ -297,7 +298,8 @@ export class MedicationsComponent {
       this.filteredMedications.length > 0
         ? this.filteredMedications
         : this.getAllMedications();
-    return allMeds.filter((med) => med.status === status);
+    // return allMeds.filter((med) => med.status === status);
+    return allMeds;
   }
 
   // Medication actions

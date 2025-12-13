@@ -265,165 +265,212 @@
 </div>
 
 <!-- Medications Modal -->
-<div *ngIf="showMedicationsModal" class="modal-overlay" (click)="closeMedicationsModal()">
+<div *ngIf="showMedicationsModal" class="modal-overlay">
   <div class="modal-container">
     <!-- Background overlay -->
     <div class="modal-backdrop"></div>
 
     <!-- Modal panel -->
-    <div class="modal-panel modal-panel-xl diet-plan-modal" (click)="$event.stopPropagation()">
+    <div class="modal-panel modal-panel-xl" (click)="$event.stopPropagation()">
       <!-- Modal Header -->
-      <div class="modal-header">
-        <div class="modal-header-content">
-          <div class="modal-header-left">
-            <div class="modal-icon-container modal-icon-container-blue">
-              <fa-icon [icon]="faPills" class="modal-icon modal-icon-blue"></fa-icon>
+      <div class="modal-header-enhanced">
+        <!-- Top Section: Title & Actions -->
+        <div class="modal-header-top">
+          <div class="modal-title-section">
+            <div class="modal-icon-badge">
+              <fa-icon [icon]="faPills" class="modal-main-icon"></fa-icon>
             </div>
-            <div class="modal-title-group">
-              <h3 class="modal-title">All Medications</h3>
-              <p class="modal-subtitle">Complete medication history and management</p>
+            <div class="modal-title-content">
+              <h3 class="modal-main-title">Patient Medications</h3>
+              <p class="modal-main-subtitle">View, search, and manage all prescribed medications</p>
             </div>
           </div>
-          <button (click)="closeMedicationsModal()" class="modal-close-btn">
-            <fa-icon [icon]="faTimes" class="w-6 h-6"></fa-icon>
-          </button>
+
+          <div class="modal-header-actions">
+            <button (click)="closeMedicationsModal()" class="close-btn-enhanced">
+              <fa-icon [icon]="faTimes" class="close-icon"></fa-icon>
+            </button>
+          </div>
         </div>
 
-        <!-- Search and Filter Bar -->
-        <div class="search-filter-bar">
-          <div class="search-input-container">
-            <div class="relative">
-              <input type="text" [(ngModel)]="medicationSearchTerm" (input)="filterMedications()"
-                placeholder="Search medications..." class="search-input-full">
-              <fa-icon [icon]="faSearch" class="search-icon-absolute"></fa-icon>
+        <!-- Search & Filter Section -->
+        <div class="modal-search-section">
+          <!-- Compact Search & Filter Row -->
+          <div class="search-filter-row">
+            <!-- Compact Search Bar -->
+            <div class="search-bar-compact">
+              <div class="search-icon-wrapper">
+                <fa-icon [icon]="faSearch" class="search-icon-new"></fa-icon>
+              </div>
+              <input
+                type="text"
+                [(ngModel)]="medicationSearchTerm"
+                (input)="filterMedications()"
+                placeholder="Search medications..."
+                class="search-input-compact">
+              <div *ngIf="medicationSearchTerm" class="clear-search-btn" (click)="medicationSearchTerm = ''; filterMedications()">
+                <fa-icon [icon]="faTimes" class="clear-icon"></fa-icon>
+              </div>
             </div>
-          </div>
-          <div class="filter-actions">
-            <select [(ngModel)]="selectedStatusFilter" (change)="filterMedications()" class="filter-select">
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="discontinued">Discontinued</option>
-              <option value="paused">Paused</option>
-            </select>
-            <button (click)="openImageUpload()" class="filter-button">
-              <fa-icon [icon]="faCamera" class="w-4 h-4"></fa-icon>
-              Scan Prescription
-            </button>
+
+            <!-- Compact Status Filter -->
+            <div class="filter-compact">
+              <div class="custom-select-wrapper">
+                <select [(ngModel)]="selectedStatusFilter" (change)="filterMedications()" class="custom-select-compact">
+                  <option value="all">All Status</option>
+                  <option value="active">Active</option>
+                  <option value="discontinued">Discontinued</option>
+                  <option value="paused">Paused</option>
+                </select>
+                <svg class="select-arrow-compact" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+
+            <div class="export-btn-wrapper">
+              <button (click)="exportMedications()" class="action-btn action-btn-export">
+                <fa-icon [icon]="faDownload" class="action-btn-icon-fa"></fa-icon>
+                <span class="action-btn-text">Export</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Modal Body -->
       <div class="modal-body">
-        <!-- Current Medications Section -->
-        <div class="mb-6">
-          <h4 class="medications-section-title">
-            <div class="status-dot status-dot-green"></div>
-            Current Medications ({{ getFilteredMedications('active').length }})
-          </h4>
-          <div class="medications-grid-modal">
-            <div *ngFor="let med of getFilteredMedications('active')" class="medication-card-modal">
-              <div class="medication-card-header">
-                <div class="medication-card-content">
-                  <div class="medication-name-row">
-                    <h5 class="medication-name-modal">{{ med.name }}</h5>
-                    <span class="status-badge status-badge-active">
-                      Active
-                    </span>
+        <div class="medications-list">
+
+          <!-- Medication Tabs -->
+          <div class="medications-tab-group">
+            <button
+              type="button"
+              (click)="selectedMedicationTab = 'active'"
+              class="medication-tab"
+              [ngClass]="{ 'medication-tab-active': selectedMedicationTab === 'active' }">
+              <span>Current Medications</span>
+              <span
+                class="medication-tab-count"
+                [ngClass]="{ 'medication-tab-count-active': selectedMedicationTab === 'active' }">
+                {{ getFilteredMedications('active').length }}
+              </span>
+            </button>
+            <button
+              type="button"
+              (click)="selectedMedicationTab = 'discontinued'"
+              class="medication-tab"
+              [ngClass]="{ 'medication-tab-active': selectedMedicationTab === 'discontinued' }">
+              <span>Previous Medications</span>
+              <span
+                class="medication-tab-count"
+                [ngClass]="{ 'medication-tab-count-active': selectedMedicationTab === 'discontinued' }">
+                {{ getFilteredMedications('discontinued').length }}
+              </span>
+            </button>
+          </div>
+
+          <!-- Current Medications Tab Content -->
+          <div *ngIf="selectedMedicationTab === 'active'" class="medication-tab-content">
+            <div *ngIf="getFilteredMedications('active').length > 0; else noActiveMedications">
+              <div class="medications-grid-modal">
+                <div *ngFor="let med of getFilteredMedications('active')" class="medication-card-modal">
+                  <div class="medication-card-header">
+                    <div class="medication-card-content">
+                      <div class="medication-name-row">
+                        <h5 class="medication-name-modal">{{ med.name }}</h5>
+                        <span class="status-badge status-badge-active">
+                          Active
+                        </span>
+                      </div>
+                      <div class="medication-details-list">
+                        <p class="medication-detail-item"><span class="medication-detail-label">Dosage:</span>
+                          {{ med.dosage.slice(0, 10) + '...' }}</p>
+                        <p class="medication-detail-item"><span class="medication-detail-label">Frequency:</span>
+                          {{ med.frequency }}</p>
+                        <p class="medication-detail-item"><span class="medication-detail-label">Started:</span>
+                          {{ formatDate(med.startDate) }}</p>
+                        <p *ngIf="med.prescribedBy" class="medication-detail-item"><span
+                            class="medication-detail-label">Prescribed by:</span> {{ med.prescribedBy }}</p>
+                        <p *ngIf="med.notes" class="medication-notes">
+                          <span class="medication-detail-label">Notes:</span> {{ med.notes }}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="medication-actions">
+                      <button (click)="viewPrescription(med)" class="action-icon-btn action-icon-btn-green"
+                        title="View Prescription">
+                        <fa-icon [icon]="faEye" class="action-icon-size"></fa-icon>
+                      </button>
+                      <button (click)="editMedication(med)" class="action-icon-btn action-icon-btn-blue" title="Edit">
+                        <fa-icon [icon]="faEdit" class="action-icon-size"></fa-icon>
+                      </button>
+                      <button (click)="discontinueMedication(med)" class="action-icon-btn action-icon-btn-red"
+                        title="Discontinue">
+                        <fa-icon [icon]="faTimes" class="action-icon-size"></fa-icon>
+                      </button>
+                    </div>
                   </div>
-                  <div class="medication-details-list">
-                    <p class="medication-detail-item"><span class="medication-detail-label">Dosage:</span>
-                      {{ med.dosage }}</p>
-                    <p class="medication-detail-item"><span class="medication-detail-label">Frequency:</span>
-                      {{ med.frequency }}</p>
-                    <p class="medication-detail-item"><span class="medication-detail-label">Started:</span>
-                      {{ formatDate(med.startDate) }}</p>
-                    <p *ngIf="med.prescribedBy" class="medication-detail-item"><span
-                        class="medication-detail-label">Prescribed by:</span> {{ med.prescribedBy }}</p>
-                    <p *ngIf="med.notes" class="medication-notes">
-                      <span class="medication-detail-label">Notes:</span> {{ med.notes }}
-                    </p>
-                  </div>
-                </div>
-                <div class="medication-actions">
-                  <button (click)="viewPrescription(med)" class="action-icon-btn action-icon-btn-green"
-                    title="View Prescription">
-                    <fa-icon [icon]="faEye" class="action-icon-size"></fa-icon>
-                  </button>
-                  <button (click)="editMedication(med)" class="action-icon-btn action-icon-btn-blue" title="Edit">
-                    <fa-icon [icon]="faEdit" class="action-icon-size"></fa-icon>
-                  </button>
-                  <button (click)="discontinueMedication(med)" class="action-icon-btn action-icon-btn-red"
-                    title="Discontinue">
-                    <fa-icon [icon]="faTimes" class="action-icon-size"></fa-icon>
-                  </button>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <!-- Previous/Discontinued Medications Section -->
-        <div *ngIf="getFilteredMedications('discontinued').length > 0">
-          <h4 class="medications-section-title">
-            <div class="status-dot status-dot-gray"></div>
-            Previous Medications ({{ getFilteredMedications('discontinued').length }})
-          </h4>
-          <div class="medications-grid-modal">
-            <div *ngFor="let med of getFilteredMedications('discontinued')"
-              class="medication-card-modal medication-card-disabled">
-              <div class="medication-card-header">
-                <div class="medication-card-content">
-                  <div class="medication-name-row">
-                    <h5 class="medication-name-modal">{{ med.name }}</h5>
-                    <span class="status-badge status-badge-discontinued">
-                      Discontinued
-                    </span>
-                  </div>
-                  <div class="medication-details-list">
-                    <p class="medication-detail-item"><span class="medication-detail-label">Dosage:</span>
-                      {{ med.dosage }}</p>
-                    <p class="medication-detail-item"><span class="medication-detail-label">Duration:</span>
-                      {{ formatDate(med.startDate) }} - {{ med.endDate ? formatDate(med.endDate) : 'Ongoing' }}</p>
-                    <p *ngIf="med.discontinueReason" class="medication-notes">
-                      <span class="medication-detail-label">Reason:</span> {{ med.discontinueReason }}
-                    </p>
-                  </div>
+            <ng-template #noActiveMedications>
+              <div class="medications-empty-state">
+                <div class="empty-state-icon-large">
+                  <fa-icon [icon]="faPills"></fa-icon>
                 </div>
-                <div class="medication-actions">
-                  <button (click)="viewMedicationHistory(med)" class="action-icon-btn action-icon-btn-gray"
-                    title="View History">
-                    <fa-icon [icon]="faHistory" class="action-icon-size"></fa-icon>
-                  </button>
+                <p class="empty-state-text-modal">No active medications found</p>
+              </div>
+            </ng-template>
+          </div>
+
+          <!-- Previous Medications Tab Content -->
+          <div *ngIf="selectedMedicationTab === 'discontinued'" class="medication-tab-content">
+            <div *ngIf="getFilteredMedications('discontinued').length > 0; else noDiscontinuedMedications">
+              <div class="medications-grid-modal">
+                <div *ngFor="let med of getFilteredMedications('discontinued')"
+                  class="medication-card-modal medication-card-disabled">
+                  <div class="medication-card-header">
+                    <div class="medication-card-content">
+                      <div class="medication-name-row">
+                        <h5 class="medication-name-modal">{{ med.name }}</h5>
+                        <span class="status-badge status-badge-discontinued">
+                          Discontinued
+                        </span>
+                      </div>
+                      <div class="medication-details-list">
+                        <p class="medication-detail-item"><span class="medication-detail-label">Dosage:</span>
+                          {{ med.dosage.slice(0, 10) + '...' }}</p>
+                        <p class="medication-detail-item"><span class="medication-detail-label">Duration:</span>
+                          {{ formatDate(med.startDate) }} - {{ med.endDate ? formatDate(med.endDate) : 'Ongoing' }}</p>
+                        <p *ngIf="med.discontinueReason" class="medication-notes">
+                          <span class="medication-detail-label">Reason:</span> {{ med.discontinueReason }}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="medication-actions">
+                      <button (click)="viewMedicationHistory(med)" class="action-icon-btn action-icon-btn-gray"
+                        title="View History">
+                        <fa-icon [icon]="faHistory" class="action-icon-size"></fa-icon>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+            <ng-template #noDiscontinuedMedications>
+              <div class="medications-empty-state">
+                <div class="empty-state-icon-large">
+                  <fa-icon [icon]="faHistory"></fa-icon>
+                </div>
+                <p class="empty-state-text-modal">No discontinued medications found</p>
+              </div>
+            </ng-template>
           </div>
-        </div>
 
-        <!-- Empty State -->
-        <div *ngIf="getFilteredMedications('all').length === 0" class="empty-state-modal">
-          <div class="empty-state-icon-large">
-            <fa-icon [icon]="faSearch"></fa-icon>
-          </div>
-          <p class="empty-state-text-modal">No medications found matching your search criteria</p>
         </div>
       </div>
 
-      <!-- Modal Footer -->
-      <div class="modal-footer">
-        <div class="modal-footer-info">
-          Total: {{ getAllMedications().length }} medications
-        </div>
-        <div class="modal-footer-right">
-          <button (click)="exportMedications()" class="modal-footer-button modal-footer-button-secondary">
-            Export List
-          </button>
-          <button (click)="closeMedicationsModal()" class="modal-footer-button modal-footer-button-primary">
-            Close
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 </div>
