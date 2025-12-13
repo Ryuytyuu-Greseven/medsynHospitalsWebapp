@@ -1,15 +1,14 @@
-<div class="time-machine-container min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-green-50">
+<div class="time-machine-container">
   <!-- Header Section -->
   <div class="header-section">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+    <div class="container">
+      <div class="header-top">
         <!-- <div class="flex-1 min-w-0">
           <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gradient break-words">Digital Time Machine</h1>
           <p class="text-sm sm:text-base text-gray-600 mt-1">Complete Medical Journey & AI Insights</p>
         </div> -->
-        <a routerLink="/patients"
-          class="flex items-center gap-2 text-teal-600 hover:text-teal-700 font-semibold transition-colors whitespace-nowrap flex-shrink-0">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <a routerLink="/patients" class="back-link">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18">
             </path>
           </svg>
@@ -18,18 +17,17 @@
       </div>
 
       <!-- Compact Patient Header Bar -->
-      <div *ngIf="patient" class="patient-profile-card bg-white rounded-xl p-4">
-        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+      <div *ngIf="patient" class="patient-profile-card">
+        <div class="patient-profile-content">
           <!-- Left: Patient Info (Compact) -->
-          <div class="flex items-center gap-4 flex-1">
+          <div class="patient-info-section">
             <!-- Smaller Avatar -->
-            <div class="relative flex-shrink-0">
-              <div
-                class="patient-avatar w-14 h-14 rounded-full bg-gradient-to-br from-teal-600 to-emerald-700 flex items-center justify-center text-white text-xl font-bold">
+            <div class="avatar-wrapper">
+              <div class="patient-avatar">
                 {{ patient?.name?.charAt(0) }}
               </div>
-              <div class="absolute -bottom-1 -right-1 bg-white rounded-full p-1 shadow-md">
-                <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <div class="avatar-badge">
+                <svg class="icon-sm icon-success" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd"
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                     clip-rule="evenodd"></path>
@@ -38,22 +36,20 @@
             </div>
 
             <!-- Inline Patient Details -->
-            <div class="flex-1 min-w-0">
-              <div class="flex flex-wrap items-center gap-3">
-                <h2 class="text-xl font-bold text-gray-900">{{ patient.name }}</h2>
-                <span class="text-sm text-gray-600">{{ patientAge(patient.dateOfBirth) }}y, {{ patient.gender | titlecase }}</span>
+            <div class="patient-details">
+              <div class="patient-header-row">
+                <h2 class="patient-name">{{ patient.name }}</h2>
+                <span class="patient-meta">{{ patientAge(patient.dateOfBirth) }}y, {{ patient.gender | titlecase }}</span>
                 <!-- <span class="text-xs text-gray-500">ID: #{{ patient.id }}</span> -->
-                <span
-                  [class]="'inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border ' + admissionStatusClass">
+                <span [class]="'status-badge ' + admissionStatusClass">
                   {{ admissionStatus }}
                 </span>
               </div>
 
               <!-- Conditions Inline -->
-              <div *ngIf="patient?.conditions?.length > 0" class="flex flex-wrap items-center gap-2 mt-2">
-                <span class="text-xs font-semibold text-gray-600">Conditions:</span>
-                <span *ngFor="let condition of patient.conditions"
-                  class="inline-flex items-center px-2 py-1 rounded-md text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
+              <div *ngIf="patient?.conditions?.length > 0" class="conditions-list">
+                <span class="conditions-label">Conditions:</span>
+                <span *ngFor="let condition of patient.conditions" class="condition-badge">
                   {{ condition }}
                 </span>
               </div>
@@ -61,19 +57,19 @@
           </div>
 
           <!-- Right: Compact Team Info -->
-          <div class="flex items-center gap-4 flex-shrink-0">
-            <div class="text-sm space-y-1">
-              <div class="flex items-center gap-2 text-gray-700">
-                <svg class="w-4 h-4 text-teal-600" fill="currentColor" viewBox="0 0 20 20">
+          <div class="team-info-section">
+            <div class="team-members">
+              <div class="team-member">
+                <svg class="icon-sm icon-primary" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path>
                 </svg>
-                <span class="font-medium">{{ getDoctorName(patient.assignedDoctor) }}</span>
+                <span class="team-member-name">{{ getDoctorName(patient.assignedDoctor) }}</span>
               </div>
-              <div class="flex items-center gap-2 text-gray-700">
-                <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+              <div class="team-member">
+                <svg class="icon-sm icon-accent" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path>
                 </svg>
-                <span class="font-medium">{{ getNurseName(patient.assignedNurse) }}</span>
+                <span class="team-member-name">{{ getNurseName(patient.assignedNurse) }}</span>
               </div>
             </div>
 
@@ -85,14 +81,13 @@
       </div>
 
       <!-- Main Navigation Bar -->
-      <div class="bg-white rounded-xl mt-4">
-        <nav class="flex gap-1 overflow-x-auto border-b-2 border-gray-200">
+      <div class="nav-container">
+        <nav class="nav-tabs">
 
           <button (click)="setActiveSection(PatientOutcomeSection.Overview)"
-            [class]="'px-6 py-4 font-semibold text-sm transition-all duration-200 border-b-4 whitespace-nowrap -mb-0.5 ' +
-                           (activeSection === PatientOutcomeSection.Overview ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
-            <div class="flex items-center gap-2">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            [class]="'nav-tab ' + (activeSection === PatientOutcomeSection.Overview ? 'active' : '')">
+            <div class="nav-tab-content">
+              <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
                 </path>
@@ -103,10 +98,9 @@
 
           <!-- Treatment Planning Section -->
           <button (click)="setActiveSection(PatientOutcomeSection.TreatmentPlanning)"
-            [class]="'px-6 py-4 font-semibold text-sm transition-all duration-200 border-b-4 whitespace-nowrap -mb-0.5 ' +
-                 (activeSection === PatientOutcomeSection.TreatmentPlanning ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
-            <div class="flex items-center gap-2">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            [class]="'nav-tab ' + (activeSection === PatientOutcomeSection.TreatmentPlanning ? 'active' : '')">
+            <div class="nav-tab-content">
+              <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
                 </path>
@@ -116,10 +110,9 @@
           </button>
 
           <button (click)="setActiveSection(PatientOutcomeSection.Timeline)"
-            [class]="'px-6 py-4 font-semibold text-sm transition-all duration-200 border-b-4 whitespace-nowrap -mb-0.5 ' +
-                           (activeSection === PatientOutcomeSection.Timeline ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
-            <div class="flex items-center gap-2">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            [class]="'nav-tab ' + (activeSection === PatientOutcomeSection.Timeline ? 'active' : '')">
+            <div class="nav-tab-content">
+              <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
@@ -128,10 +121,9 @@
           </button>
 
           <button (click)="setActiveSection(PatientOutcomeSection.Reports)"
-            [class]="'px-6 py-4 font-semibold text-sm transition-all duration-200 border-b-4 whitespace-nowrap -mb-0.5 ' +
-                           (activeSection === PatientOutcomeSection.Reports ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
-            <div class="flex items-center gap-2">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            [class]="'nav-tab ' + (activeSection === PatientOutcomeSection.Reports ? 'active' : '')">
+            <div class="nav-tab-content">
+              <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
                 </path>
@@ -141,10 +133,9 @@
           </button>
 
           <button (click)="setActiveSection(PatientOutcomeSection.Medications)"
-            [class]="'px-6 py-4 font-semibold text-sm transition-all duration-200 border-b-4 whitespace-nowrap -mb-0.5 ' +
-                           (activeSection === PatientOutcomeSection.Medications ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
-            <div class="flex items-center gap-2">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            [class]="'nav-tab ' + (activeSection === PatientOutcomeSection.Medications ? 'active' : '')">
+            <div class="nav-tab-content">
+              <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
                 </path>
@@ -154,10 +145,9 @@
           </button>
 
           <button (click)="setActiveSection(PatientOutcomeSection.HealthEvents)"
-            [class]="'px-6 py-4 font-semibold text-sm transition-all duration-200 border-b-4 whitespace-nowrap -mb-0.5 ' +
-                           (activeSection === PatientOutcomeSection.HealthEvents ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
-            <div class="flex items-center gap-2">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            [class]="'nav-tab ' + (activeSection === PatientOutcomeSection.HealthEvents ? 'active' : '')">
+            <div class="nav-tab-content">
+              <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
                 </path>
@@ -167,10 +157,9 @@
           </button>
 
           <!-- <button (click)="setActiveSection('insights')"
-            [class]="'px-6 py-4 font-semibold text-sm transition-all duration-200 border-b-4 whitespace-nowrap -mb-0.5 ' +
-                           (activeSection === 'insights' ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50')">
-            <div class="flex items-center gap-2">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            [class]="'nav-tab ' + (activeSection === 'insights' ? 'active' : '')">
+            <div class="nav-tab-content">
+              <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
                 </path>
@@ -184,9 +173,9 @@
   </div>
 
   <!-- Main Content -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+  <div class="main-content">
     <!-- Overview Section -->
-    <div *ngIf="activeSection === PatientOutcomeSection.Overview" class="space-y-6 fade-in">
+    <div *ngIf="activeSection === PatientOutcomeSection.Overview" class="content-section fade-in">
       <app-ai-health-summary [patientDetails]="patient" [patientStats]="patientStats" [stabilityScore]="stabilityScore"
         [activeMedicationsCount]="activeMedicationsCount" [medicalJourney]="medicalJourney"
         (generateAISummary)="generateAISummary()">
@@ -194,28 +183,28 @@
     </div>
 
     <!-- Timeline Section -->
-    <div *ngIf="activeSection === PatientOutcomeSection.Timeline" class="space-y-6 fade-in">
+    <div *ngIf="activeSection === PatientOutcomeSection.Timeline" class="content-section fade-in">
       <app-medical-timeline [medicalJourney]="medicalJourney" (eventSelected)="selectEvent($event)">
       </app-medical-timeline>
     </div>
 
     <!-- Reports Section -->
-    <div *ngIf="activeSection === PatientOutcomeSection.Reports" class="space-y-6 fade-in">
+    <div *ngIf="activeSection === PatientOutcomeSection.Reports" class="content-section fade-in">
       <app-reports-scans [patientDetails]="patient"></app-reports-scans>
     </div>
 
     <!-- Medications Section -->
-    <div *ngIf="activeSection === PatientOutcomeSection.Medications" class="space-y-6 fade-in">
+    <div *ngIf="activeSection === PatientOutcomeSection.Medications" class="content-section fade-in">
       <app-medications [medications]="medications" [patientDetails]="patient"></app-medications>
     </div>
 
     <!-- Health Events Section -->
-    <div *ngIf="activeSection === PatientOutcomeSection.HealthEvents" class="space-y-6 fade-in">
+    <div *ngIf="activeSection === PatientOutcomeSection.HealthEvents" class="content-section fade-in">
       <app-health-events [patientDetails]="patient"></app-health-events>
     </div>
 
     <!-- Treatment Planning Section -->
-    <div *ngIf="activeSection === PatientOutcomeSection.TreatmentPlanning" class="space-y-6 fade-in">
+    <div *ngIf="activeSection === PatientOutcomeSection.TreatmentPlanning" class="content-section fade-in">
       <app-treatment-planning [patientDetails]="patient"></app-treatment-planning>
     </div>
   </div>
@@ -227,131 +216,122 @@
   <!-- AI Insight Modal -->
   <div *ngIf="showAIModal" class="modal-backdrop fade-in" (click)="closeAIModal()">
     <div class="modal-enterprise modal-enter" (click)="$event.stopPropagation()">
-      <div class="flex items-start justify-between mb-6">
-        <div class="flex items-center gap-3">
-          <div
-            class="w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center glow-effect">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="modal-header">
+        <div class="modal-header-content">
+          <div class="modal-icon glow-effect">
+            <svg class="icon-lg icon-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
               </path>
             </svg>
           </div>
-          <div>
-            <h2 class="text-3xl font-bold text-gray-900">AI Health Summary</h2>
-            <p class="text-gray-600 mt-1">Comprehensive AI Analysis & Recommendations</p>
+          <div class="modal-title-group">
+            <h2 class="modal-title">AI Health Summary</h2>
+            <p class="modal-subtitle">Comprehensive AI Analysis & Recommendations</p>
           </div>
         </div>
-        <button (click)="closeAIModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
-          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button (click)="closeAIModal()" class="modal-close">
+          <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
       </div>
 
-      <div *ngIf="aiHealthSummary" class="space-y-6">
+      <div *ngIf="aiHealthSummary" class="modal-body">
         <!-- Summary Section -->
-        <div class="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl p-6 border-2 border-purple-200">
-          <h3 class="text-xl font-bold text-gray-900 mb-3">Overall Summary</h3>
-          <p class="text-gray-800 leading-relaxed text-lg">{{ aiHealthSummary.summary }}</p>
+        <div class="summary-card">
+          <h3 class="summary-title">Overall Summary</h3>
+          <p class="summary-text">{{ aiHealthSummary.summary }}</p>
 
-          <div class="grid grid-cols-3 gap-4 mt-6">
-            <div class="text-center p-4 bg-white rounded-xl">
-              <div class="text-sm font-semibold text-gray-600 mb-2">Risk Level</div>
-              <span
-                [class]="'inline-flex items-center px-4 py-2 rounded-full text-sm font-bold border-2 ' + getRiskLevelClass(aiHealthSummary.riskLevel)">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Risk Level</div>
+              <span [class]="'risk-badge ' + getRiskLevelClass(aiHealthSummary.riskLevel)">
                 {{ aiHealthSummary.riskLevel | uppercase }}
               </span>
             </div>
-            <div class="text-center p-4 bg-white rounded-xl">
-              <div class="text-sm font-semibold text-gray-600 mb-2">Confidence</div>
-              <div class="text-3xl font-bold text-teal-600">{{ (aiHealthSummary.confidence * 100) | number:'1.0-0' }}%
-              </div>
+            <div class="stat-card">
+              <div class="stat-label">Confidence</div>
+              <div class="stat-value">{{ (aiHealthSummary.confidence * 100) | number:'1.0-0' }}%</div>
             </div>
-            <div class="text-center p-4 bg-white rounded-xl">
-              <div class="text-sm font-semibold text-gray-600 mb-2">Last Analyzed</div>
-              <div class="text-sm text-gray-700 mt-2">{{ formatDate(aiHealthSummary.lastAnalyzed) }}</div>
+            <div class="stat-card">
+              <div class="stat-label">Last Analyzed</div>
+              <div class="stat-date">{{ formatDate(aiHealthSummary.lastAnalyzed) }}</div>
             </div>
           </div>
         </div>
 
         <!-- Key Findings -->
-        <div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="findings-section">
+          <h3 class="section-title">
+            <svg class="section-icon icon-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
             Key Findings (Last 6 Months)
           </h3>
-          <div class="space-y-3">
-            <div *ngFor="let finding of aiHealthSummary.keyFindings"
-              class="flex items-start gap-3 p-4 bg-teal-50 rounded-xl border-2 border-teal-200 hover:shadow-md transition-shadow">
-              <svg class="w-6 h-6 text-teal-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
+          <div class="findings-list">
+            <div *ngFor="let finding of aiHealthSummary.keyFindings" class="finding-item finding-success">
+              <svg class="finding-icon icon-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6">
                 </path>
               </svg>
-              <p class="text-gray-700 text-base">{{ finding }}</p>
+              <p class="finding-text">{{ finding }}</p>
             </div>
           </div>
         </div>
 
         <!-- Predicted Risks -->
-        <div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="findings-section">
+          <h3 class="section-title">
+            <svg class="section-icon icon-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
               </path>
             </svg>
             Predicted Health Risks
           </h3>
-          <div class="space-y-3">
-            <div *ngFor="let risk of aiHealthSummary.predictedRisks"
-              class="flex items-start gap-3 p-4 bg-orange-50 rounded-xl border-2 border-orange-200 hover:shadow-md transition-shadow">
-              <svg class="w-6 h-6 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
+          <div class="findings-list">
+            <div *ngFor="let risk of aiHealthSummary.predictedRisks" class="finding-item finding-warning">
+              <svg class="finding-icon icon-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
-              <p class="text-gray-700 text-base">{{ risk }}</p>
+              <p class="finding-text">{{ risk }}</p>
             </div>
           </div>
         </div>
 
         <!-- Suggested Actions -->
-        <div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="findings-section">
+          <h3 class="section-title">
+            <svg class="section-icon icon-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
               </path>
             </svg>
             Suggested Follow-up Actions
           </h3>
-          <div class="space-y-3">
-            <div *ngFor="let action of aiHealthSummary.suggestedActions"
-              class="flex items-start gap-3 p-4 bg-blue-50 rounded-xl border-2 border-blue-200 hover:shadow-md transition-shadow">
-              <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
+          <div class="findings-list">
+            <div *ngFor="let action of aiHealthSummary.suggestedActions" class="finding-item finding-info">
+              <svg class="finding-icon icon-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z">
                 </path>
               </svg>
-              <p class="text-gray-700 text-base">{{ action }}</p>
+              <p class="finding-text">{{ action }}</p>
             </div>
           </div>
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex gap-4 pt-6 border-t-2 border-gray-200">
-          <button class="flex-1 btn-primary py-3">
+        <div class="modal-actions">
+          <button class="btn-primary">
             Save to Patient Record
           </button>
-          <button class="flex-1 btn-contact py-3">
+          <button class="btn-contact">
             Share with Team
           </button>
-          <button (click)="closeAIModal()" class="px-6 btn-ghost py-3">
+          <button (click)="closeAIModal()" class="btn-ghost">
             Close
           </button>
         </div>
@@ -360,10 +340,10 @@
   </div>
 
   <!-- Loading State -->
-  <div *ngIf="!patient" class="flex items-center justify-center min-h-screen">
-    <div class="text-center">
-      <div class="loading-spinner w-16 h-16 border-4 border-teal-200 border-t-teal-600 rounded-full mx-auto mb-4"></div>
-      <p class="text-gray-600 font-semibold">Loading patient journey...</p>
+  <div *ngIf="!patient" class="loading-container">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <p class="loading-text">Loading patient journey...</p>
     </div>
   </div>
 </div>
